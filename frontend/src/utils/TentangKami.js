@@ -1,4 +1,6 @@
 import React from "react";
+import ImageContainer from "../components/TentangKami/ImageContainer";
+import ContentTentangKami from "../components/TentangKami/ContentTentangKami";
 
 const TentangKami = () => {
   return (
@@ -15,25 +17,29 @@ const TentangKami = () => {
           <p class="text-lg mb-8 text-blue-400">Slogan</p>
         </div>
       </section>
-      <section>
-        <div className="container mx-auto px-4 py-4 flex flex-row-reverse relative">
-          <div className="container h-96 w-1/2 items-end ">
-            <img
-              src="https://media.istockphoto.com/id/1351287337/id/foto/dokter-berseragam-gaun-putih.jpg?s=612x612&w=0&k=20&c=tjG_RY8GDD92rckw5XfibGSMN-XYDFcawZ2RQeOdlGk="
-              alt="Background"
-              className="w-full h-full object-cover transform scale-x-[-1] rounded-lg"
-            />
-          </div>
-          <div className="absolute top-10 left-20 w-1/2 h-5/6 bg-white shadow-2xl rounded-lg">
-            <div className="container mx-auto px-8 py-4 pt-16 ">
-              asdasdasdas
-            </div>
-          </div>
-          <div className="absolute top-4 right-1/2 transform -translate-x-1/2  h-12 w-40 bg-red-300 rounded-[30px] ">
-            <div className="flex items-center pt-3 justify-center text-white font-bold">
-              Tentang Kami
-            </div>
-          </div>
+      <section className="sm:h-[700px] md:h-[700px] lg:h-[500px]">
+        <div className="container  mx-auto  py-14 flex flex-row md:flex-col  relative ">
+          <ImageContainer
+            classNameContainer={
+              "flex sm:flex sm:justify-center sm:w-full sm:h-60  md:flex md:justify-center md:w-full md:h-60 lg:flex lg:justify-end lg:w-full lg:h-1/2"
+            }
+            className={"sm:w-full md:w-full lg:w-1/2"}
+            imageUrl={
+              "https://media.istockphoto.com/id/1351287337/id/foto/dokter-berseragam-gaun-putih.jpg?s=612x612&w=0&k=20&c=tjG_RY8GDD92rckw5XfibGSMN-XYDFcawZ2RQeOdlGk="
+            }
+          />
+          <ContentTentangKami
+            title={"Tentang Kami"}
+            content={
+              "sejarah jcoiajsaskdjalkdjskafjnhsdkjvnjndjvndhfvfbsfvnhnreiunhfcnbrbvfhbbvchubvrvasdkjklasjdklajsdkasldjkalsjdlkjaskljdlkasjdlkasjldaslkdjlakjsdkjaklsjdljaslkdjlaksjdlkasjdljaskldjaklsjdlkajsdlkkjasdlajsdkljaslkdjkjaskldjlkajskjdaklsjlajsldjlaksjdlaskdjalsjybrhcbruhfkjdajihaduhiewuhriuehghiruhigweijfdjfiowoirweifroiwejofiewjofhehfihewiufhiuewhuhfiwehiuhwiuehfwheifuwhedfhkhnfjdefheiudhfesdfbehbfbeuhbfnerhbfvyevrbfhubrfvherbvjsikdsklhnhnfhirueifhieurhiuheiufrheiuheiufhiuehrjhteruigtierthueriohtiuerthieruhtieru"
+            }
+            classNameContainer={
+              "w-1/2 sm:w-4/5 md:w-4/5 lg:w-1/2 h-2/3 sm:h-full md:h-5/6 lg:h-2/3 pt-14 px-6 top-10 sm:top-[210px] md:top-[210px] lg:top-10 sm:left-1/2 md:left-1/2 lg:left-[300px] transform -translate-x-1/2 "
+            }
+            className={
+              "w-1/5 sm:w-1/3  md:w-1/4  top-0 sm:top-[180px] md:top-[180px] lg:top-0 lg:w-1/5 h-16 inset-x-1/2 left-1/2 transform -translate-x-1/2 lg:left-[300px]"
+            }
+          />
         </div>
       </section>
     </div>
