@@ -95,32 +95,47 @@ const Navbar = () => {
             />
           </div>
           <ul
-            className={`flex ${
+            className={`flex  ${
               isMenuOpen ? "hidden" : "justify-start md:ml-16"
             }`}
           >
-            <li className="mr-4">
-              <a href="/" className=" hover:text-blue-400">
+            <li className="mr-4  ">
+              <a
+                href="/"
+                className="text-lg no-underline hover:underline hover:text-blue-400 "
+              >
                 Beranda
               </a>
             </li>
-            <li className="mr-4">
-              <a href="/" className=" hover:text-blue-400">
+            <li className="mr-4   ">
+              <a
+                href="/tentang-kami"
+                className=" text-lg no-underline hover:underline hover:text-blue-400"
+              >
                 Tentang Kami
               </a>
             </li>
-            <li className="mr-4">
-              <a href="/" className=" hover:text-blue-400">
+            <li className="mr-4   ">
+              <a
+                href="/"
+                className=" text-lg no-underline hover:underline hover:text-blue-400"
+              >
                 Cabang
               </a>
             </li>
-            <li className="mr-4">
-              <a href="/" className=" hover:text-blue-400">
+            <li className="mr-4   ">
+              <a
+                href="/"
+                className=" text-lg no-underline hover:underline hover:text-blue-400"
+              >
                 Spesialisai
               </a>
             </li>
-            <li className="mr-4">
-              <a href="/" className=" hover:text-blue-400">
+            <li className="mr-4   ">
+              <a
+                href="/"
+                className=" text-lg no-underline hover:underline hover:text-blue-400"
+              >
                 Layanan
               </a>
             </li>
@@ -142,7 +157,10 @@ const Navbar = () => {
             <a href="#" className="block py-2  hover:text-blue-400">
               Beranda
             </a>
-            <a href="#" className="block  py-2  hover:text-blue-400">
+            <a
+              href="/tentang-kami"
+              className="block  py-2  hover:text-blue-400"
+            >
               Tentang Kami
             </a>
             <a href="#" className="block py-2  hover:text-blue-400">
