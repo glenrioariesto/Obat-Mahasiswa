@@ -1,108 +1,65 @@
-/* eslint-disable jsx-a11y/anchor-is-valid */
 import React from "react";
+
+const FooterLink = ({ href, text }) => {
+  return (
+    <div>
+      <a href={href} className="text-gray-600 hover:text-blue-800">
+        {text}
+      </a>
+    </div>
+  );
+};
 
 const Footer = () => {
   return (
     <footer className="bg-gray-100 py-4 md:h-62 pr-4">
-      <div className="container mx-auto flex flex-col md:flex-row justify-between">
+      <div className="container mx-auto">
         {/* Logo */}
-        <div className="flex items-center">
-          <img src="logo.png" alt="Logo" className="w-16 h-16" />
-        </div>
-
-        {/* Menu Kolom 1 */}
-        <div className="flex-2 flex-col md:flex-row md:space-y-2 md:ml-8 mt-4 md:mt-0">
-          <div>
-            <a href="#" className="text-gray-600 hover:text-gray-800 font-bold">
-              Quick Menu
-            </a>
+        <div className="flex flex-col md:flex-row justify-between">
+          <div className="flex items-start">
+            <img src="logo.png" alt="Logo" className="w-16 h-16" />
           </div>
-          <div className="flex flex-row md:flex-col md:space-y-2   justify-between">
+          {/* Menu Kolom 1 */}
+          <div className="flex-2 md:space-y-2 px-2 md:ml-8 mt-4 md:mt-0">
             <div>
-              <a href="#" className="text-gray-600 hover:text-gray-800">
-                Tentang Kami
-              </a>
+              <p className="text-gray-600 font-bold">Quick Menu</p>
             </div>
-            <div>
-              <a href="#" className="text-gray-600 hover:text-gray-800">
-                Investor
-              </a>
+            <div className="sm:grid sm:grid-cols-3 md:grid md:grid-cols-1 lg:grid lg:grid-cols-1">
+              <FooterLink href="#" text="Tentang Kami" />
+              <FooterLink href="#" text="Investor" />
             </div>
           </div>
-        </div>
-
-        {/* Menu Kolom 2 */}
-        <div className="flex-2 flex-col md:flex-row md:space-y-2 md:ml-8 mt-4 md:mt-0">
-          <div>
-            <a href="#" className="text-gray-600 hover:text-gray-800 font-bold">
-              Corporate
-            </a>
+          {/* Menu Kolom 2 */}
+          <div className="flex-2 md:space-y-2 px-2 md:ml-8 mt-4 md:mt-0">
+            <div>
+              <p className="text-gray-600 font-bold">Corporate</p>
+            </div>
+            <div className="sm:grid sm:grid-cols-3 md:grid md:grid-cols-1 lg:grid lg:grid-cols-1">
+              <FooterLink href="#" text="Buat Janji Tamu" />
+              <FooterLink href="#" text="Cari Dokter" />
+              <FooterLink href="#" text="Karir" />
+            </div>
           </div>
-          <div className="flex flex-row md:flex-col md:space-y-2  justify-between">
+          {/* Hubungi dan Menu Lainnya */}
+          <div className="flex-2 md:space-y-2 px-2 md:ml-8 mt-4 md:mt-0">
             <div>
-              <a href="#" className="text-gray-600 hover:text-gray-800">
-                Buat Janji Tamu
-              </a>
+              <p className="text-gray-600 font-bold">Hubungi</p>
             </div>
-            <div>
-              <a href="#" className="text-gray-600 hover:text-gray-800">
-                Cari Dokter
-              </a>
-            </div>
-            <div>
-              <a href="#" className="text-gray-600 hover:text-gray-800">
-                Karir
-              </a>
+            <div className="sm:grid sm:grid-cols-3 md:grid md:grid-cols-1 lg:grid lg:grid-cols-1">
+              <FooterLink href="#" text="Instagram" />
+              <FooterLink href="#" text="Tiktok" />
+              <FooterLink href="#" text="Youtube" />
+              <FooterLink href="#" text="Linkedin" />
+              <FooterLink href="#" text="Facebook" />
+              <FooterLink href="#" text="Email" />
+              <FooterLink href="#" text="Podcast" />
             </div>
           </div>
         </div>
-
-        {/* Hubungi dan Menu Lainnya */}
-        <div className="flex-2 flex-col md:flex-row md:space-y-2 md:ml-8 mt-4 md:mt-0">
-          <div>
-            <a href="#" className="text-gray-600 hover:text-gray-800 font-bold">
-              Hubungi
-            </a>
-          </div>
-          <div className="flex flex-row md:flex-col md:space-y-2   justify-between">
-            <div>
-              <a href="#" className="text-gray-600 hover:text-gray-800">
-                Instagram
-              </a>
-            </div>
-            <div>
-              <a href="#" className="text-gray-600 hover:text-gray-800">
-                Tiktok
-              </a>
-            </div>
-            <div>
-              <a href="#" className="text-gray-600 hover:text-gray-800">
-                Youtube
-              </a>
-            </div>
-          </div>
-          <div className="flex flex-row md:flex-col md:space-y-2   justify-between">
-            <div>
-              <a href="#" className="text-gray-600 hover:text-gray-800">
-                Linkedin
-              </a>
-            </div>
-            <div>
-              <a href="#" className="text-gray-600 hover:text-gray-800">
-                Facebook
-              </a>
-            </div>
-            <div>
-              <a href="#" className="text-gray-600 hover:text-gray-800">
-                Email
-              </a>
-            </div>
-          </div>
-
-          <div>
-            <a href="#" className="text-gray-600 hover:text-gray-800">
-              Podcast
-            </a>
+        <div className="sm:px-2 md:px-0 lg:px-4">
+          <div className="flex sm:flex-col md:flex-row justify-between sm:items-start lg:items-center">
+            <p className="my-2 sm:mb-0 text-blue-800">Kebijakan Privasi</p>
+            <p>Copyright © 2023</p>
           </div>
         </div>
       </div>
