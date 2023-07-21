@@ -3,8 +3,8 @@ import React from "react";
 const ContentTentangKami = ({
   title,
   content,
-  classNameContainer,
-  className,
+  classNameContainerContent,
+  classNameContainertitle,
 }) => {
   const limitContent = (text, limit) => {
     if (text.length > limit) {
@@ -17,7 +17,7 @@ const ContentTentangKami = ({
   return (
     <div className="absolute top-10 container w-full h-full">
       <div
-        className={`absolute flex flex-col items-start bg-white shadow-2xl rounded-xl overflow-hidden ${classNameContainer}`}
+        className={`absolute flex flex-col items-start bg-white shadow-2xl rounded-xl overflow-hidden ${classNameContainerContent}`}
       >
         <div className="container overflow-y-auto h-full  ">
           <p
@@ -29,7 +29,7 @@ const ContentTentangKami = ({
         </div>
       </div>
       <div
-        className={`absolute flex flex-col justify-center items-center bg-red-400 p-4 shadow-lg  rounded-[60px] ${className}}`}
+        className={`absolute flex flex-col justify-center items-center bg-red-400 p-4 shadow-lg  rounded-[60px] ${classNameContainertitle}}`}
       >
         <p className="text-white font-bold sm:text-md md:text-lg lg:text-xl rounded-md p-2">
           {title}
