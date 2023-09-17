@@ -1,4 +1,5 @@
 import React from "react";
+import logo from "../assets/image/logo.png";
 
 const FooterLink = ({ href, text }) => {
   return (
@@ -17,12 +18,14 @@ const Footer = () => {
         {/* Logo */}
         <div className="flex flex-col md:flex-row justify-between">
           <div className="flex items-start">
-            <img src="logo.png" alt="Logo" className="w-16 h-16" />
+            <img src={logo} alt="Logo" className="w-36  h-36" />
           </div>
           {/* Menu Kolom 1 */}
           <div className="flex-2 md:space-y-2 px-2 md:ml-8 mt-4 md:mt-0">
             <div>
-              <p className="text-gray-600 font-bold">Quick Menu</p>
+              <p className="text-gray-600 font-bold cursor-default">
+                Quick Menu
+              </p>
             </div>
             <div className="sm:grid sm:grid-cols-3 md:grid md:grid-cols-1 lg:grid lg:grid-cols-1">
               <FooterLink href="#" text="Tentang Kami" />
@@ -32,7 +35,9 @@ const Footer = () => {
           {/* Menu Kolom 2 */}
           <div className="flex-2 md:space-y-2 px-2 md:ml-8 mt-4 md:mt-0">
             <div>
-              <p className="text-gray-600 font-bold">Corporate</p>
+              <p className="text-gray-600 font-bold cursor-default">
+                Corporate
+              </p>
             </div>
             <div className="sm:grid sm:grid-cols-3 md:grid md:grid-cols-1 lg:grid lg:grid-cols-1">
               <FooterLink href="#" text="Buat Janji Tamu" />
@@ -43,7 +48,7 @@ const Footer = () => {
           {/* Hubungi dan Menu Lainnya */}
           <div className="flex-2 md:space-y-2 px-2 md:ml-8 mt-4 md:mt-0">
             <div>
-              <p className="text-gray-600 font-bold">Hubungi</p>
+              <p className="text-gray-600 font-bold cursor-default">Hubungi</p>
             </div>
             <div className="sm:grid sm:grid-cols-3 md:grid md:grid-cols-1 lg:grid lg:grid-cols-1">
               <FooterLink href="#" text="Instagram" />
@@ -55,6 +60,7 @@ const Footer = () => {
               <FooterLink href="#" text="Podcast" />
             </div>
           </div>
+          <div></div>
         </div>
         <div className="sm:px-2 md:px-0 lg:px-4">
           <div className="flex sm:flex-col md:flex-row justify-between sm:items-start lg:items-center">

@@ -21,19 +21,19 @@ const TentangKami = () => {
             }
             className={"sm:w-full md:w-full lg:w-1/2"}
             imageUrl={
-              "https://media.istockphoto.com/id/1351287337/id/foto/dokter-berseragam-gaun-putih.jpg?s=612x612&w=0&k=20&c=tjG_RY8GDD92rckw5XfibGSMN-XYDFcawZ2RQeOdlGk="
+              "https://media.istockphoto.com/id/619656080/id/foto/wanita-dewasa-senior-mengisi-dokumen.jpg?s=612x612&w=0&k=20&c=r5pcA2HdouAdvw1pFKpguegFy6TCPQy90Cud-lEyAEI="
             }
           />
           <ContentTentangKami
             title={"Tentang Kami"}
             content={
-              "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum."
+              "Sejak 2023, Obat Keluarga semoga sukses membangun jaringan rumah sakit dengan komitmen untuk menjadikan rumah berkeluh kesah bagi keluarga dengan pelayanan penanganan kesehatan di segala penyakit dari sakit hati sampai hepatitis. kami hadir untuk menyehatkan keluarga secara utuh dan penuh cinta. "
             }
             classNameContainerContent={
-              "w-1/2 sm:w-4/5 md:w-4/5 lg:w-1/2 h-2/3 sm:h-full md:h-5/6 lg:h-2/3 pt-14 px-6 top-10 sm:top-[210px] md:top-[210px] lg:top-10 sm:left-1/2 md:left-1/2 lg:left-[300px] transform -translate-x-1/2 "
+              "w-1/2 sm:w-4/5 md:w-4/5 lg:w-1/2 h-2/3 sm:h-full md:h-5/6 lg:h-2/3 pt-14 px-6 top-10 sm:top-[210px] md:top-[210px] lg:top-10 sm:left-1/2 md:left-1/2 lg:left-[400px] transform -translate-x-1/2 "
             }
             classNameContainertitle={
-              "w-1/5 sm:w-1/3  md:w-1/4  top-0 sm:top-[180px] md:top-[180px] lg:top-0 lg:w-1/5 h-16 inset-x-1/2 left-1/2 transform -translate-x-1/2 lg:left-[200px]"
+              "w-1/5 sm:w-1/3  md:w-1/4 top-0 sm:top-[180px] md:top-[180px] lg:top-0 lg:w-1/5 sm:left-[220px] md:left-[300px] lg:left-[300px]   h-16"
             }
           />
         </div>

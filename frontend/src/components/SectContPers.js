@@ -14,7 +14,7 @@ const Section = () => {
     <section className="bg-blue-500 py-8">
       <div className="container mx-auto flex flex-col md:flex-row items-center justify-between">
         <div className=" text-center md:text-left mb-4 md:mb-0">
-          <p className="text-xl text-white">
+          <p className="text-xl text-white cursor-default">
             Kini Whatsapp Customer <b>Nama Perusahaan</b> hadir <br />
             untuk menjawab kebutuhan informasi Sahabat
           </p>
