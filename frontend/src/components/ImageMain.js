@@ -10,8 +10,10 @@ const ImageMain = ({ imageUrl, title, subtitle }) => {
       />
 
       <div className="container mx-auto px-4 relative pt-6">
-        <h2 className="text-4xl font-bold text-blue-500 mb-4">{title}</h2>
-        <p className="text-lg mb-8 text-blue-400">{subtitle}</p>
+        <h2 className="text-4xl font-bold text-blue-500 mb-4 cursor-default">
+          {title}
+        </h2>
+        <p className="text-lg mb-8 text-blue-400 cursor-default">{subtitle}</p>
       </div>
     </div>
   );
