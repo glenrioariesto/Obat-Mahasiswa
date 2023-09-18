@@ -1,23 +1,81 @@
-import { useState } from "react";
+import { useState, useContext, useEffect } from "react";
 import ImageMain from "../components/ImageMain";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEyeSlash, faEye } from "@fortawesome/free-solid-svg-icons";
+import { AuthContext } from "../contexts/UserAuthentication";
+import { useNavigate } from "react-router-dom";
 
 const LoginPage = () => {
   const [showPassword, setShowPassword] = useState(false);
+  const { login, register, accestoken } = useContext(AuthContext);
+  const [isRegistering, setIsRegistering] = useState(false);
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 
+  const navigate = useNavigate();
+  const [form, setFrom] = useState({
+    username: "",
+    password: "",
+  });
+
+  const handleToggleForm = () => {
+    setIsRegistering(!isRegistering); // Mengganti status registrasi saat tombol toggle ditekan
+  };
+
+  const handleChange = (e) => {
+    setFrom({
+      ...form,
+      [e.target.name]: e.target.value,
+    });
+  };
+
+  const handleLogin = async (e) => {
+    e.preventDefault();
+
+    const { username, password, confirmpassword } = form;
+
+    if (isRegistering) {
+      // Jika sedang dalam mode registrasi
+      try {
+        if (password !== confirmpassword) {
+          alert("Konfirmasi password tidak sesuai.");
+          return;
+        } else {
+          await register(username, password);
+          alert("Register success");
+          setIsRegistering(!isRegistering);
+        }
+      } catch (error) {
+        console.log(error.message);
+      }
+    } else {
+      try {
+        // Jika dalam mode login
+        await login(username, password);
+      } catch (error) {
+        console.log(error.message);
+      }
+    }
+  };
+
+  useEffect(() => {
+    if (accestoken) {
+      // console.log("masuk");
+      // console.log(accestoken);
+      navigate("/dashboard");
+    }
+  }, [accestoken, navigate]);
   return (
     <div>
       <section className="pb-10">
         <ImageMain
-          title="Login"
+          title={!isRegistering ? "Login" : "Register "}
           subtitle=""
           imageUrl="https://media.istockphoto.com/id/873418908/id/foto/dokter-di-latar-belakang-rumah-sakit-dengan-ruang-copy.jpg?s=612x612&w=0&k=20&c=OElrJaLiwOHScqSG3L4oAe_BnEbbswMD6vQEEWH0XDU="
         />
       </section>
-      <div className="container bg-white shadow-2xl mx-auto mb-10 flex flex-row relative  rounded-2xl justify-between">
+      <div className="container bg-white shadow-lg mx-auto mb-24 flex flex-row relative  rounded-2xl justify-between">
         <div className="container flex justify-center items-center">
-          <form action="">
+          <form onSubmit={handleLogin}>
             <div className="mb-4">
               <label
                 htmlFor="username"
@@ -27,6 +85,7 @@ const LoginPage = () => {
               </label>
               <input
                 type="text"
+                onChange={handleChange}
                 id="username"
                 name="username"
                 className="w-full px-3 py-2 border rounded-md border-gray-400 focus:outline-none focus:border-blue-500"
@@ -43,6 +102,7 @@ const LoginPage = () => {
               </label>
               <input
                 type={showPassword ? "text" : "password"}
+                onChange={handleChange}
                 id="password"
                 name="password"
                 className="w-full px-3 py-2 border rounded-md border-gray-400 focus:outline-none focus:border-blue-500"
@@ -50,7 +110,7 @@ const LoginPage = () => {
                 required
               />
               <span
-                className="absolute inset-y-0 right-0 top-6 flex items-center pr-3 cursor-pointer"
+                className="absolute inset-y-0 right-0 top-7 flex items-center pr-3 cursor-pointer"
                 onClick={() => setShowPassword(!showPassword)}
               >
                 <FontAwesomeIcon
@@ -59,17 +119,49 @@ const LoginPage = () => {
                 />
               </span>
             </div>
+            {isRegistering && (
+              <div className="mb-4 relative">
+                <label
+                  htmlFor="Confirm password"
+                  className="text-lg text-gray-600 font-bold"
+                >
+                  Confirm Password
+                </label>
+                <input
+                  type={showConfirmPassword ? "text" : "password"}
+                  onChange={handleChange}
+                  id="confirmpassword"
+                  name="confirmpassword"
+                  className="w-full px-3 py-2 border rounded-md border-gray-400 focus:outline-none focus:border-blue-500"
+                  placeholder="Masukkan password"
+                  required
+                />
+                <span
+                  className="absolute inset-y-0 right-0 top-7 flex items-center pr-3 cursor-pointer"
+                  onClick={() => setShowConfirmPassword(!showConfirmPassword)}
+                >
+                  <FontAwesomeIcon
+                    icon={showConfirmPassword ? faEyeSlash : faEye} // Ganti ikon mata tergantung apakah password terlihat atau tidak
+                    className="text-gray-400 hover:text-blue-500"
+                  />
+                </span>
+              </div>
+            )}
             <button
               type="submit"
               className="w-full bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded-md focus:outline-none focus:bg-blue-600"
             >
-              Login
+              {isRegistering ? "Register" : "Login"}
             </button>
-            <p className="text-center">
-              Belum punya akun?{" "}
-              <a href="/daftar-akun" className="text-blue-500">
-                Daftar Baru
-              </a>
+
+            <p
+              className="text-center cursor-default"
+              onClick={handleToggleForm}
+            >
+              {isRegistering ? "Sudah punya akun? " : "Belum punya akun? "}{" "}
+              <span className="text-blue-500">
+                {isRegistering ? "Login disini" : "Daftar disini"}
+              </span>
             </p>
           </form>
         </div>
@@ -80,6 +172,17 @@ const LoginPage = () => {
             // className="absolute w-full h-52 object-cover object-top transform scale-x-[-1]"
             alt=""
           />
+          <div className="absolute bottom-0 right-0 h-40 rounded-t-[110px] w-1/2  bg-blue-300  text-white p-4 cursor-default">
+            <div className="absolute bottom-0 right-0 h-36 rounded-t-[110px] w-full bg-blue-400  text-white p-4 cursor-default">
+              <div className="absolute bottom-0 right-0 h-32 rounded-t-[110px] bg-blue-500  text-white p-4">
+                <p className="text-lg font-bold pl-10">Daftar Janji Temu</p>
+                <p className="text-lg pl-10">
+                  Daftar janji temu dengan dokter terbaik kami dan dapatkan
+                  jadwal janji temu di waktu yang Anda inginkan.
+                </p>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     </div>
