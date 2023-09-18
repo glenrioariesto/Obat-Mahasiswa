@@ -8,8 +8,8 @@ const TentangKami = () => {
     <div>
       <section>
         <ImageMain
-          title=" Pelayanan Utama"
-          subtitle="Slogan"
+          title="Bersama obat keluarga penyakit terkendali"
+          subtitle="Mari berkenalan dengan perusahaan kami"
           imageUrl="https://media.istockphoto.com/id/873418908/id/foto/dokter-di-latar-belakang-rumah-sakit-dengan-ruang-copy.jpg?s=612x612&w=0&k=20&c=OElrJaLiwOHScqSG3L4oAe_BnEbbswMD6vQEEWH0XDU="
         />
       </section>
