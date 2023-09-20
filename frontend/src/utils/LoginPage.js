@@ -171,8 +171,8 @@ const LoginPage = () => {
                 required
               />
               <span
-                className={`absolute inset-y-0 right-20 ${
-                  isRegistering ? "bottom-[10px]" : "top-[60px]"
+                className={`absolute inset-y-0 right-20 h-[20px]  ${
+                  isRegistering ? "top-[125px]" : "top-[125px]"
                 } flex items-center cursor-pointer`}
                 onClick={() => setShowPassword(!showPassword)}
               >
@@ -199,7 +199,7 @@ const LoginPage = () => {
                     required
                   />
                   <span
-                    className="absolute inset-y-0 right-20 top-[130px] flex items-center cursor-pointer"
+                    className="absolute inset-y-0 right-20 top-[195px] h-[20px] flex items-center cursor-pointer"
                     onClick={() => setShowConfirmPassword(!showConfirmPassword)}
                   >
                     <FontAwesomeIcon
