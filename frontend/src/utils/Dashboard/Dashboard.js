@@ -4,9 +4,7 @@ import { useNavigate } from "react-router-dom";
 import logo from "../../assets/image/logo.png";
 
 const Dashboard = () => {
-  const { accestoken, user } = useContext(AuthContext);
-  console.log(user);
-  console.log(accestoken);
+  const { accestoken } = useContext(AuthContext);
   const navigate = useNavigate();
   const [currentItem, setCurrentItem] = useState("Profile");
 

@@ -39,12 +39,75 @@ const LoginPage = () => {
       // Jika sedang dalam mode registrasi
       try {
         if (password !== confirmpassword) {
-          alert("Konfirmasi password tidak sesuai.");
-          return;
+          toast.error("Konfirmasi password tidak sesuai.", {
+            position: "top-right",
+            autoClose: 5000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            theme: "light",
+          });
         } else {
-          await register(email, password);
-          alert("Register success");
-          setIsRegistering(!isRegistering);
+          const msg = await register(email, password);
+          if (msg === "auth/weak-password") {
+            toast.error("Password harus memiliki setidaknya 6 karakter.", {
+              position: "top-right",
+              autoClose: 5000,
+              hideProgressBar: false,
+              closeOnClick: true,
+              pauseOnHover: true,
+              draggable: true,
+              progress: undefined,
+              theme: "light",
+            });
+          } else if (msg === "auth/email-already-in-use") {
+            toast.error("Maaf email tidak tersedia", {
+              position: "top-right",
+              autoClose: 5000,
+              hideProgressBar: false,
+              closeOnClick: true,
+              pauseOnHover: true,
+              draggable: true,
+              progress: undefined,
+              theme: "light",
+            });
+          } else if (msg === "auth/network-request-failed") {
+            toast.warn("Maaf periksa kembali koneksi anda !!!", {
+              position: "top-right",
+              autoClose: 5000,
+              hideProgressBar: false,
+              closeOnClick: true,
+              pauseOnHover: true,
+              draggable: true,
+              progress: undefined,
+              theme: "light",
+            });
+          } else if (msg === "auth/invalid-email") {
+            toast.error("Email yang anda masukkan tidak benar", {
+              position: "top-right",
+              autoClose: 5000,
+              hideProgressBar: false,
+              closeOnClick: true,
+              pauseOnHover: true,
+              draggable: true,
+              progress: undefined,
+              theme: "light",
+            });
+          } else {
+            toast.success("Akun berhasil dibuat", {
+              position: "top-right",
+              autoClose: 5000,
+              hideProgressBar: false,
+              closeOnClick: true,
+              pauseOnHover: true,
+              draggable: true,
+              progress: undefined,
+              theme: "light",
+            });
+            setIsRegistering(!isRegistering);
+          }
         }
       } catch (error) {
         console.log(error.message);
@@ -55,7 +118,7 @@ const LoginPage = () => {
         const msg = await login(email, password);
 
         if (msg === "auth/invalid-email") {
-          toast.warn("Email yang anda masukkan tidak benar", {
+          toast.error("Email yang anda masukkan tidak benar", {
             position: "top-right",
             autoClose: 5000,
             hideProgressBar: false,
@@ -66,7 +129,7 @@ const LoginPage = () => {
             theme: "light",
           });
         } else if (msg === "auth/invalid-login-credentials") {
-          toast.warn("Periksa kembali email dan password anda !!!", {
+          toast.error("Periksa kembali email dan password anda !!!", {
             position: "top-right",
             autoClose: 5000,
             hideProgressBar: false,
@@ -128,9 +191,9 @@ const LoginPage = () => {
   }, [accestoken, navigate]);
   return (
     <div>
-      <section className="pb-10">
+      <section className="">
         <ImageMain
-          title={!isRegistering ? "Login" : "Register "}
+          title=""
           subtitle=""
           imageUrl="https://media.istockphoto.com/id/873418908/id/foto/dokter-di-latar-belakang-rumah-sakit-dengan-ruang-copy.jpg?s=612x612&w=0&k=20&c=OElrJaLiwOHScqSG3L4oAe_BnEbbswMD6vQEEWH0XDU="
         />
@@ -139,6 +202,14 @@ const LoginPage = () => {
       <div className="container bg-white shadow-lg mx-auto mb-24 flex flex-row relative  rounded-2xl justify-between">
         <div className="container flex justify-center items-center">
           <form onSubmit={handleLogin}>
+            <div className="px-16">
+              <label
+                htmlFor="Register or Login"
+                className="text-[30px] text-gray-600 font-bold"
+              >
+                {isRegistering ? "Register" : "Login"}
+              </label>
+            </div>
             <div className="mb-2 sm:pt-4 relative px-16 ">
               <label
                 htmlFor="email"

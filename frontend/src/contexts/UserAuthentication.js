@@ -23,6 +23,8 @@ const AuthProvider = ({ children }) => {
       setUser(userCredential.user);
       userCredential.user.getIdToken().then((accessToken) => {
         setAccestoken(accessToken);
+        sessionStorage.setItem("accessToken", accessToken);
+        sessionStorage.setItem("user", userCredential.user);
       });
       return;
     } catch (error) {
@@ -32,13 +34,17 @@ const AuthProvider = ({ children }) => {
   };
 
   const logout = () => {
+    sessionStorage.removeItem("accessToken");
+    sessionStorage.removeItem("user");
+
     return signOut(auth);
   };
   const register = async (email, password) => {
     try {
       await createUserWithEmailAndPassword(auth, email, password);
     } catch (error) {
-      console.log(error.message);
+      // console.log(error.code);
+      return error.code;
     }
   };
 
@@ -46,7 +52,11 @@ const AuthProvider = ({ children }) => {
     const unsubsribe = onAuthStateChanged(auth, (currentUser) => {
       setUser(currentUser);
     });
-    setAccestoken(accestoken);
+    const storedAccessToken = sessionStorage.getItem("accessToken");
+    if (storedAccessToken) {
+      setAccestoken(storedAccessToken);
+      setUser(sessionStorage.getItem("user"));
+    }
     return () => {
       unsubsribe();
     };
