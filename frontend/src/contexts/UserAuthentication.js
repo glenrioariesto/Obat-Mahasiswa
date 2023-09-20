@@ -1,5 +1,6 @@
 import { auth } from "../firebase-config.js";
 import React, { createContext, useEffect, useState } from "react";
+
 import {
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
@@ -23,8 +24,10 @@ const AuthProvider = ({ children }) => {
       userCredential.user.getIdToken().then((accessToken) => {
         setAccestoken(accessToken);
       });
+      return;
     } catch (error) {
-      console.log(error.message);
+      // console.log(error.code);
+      return error.code;
     }
   };
 
@@ -43,10 +46,11 @@ const AuthProvider = ({ children }) => {
     const unsubsribe = onAuthStateChanged(auth, (currentUser) => {
       setUser(currentUser);
     });
+    setAccestoken(accestoken);
     return () => {
       unsubsribe();
     };
-  }, []);
+  }, [accestoken, setAccestoken]);
 
   return (
     <AuthContext.Provider value={{ user, accestoken, login, register, logout }}>
