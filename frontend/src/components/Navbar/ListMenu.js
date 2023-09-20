@@ -2,7 +2,11 @@ import LoginButton from "./LoginButton";
 
 const ListMenu = ({ isMenuOpen, toggleMenu }) => {
   return (
-    <ul className={`flex ${isMenuOpen ? "hidden" : "justify-start md:ml-14"}`}>
+    <ul
+      className={`flex ${
+        isMenuOpen ? "hidden" : "justify-start md:ml-14 pr-2 pl-3"
+      }`}
+    >
       <li className="mr-4">
         <a
           href="/"

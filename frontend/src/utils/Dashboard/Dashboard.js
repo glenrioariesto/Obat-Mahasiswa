@@ -1,7 +1,12 @@
 import React, { useContext, useState, useEffect } from "react";
 import { AuthContext } from "../../contexts/UserAuthentication";
 import { useNavigate } from "react-router-dom";
-import logo from "../../assets/image/logo.png";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import {
+  faCalendarAlt,
+  faSignOutAlt,
+  faUserPen,
+} from "@fortawesome/free-solid-svg-icons";
 
 const Dashboard = () => {
   const { accestoken } = useContext(AuthContext);
@@ -19,47 +24,67 @@ const Dashboard = () => {
 
   return (
     <div className="flex pt-[150px] h-screen">
-      <div className="w-2/12 bg-blue-400 flex flex-col items-center">
-        {/* Sidebar */}
-        <aside className="pt-5 w-[150px] flex flex-col items-center">
-          <div className="mb-4 flex flex-col items-center">
-            <img
-              src={logo}
-              alt="Profile"
-              className="rounded-full bg-white"
-              style={{ width: "100px", height: "100px" }}
-            />
-
-            <div className="mt-4 w-full">
-              <button
-                className={`w-full hover:bg-blue-800 font-bold py-2 px-4  rounded ${
-                  currentItem === "Profile"
-                    ? "bg-blue-700 text-white"
-                    : " bg-white  text-gray-800"
-                }`}
-                onClick={() => handleSidebarItemClick("Profile")}
-              >
-                Profile
-              </button>
-            </div>
-
-            <div className="my-2 w-full">
-              <button
-                className={`w-full hover:bg-blue-800 font-bold py-2 px-4  rounded ${
-                  currentItem === "blast-gmail"
-                    ? "bg-blue-700 text-white"
-                    : " bg-white  text-gray-800"
-                }`}
-                onClick={() => handleSidebarItemClick("blast-gmail")}
-              >
-                Blast Gmail
-              </button>
-            </div>
+      {/* Sidebar */}
+      <aside className="pt-5 w-2/12 flex flex-col items-center  ">
+        <div className="mb-4 flex flex-col items-center">
+          {/* <img
+            src={logo}
+            alt="Profile"
+            className="rounded-full bg-white"
+            style={{ width: "100px", height: "100px" }}
+          /> */}
+          <div className="font-bold text-[20px]">
+            <p>Obat Keluarga</p>
           </div>
-        </aside>
-      </div>
+          <div className="mt-4 w-full">
+            <button
+              className={`w-full hover:bg-blue-800 hover:text-white py-2 px-2  rounded ${
+                currentItem === "Profile"
+                  ? "bg-blue-700 text-white"
+                  : " bg-white  text-gray-800"
+              }`}
+              onClick={() => handleSidebarItemClick("Profile")}
+            >
+              {" "}
+              <FontAwesomeIcon icon={faUserPen} className="mr-2" />
+              Profile
+            </button>
+          </div>
+          <div className="my-2 w-full">
+            <button
+              className={`w-full hover:bg-blue-800 hover:text-white  py-2 px-2  rounded ${
+                currentItem === "janjiTemu"
+                  ? "bg-blue-700 text-white"
+                  : " bg-white  text-gray-800"
+              }`}
+              onClick={() => handleSidebarItemClick("janjiTemu")}
+            >
+              {" "}
+              <FontAwesomeIcon icon={faCalendarAlt} className="mr-2" />
+              Janji Temu
+            </button>
+          </div>
+          <div className="my-2 pt-[245px] w-full">
+            <button
+              className={`w-full hover:bg-blue-800 hover:text-white  font-bold py-2 px-2  rounded ${
+                currentItem === "Log out"
+                  ? "bg-blue-700 text-white"
+                  : " bg-white  text-gray-800"
+              }`}
+              onClick={() => handleSidebarItemClick("Log out")}
+            >
+              {" "}
+              <FontAwesomeIcon icon={faSignOutAlt} className="mr-2" />
+              Log out
+            </button>
+          </div>
+        </div>
+      </aside>
 
-      <div className="w-10/12 bg-white p-5">
+      <div
+        style={{ backgroundColor: "rgb(229,231,235)" }}
+        className="w-10/12 p-5"
+      >
         {/* Content */}
         <div className="content">
           {currentItem === "Profile" && (
@@ -68,11 +93,11 @@ const Dashboard = () => {
               <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
             </div>
           )}
-          {currentItem === "blast-gmail" && (
+          {currentItem === "janjiTemu" && (
             <div>
               <h1>Blast Gmail</h1>
             </div>
-          )}
+          )}{" "}
         </div>
       </div>
     </div>
