@@ -36,6 +36,7 @@ const AuthProvider = ({ children }) => {
   const logout = () => {
     sessionStorage.removeItem("accessToken");
     sessionStorage.removeItem("user");
+    setAccestoken("");
     return signOut(auth);
   };
   const register = async (email, password) => {
