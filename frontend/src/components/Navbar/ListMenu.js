@@ -1,8 +1,12 @@
 import LoginButton from "./LoginButton";
 
-const ListMenu = ({ isMenuOpen, toggleMenu }) => {
+const ListMenu = ({ isMenuOpen, pathname }) => {
   return (
-    <ul className={`flex ${isMenuOpen ? "hidden" : "justify-start md:ml-14"}`}>
+    <ul
+      className={`flex ${
+        isMenuOpen ? "hidden" : "justify-start md:ml-14 pr-2 pl-3"
+      }`}
+    >
       <li className="mr-4">
         <a
           href="/"
@@ -44,7 +48,7 @@ const ListMenu = ({ isMenuOpen, toggleMenu }) => {
         </a>
       </li>
       <li className="ml-auto pr-14">
-        <LoginButton isMenuOpen={!isMenuOpen} />
+        <LoginButton changeClassName={isMenuOpen || pathname ? "hidden" : ""} />
       </li>
     </ul>
   );

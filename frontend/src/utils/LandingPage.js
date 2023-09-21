@@ -14,7 +14,7 @@ const LandingPage = () => {
           imageUrl="https://media.istockphoto.com/id/1189309997/id/foto/konsultasi-medis-online-dokter-yang-bekerja-pada-komputer-laptop-di-kantor-klinik-ruang-salin.jpg?s=612x612&w=0&k=20&c=xDtTcampxwH7klIozzEtIeZrzldGawmUHTJy18qn5BA="
         />
       </section>
-      <div className="px-10 py-10">
+      <div className="px-10 py-10 pt-0 sm:pt-40 md:pt-40 lg:pt-40">
         <div className="title flex items-center justify-between">
           <h2 className="text-3xl text-blue-500 font-bold">Judul Sudut Kiri</h2>
           <div className="view-all">

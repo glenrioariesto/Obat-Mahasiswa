@@ -29,7 +29,7 @@ const ContentTentangKami = ({
         </div>
       </div>
       <div
-        className={`absolute flex flex-col justify-center items-center bg-red-400 p-4 shadow-lg rounded-[60px]  inset-x-1/2 left-1/2 transform -translate-x-1/2${classNameContainertitle}}`}
+        className={`absolute flex flex-col justify-center items-center bg-red-400 p-4 shadow-lg rounded-[60px]  inset-x-1/2 left-1/2 transform -translate-x-1/2 ${classNameContainertitle}}`}
       >
         <p className="text-white font-bold sm:text-md md:text-lg lg:text-xl rounded-md p-2">
           {title}

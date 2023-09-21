@@ -3,7 +3,7 @@ import Navbar from "./components/Navbar/MainNavbar";
 import Footer from "./components/Footer";
 import Section from "./components/SectContPers";
 import LoginPage from "./utils/LoginPage";
-import Dashboard from "./utils/Dashboard";
+import Dashboard from "./utils/Dashboard/Dashboard";
 import TentangKami from "./utils/TentangKami";
 import LandingPage from "./utils/LandingPage";
 import { AuthProvider } from "./contexts/UserAuthentication";
