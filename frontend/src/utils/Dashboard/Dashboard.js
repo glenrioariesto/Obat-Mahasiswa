@@ -1,4 +1,4 @@
-import React, { useContext, useState, useEffect } from "react";
+import React, { useContext, useEffect } from "react";
 import { AuthContext } from "../../contexts/UserAuthentication";
 import { useNavigate } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -7,11 +7,12 @@ import {
   faSignOutAlt,
   faUserPen,
 } from "@fortawesome/free-solid-svg-icons";
+import { NavbarContext } from "../../contexts/Navbar";
 
 const Dashboard = () => {
   const { accestoken, logout } = useContext(AuthContext);
+  const { menuItems, changeItems } = useContext(NavbarContext);
   const navigate = useNavigate();
-  const [currentItem, setCurrentItem] = useState("Profile");
 
   const handleLogout = () => {
     logout();
@@ -24,27 +25,21 @@ const Dashboard = () => {
     }
   }, [accestoken, navigate]);
   const handleSidebarItemClick = (item) => {
-    setCurrentItem(item);
+    changeItems(item);
   };
 
   return (
-    <div className="flex pt-[150px] h-screen">
+    <div className="flex pt-3 h-screen">
       {/* Sidebar */}
-      <aside className="pt-5 w-2/12 flex flex-col items-center  ">
+      <aside className="pt-5 w-2/12 flex flex-col items-center hidden sm:hidden md:block lg:block">
         <div className="mb-4 flex flex-col items-center">
-          {/* <img
-            src={logo}
-            alt="Profile"
-            className="rounded-full bg-white"
-            style={{ width: "100px", height: "100px" }}
-          /> */}
-          <div className="font-bold text-[20px]">
+          <div className="font-bold text-[20px] md:text-[18px]">
             <p>Obat Keluarga</p>
           </div>
           <div className="mt-4 w-full">
             <button
               className={`w-full hover:bg-blue-800 hover:text-white py-2 px-2  rounded ${
-                currentItem === "Profile"
+                menuItems === "Profile"
                   ? "bg-blue-700 text-white"
                   : " bg-white  text-gray-800"
               }`}
@@ -58,7 +53,7 @@ const Dashboard = () => {
           <div className="my-2 w-full">
             <button
               className={`w-full hover:bg-blue-800 hover:text-white  py-2 px-2  rounded ${
-                currentItem === "janjiTemu"
+                menuItems === "janjiTemu"
                   ? "bg-blue-700 text-white"
                   : " bg-white  text-gray-800"
               }`}
@@ -69,13 +64,9 @@ const Dashboard = () => {
               Janji Temu
             </button>
           </div>
-          <div className="my-2 pt-[245px] w-full">
+          <div className="my-2 pt-[380px] md:pt-[380px] lg:pt-[380px]  w-full">
             <button
-              className={`w-full hover:bg-blue-800 hover:text-white  font-bold py-2 px-2  rounded ${
-                currentItem === "Log out"
-                  ? "bg-blue-700 text-white"
-                  : " bg-white  text-gray-800"
-              }`}
+              className={`w-full hover:bg-blue-800 text-gray-800 hover:text-white  font-bold py-2 px-2  rounded `}
               onClick={() => handleLogout()}
             >
               {" "}
@@ -88,17 +79,17 @@ const Dashboard = () => {
 
       <div
         style={{ backgroundColor: "rgb(229,231,235)" }}
-        className="w-10/12 p-5"
+        className="w-full sm:w-full md:w-10/12 lg:w-10/12 p-5"
       >
         {/* Content */}
         <div className="content">
-          {currentItem === "Profile" && (
+          {menuItems === "Profile" && (
             <div>
               <h1>Profile</h1>
               <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
             </div>
           )}
-          {currentItem === "janjiTemu" && (
+          {menuItems === "janjiTemu" && (
             <div>
               <h1>Blast Gmail</h1>
             </div>

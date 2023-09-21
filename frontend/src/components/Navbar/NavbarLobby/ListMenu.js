@@ -1,6 +1,10 @@
 import LoginButton from "./LoginButton";
+import { AuthContext } from "../../../contexts/UserAuthentication";
+import { useContext } from "react";
 
 const ListMenu = ({ isMenuOpen, pathname }) => {
+  const { accestoken } = useContext(AuthContext);
+
   return (
     <ul
       className={`flex ${
@@ -12,7 +16,7 @@ const ListMenu = ({ isMenuOpen, pathname }) => {
           href="/"
           className="text-lg no-underline hover:underline hover:text-blue-400"
         >
-          Beranda
+          Partner
         </a>
       </li>
       <li className="mr-4">
@@ -47,7 +51,7 @@ const ListMenu = ({ isMenuOpen, pathname }) => {
           Layanan
         </a>
       </li>
-      <li className="ml-auto pr-14">
+      <li className={`${accestoken ? "ml-auto pr-8" : "ml-auto pr-14"} `}>
         <LoginButton changeClassName={isMenuOpen || pathname ? "hidden" : ""} />
       </li>
     </ul>

@@ -1,6 +1,6 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faBars, faClose } from "@fortawesome/free-solid-svg-icons";
-import Input from "../Input";
+import Input from "../../Input";
 
 const MobileMenu = ({ isMenuOpen, isBar, toggleMenu }) => {
   return (
