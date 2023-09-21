@@ -1,6 +1,6 @@
 import LoginButton from "./LoginButton";
 
-const ListMenu = ({ isMenuOpen, toggleMenu }) => {
+const ListMenu = ({ isMenuOpen, pathname }) => {
   return (
     <ul
       className={`flex ${
@@ -48,7 +48,7 @@ const ListMenu = ({ isMenuOpen, toggleMenu }) => {
         </a>
       </li>
       <li className="ml-auto pr-14">
-        <LoginButton isMenuOpen={!isMenuOpen} />
+        <LoginButton changeClassName={isMenuOpen || pathname ? "hidden" : ""} />
       </li>
     </ul>
   );

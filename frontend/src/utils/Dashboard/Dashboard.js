@@ -9,9 +9,14 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 
 const Dashboard = () => {
-  const { accestoken } = useContext(AuthContext);
+  const { accestoken, logout } = useContext(AuthContext);
   const navigate = useNavigate();
   const [currentItem, setCurrentItem] = useState("Profile");
+
+  const handleLogout = () => {
+    logout();
+    navigate("/");
+  };
 
   useEffect(() => {
     if (accestoken === "") {
@@ -71,7 +76,7 @@ const Dashboard = () => {
                   ? "bg-blue-700 text-white"
                   : " bg-white  text-gray-800"
               }`}
-              onClick={() => handleSidebarItemClick("Log out")}
+              onClick={() => handleLogout()}
             >
               {" "}
               <FontAwesomeIcon icon={faSignOutAlt} className="mr-2" />
