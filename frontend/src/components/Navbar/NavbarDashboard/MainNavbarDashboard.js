@@ -5,7 +5,7 @@ import MobileMenuDropdown from "./MenuDropdown";
 
 import MobileMenu from "./MoblieMenu";
 import { AuthContext } from "../../../contexts/UserAuthentication";
-import { NavbarContext } from "../../../contexts/Navbar";
+import { NavbarContext } from "../../../contexts/NavbarContext";
 import { useLocation } from "react-router-dom";
 
 const MainNavbarDashboard = () => {

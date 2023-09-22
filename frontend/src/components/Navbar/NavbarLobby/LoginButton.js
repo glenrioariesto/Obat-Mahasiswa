@@ -5,7 +5,6 @@ import { useContext } from "react";
 
 const LoginButton = ({ changeClassName }) => {
   const { accestoken } = useContext(AuthContext);
-  console.log(accestoken);
   return (
     <a href="/login">
       <button

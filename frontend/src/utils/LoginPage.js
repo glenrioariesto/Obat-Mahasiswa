@@ -8,15 +8,17 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 const LoginPage = () => {
-  const [showPassword, setShowPassword] = useState(false);
   const { login, register, accestoken } = useContext(AuthContext);
+  const navigate = useNavigate();
+
   const [isRegistering, setIsRegistering] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 
-  const navigate = useNavigate();
   const [form, setFrom] = useState({
     email: "",
     password: "",
+    confirmPassword: "",
   });
 
   const handleToggleForm = () => {
@@ -29,156 +31,78 @@ const LoginPage = () => {
       [e.target.name]: e.target.value,
     });
   };
-
   const handleLogin = async (e) => {
     e.preventDefault();
-
-    const { email, password, confirmpassword } = form;
+    const { email, password, confirmPassword } = form;
 
     if (isRegistering) {
-      // Jika sedang dalam mode registrasi
-      try {
-        if (password !== confirmpassword) {
-          toast.error("Konfirmasi password tidak sesuai.", {
-            position: "top-right",
-            autoClose: 5000,
-            hideProgressBar: false,
-            closeOnClick: true,
-            pauseOnHover: true,
-            draggable: true,
-            progress: undefined,
-            theme: "light",
-          });
-        } else {
-          const msg = await register(email, password);
-          if (msg === "auth/weak-password") {
-            toast.error("Password harus memiliki setidaknya 6 karakter.", {
-              position: "top-right",
-              autoClose: 5000,
-              hideProgressBar: false,
-              closeOnClick: true,
-              pauseOnHover: true,
-              draggable: true,
-              progress: undefined,
-              theme: "light",
-            });
-          } else if (msg === "auth/email-already-in-use") {
-            toast.error("Maaf email tidak tersedia", {
-              position: "top-right",
-              autoClose: 5000,
-              hideProgressBar: false,
-              closeOnClick: true,
-              pauseOnHover: true,
-              draggable: true,
-              progress: undefined,
-              theme: "light",
-            });
-          } else if (msg === "auth/network-request-failed") {
-            toast.warn("Maaf periksa kembali koneksi anda !!!", {
-              position: "top-right",
-              autoClose: 5000,
-              hideProgressBar: false,
-              closeOnClick: true,
-              pauseOnHover: true,
-              draggable: true,
-              progress: undefined,
-              theme: "light",
-            });
-          } else if (msg === "auth/invalid-email") {
-            toast.error("Email yang anda masukkan tidak benar", {
-              position: "top-right",
-              autoClose: 5000,
-              hideProgressBar: false,
-              closeOnClick: true,
-              pauseOnHover: true,
-              draggable: true,
-              progress: undefined,
-              theme: "light",
-            });
-          } else {
-            toast.success("Akun berhasil dibuat", {
-              position: "top-right",
-              autoClose: 5000,
-              hideProgressBar: false,
-              closeOnClick: true,
-              pauseOnHover: true,
-              draggable: true,
-              progress: undefined,
-              theme: "light",
-            });
-            setIsRegistering(!isRegistering);
-          }
-        }
-      } catch (error) {
-        console.log(error.message);
+      if (password !== confirmPassword) {
+        toast.error("Konfirmasi password tidak sesuai.", {
+          position: "top-right",
+        });
+      } else {
+        const msg = await register(email, password);
+        handleRegistrationResult(msg);
       }
     } else {
-      try {
-        // Jika dalam mode login
-        const msg = await login(email, password);
+      const msg = await login(email, password);
+      handleLoginResult(msg);
+    }
+  };
 
-        if (msg === "auth/invalid-email") {
-          toast.error("Email yang anda masukkan tidak benar", {
-            position: "top-right",
-            autoClose: 5000,
-            hideProgressBar: false,
-            closeOnClick: true,
-            pauseOnHover: true,
-            draggable: true,
-            progress: undefined,
-            theme: "light",
-          });
-        } else if (msg === "auth/invalid-login-credentials") {
-          toast.error("Periksa kembali email dan password anda !!!", {
-            position: "top-right",
-            autoClose: 5000,
-            hideProgressBar: false,
-            closeOnClick: true,
-            pauseOnHover: true,
-            draggable: true,
-            progress: undefined,
-            theme: "light",
-          });
-        } else if (msg === "auth/too-many-requests") {
-          toast.warn(
-            "Maaf kami lihat anda melakukan kesalahan 3 kali coba lagi lain waktu",
-            {
-              position: "top-right",
-              autoClose: 5000,
-              hideProgressBar: false,
-              closeOnClick: true,
-              pauseOnHover: true,
-              draggable: true,
-              progress: undefined,
-              theme: "light",
-            }
-          );
-        } else if (msg === "auth/network-request-failed") {
-          toast.warn("Maaf periksa kembali koneksi anda !!!", {
-            position: "top-right",
-            autoClose: 5000,
-            hideProgressBar: false,
-            closeOnClick: true,
-            pauseOnHover: true,
-            draggable: true,
-            progress: undefined,
-            theme: "light",
-          });
-        } else {
-          toast.warn("Maaf terjadi kesalahan ", {
-            position: "top-right",
-            autoClose: 5000,
-            hideProgressBar: false,
-            closeOnClick: true,
-            pauseOnHover: true,
-            draggable: true,
-            progress: undefined,
-            theme: "light",
-          });
-        }
-      } catch (error) {
-        console.log(error.message);
-      }
+  const handleRegistrationResult = (msg) => {
+    switch (msg) {
+      case "auth/weak-password":
+        toast.error("Password harus memiliki setidaknya 6 karakter.", {
+          position: "top-right",
+        });
+        break;
+      case "auth/email-already-in-use":
+        toast.error("Maaf, email sudah digunakan.", { position: "top-right" });
+        break;
+      case "auth/network-request-failed":
+        toast.warn("Maaf, periksa kembali koneksi Anda !!!", {
+          position: "top-right",
+        });
+        break;
+      case "auth/invalid-email":
+        toast.error("Email yang Anda masukkan tidak benar.", {
+          position: "top-right",
+        });
+        break;
+      default:
+        toast.success("Akun berhasil dibuat.", { position: "top-right" });
+        setIsRegistering(false);
+        break;
+    }
+  };
+
+  const handleLoginResult = (msg) => {
+    switch (msg) {
+      case "auth/invalid-email":
+        toast.error("Email yang Anda masukkan tidak benar.", {
+          position: "top-right",
+        });
+        break;
+      case "auth/invalid-login-credentials":
+        toast.error("Periksa kembali email dan password Anda !!!", {
+          position: "top-right",
+        });
+        break;
+      case "auth/too-many-requests":
+        toast.warn(
+          "Maaf, Anda melakukan kesalahan 3 kali. Coba lagi lain waktu.",
+          { position: "top-right" }
+        );
+        break;
+      case "auth/network-request-failed":
+        toast.warn("Maaf, periksa kembali koneksi Anda !!!", {
+          position: "top-right",
+        });
+        break;
+      default:
+        toast.warn("Maaf, terjadi kesalahan.", { position: "top-right" });
+        break;
     }
   };
 
@@ -204,7 +128,7 @@ const LoginPage = () => {
           <form onSubmit={handleLogin}>
             <div className="px-16">
               <label
-                htmlFor="Register or Login"
+                htmlFor="Register-or-Login"
                 className="text-[30px] text-gray-600 font-bold"
               >
                 {isRegistering ? "Register" : "Login"}
@@ -265,8 +189,8 @@ const LoginPage = () => {
                   <input
                     type={showConfirmPassword ? "text" : "password"}
                     onChange={handleChange}
-                    id="confirmpassword"
-                    name="confirmpassword"
+                    id="confirmPassword"
+                    name="confirmPassword"
                     className="w-full px-3 py-2 border rounded-md border-gray-400 focus:outline-none focus:border-blue-500"
                     placeholder="Masukkan password"
                     required

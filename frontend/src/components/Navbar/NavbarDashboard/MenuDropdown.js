@@ -1,6 +1,6 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
 import { useContext } from "react";
-import { NavbarContext } from "../../../contexts/Navbar";
+import { NavbarContext } from "../../../contexts/NavbarContext";
 
 const MobileMenuDropdown = ({ isBar, isMenuOpen }) => {
   const { changeItems, openDropDown, changeOpenDropdown } =
@@ -38,24 +38,12 @@ const MobileMenuDropdown = ({ isBar, isMenuOpen }) => {
           >
             Layanan
           </button>
-          <button
-            onClick={() => {
-              changeItems("janjiTemu");
-              changeOpenDropdown(!openDropDown);
-            }}
-            className="block py-2 hover:text-blue-400"
-          >
+          <a href="/" className="block py-2 hover:text-blue-400">
             Partner
-          </button>
-          <button
-            onClick={() => {
-              changeItems("janjiTemu");
-              changeOpenDropdown(!openDropDown);
-            }}
-            className="block py-2 hover:text-blue-400"
-          >
+          </a>
+          <a href="/tentang-kami" className="block  py-2  hover:text-blue-400">
             Tentang Kami
-          </button>
+          </a>
         </div>
       </div>
     )

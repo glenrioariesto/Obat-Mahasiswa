@@ -1,5 +1,5 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faBars, faClose } from "@fortawesome/free-solid-svg-icons";
+import { faBars, faClose, faSearch } from "@fortawesome/free-solid-svg-icons";
 import Input from "../../Input";
 
 const MobileMenu = ({ isMenuOpen, isBar, toggleMenu }) => {
@@ -17,6 +17,8 @@ const MobileMenu = ({ isMenuOpen, isBar, toggleMenu }) => {
           isMenuOpen ? "opacity-100" : "opacity-0"
         }`}
         disabled={isBar}
+        type="text"
+        firstIcons={faSearch}
       />
     </div>
   );

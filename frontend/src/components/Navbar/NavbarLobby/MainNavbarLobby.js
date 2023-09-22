@@ -33,7 +33,6 @@ const MainNavbarLobby = () => {
         setIsMenuOpen(false);
       }
     };
-    console.log(accestoken);
 
     handleResize();
 

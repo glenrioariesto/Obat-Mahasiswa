@@ -6,8 +6,12 @@ import {
   faCalendarAlt,
   faSignOutAlt,
   faUserPen,
+  faHandshake,
 } from "@fortawesome/free-solid-svg-icons";
-import { NavbarContext } from "../../contexts/Navbar";
+import { NavbarContext } from "../../contexts/NavbarContext";
+
+import Profile from "./Profile";
+import PartnerOK from "./PartnerOK";
 
 const Dashboard = () => {
   const { accestoken, logout } = useContext(AuthContext);
@@ -36,7 +40,7 @@ const Dashboard = () => {
           <div className="font-bold text-[20px] md:text-[18px]">
             <p>Obat Keluarga</p>
           </div>
-          <div className="mt-4 w-full">
+          <div className="my-2 p-2 w-full">
             <button
               className={`w-full hover:bg-blue-800 hover:text-white py-2 px-2  rounded ${
                 menuItems === "Profile"
@@ -45,32 +49,62 @@ const Dashboard = () => {
               }`}
               onClick={() => handleSidebarItemClick("Profile")}
             >
-              {" "}
-              <FontAwesomeIcon icon={faUserPen} className="mr-2" />
-              Profile
+              <div className="flex  items-center justify-center">
+                <FontAwesomeIcon
+                  icon={faUserPen}
+                  className="mx-3  text-[20px]"
+                />
+                Profile
+              </div>
             </button>
           </div>
-          <div className="my-2 w-full">
+          <div className="my-2 p-2  w-full">
             <button
-              className={`w-full hover:bg-blue-800 hover:text-white  py-2 px-2  rounded ${
-                menuItems === "janjiTemu"
+              className={`w-full hover:bg-blue-800 hover:text-white text-center py-2 px-2  rounded ${
+                menuItems === "JanjiTemu"
                   ? "bg-blue-700 text-white"
                   : " bg-white  text-gray-800"
               }`}
-              onClick={() => handleSidebarItemClick("janjiTemu")}
+              onClick={() => handleSidebarItemClick("JanjiTemu")}
             >
               {" "}
-              <FontAwesomeIcon icon={faCalendarAlt} className="mr-2" />
-              Janji Temu
+              <div className="flex  items-center justify-center">
+                <FontAwesomeIcon
+                  icon={faCalendarAlt}
+                  className="mx-3  text-[20px]"
+                />
+                Buat Janji Temu
+              </div>
+            </button>
+          </div>{" "}
+          <div className="my-2   p-2 flex w-full">
+            <button
+              className={`w-full hover:bg-blue-800 hover:text-white text-center py-2 px-2  rounded ${
+                menuItems === "PartnerOK"
+                  ? "bg-blue-700 text-white"
+                  : " bg-white  text-gray-800"
+              }`}
+              onClick={() => handleSidebarItemClick("PartnerOK")}
+            >
+              <div className="flex  items-center justify-center">
+                <FontAwesomeIcon
+                  icon={faHandshake}
+                  className="mx-2 text-[20px]"
+                />
+                Partner Obat Keluarga
+              </div>
             </button>
           </div>
-          <div className="my-2 pt-[380px] md:pt-[380px] lg:pt-[380px]  w-full">
+          <div className="my-2 p-2  w-full">
             <button
-              className={`w-full hover:bg-blue-800 text-gray-800 hover:text-white  font-bold py-2 px-2  rounded `}
+              className={`w-full hover:bg-blue-800 text-gray-800 hover:text-white text-center font-bold py-2 px-2  rounded `}
               onClick={() => handleLogout()}
             >
               {" "}
-              <FontAwesomeIcon icon={faSignOutAlt} className="mr-2" />
+              <FontAwesomeIcon
+                icon={faSignOutAlt}
+                className="mx-3  text-[20px]"
+              />
               Log out
             </button>
           </div>
@@ -79,21 +113,19 @@ const Dashboard = () => {
 
       <div
         style={{ backgroundColor: "rgb(229,231,235)" }}
-        className="w-full sm:w-full md:w-10/12 lg:w-10/12 p-5"
+        className="w-full sm:w-full md:w-10/12 lg:w-10/12 p-3"
       >
         {/* Content */}
-        <div className="content">
-          {menuItems === "Profile" && (
-            <div>
-              <h1>Profile</h1>
-              <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
-            </div>
-          )}
-          {menuItems === "janjiTemu" && (
-            <div>
-              <h1>Blast Gmail</h1>
-            </div>
-          )}{" "}
+        <div className="container bg-white h-full mx-auto rounded ">
+          <div className="content h-[580px]">
+            {menuItems === "Profile" && <Profile />}
+            {menuItems === "PartnerOK" && <PartnerOK />}
+            {menuItems === "JanjiTemu" && (
+              <div>
+                <h1>Blast Gmail</h1>
+              </div>
+            )}{" "}
+          </div>
         </div>
       </div>
     </div>
