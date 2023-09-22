@@ -7,7 +7,7 @@ import Dashboard from "./utils/Dashboard/Dashboard";
 import TentangKami from "./utils/TentangKami";
 import LandingPage from "./utils/LandingPage";
 import { AuthProvider } from "./contexts/UserAuthentication";
-import { NavbarProvider } from "./contexts/Navbar";
+import { NavbarProvider } from "./contexts/NavbarContext";
 
 function App() {
   return (

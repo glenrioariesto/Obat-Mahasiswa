@@ -6,6 +6,9 @@ import {
   signInWithEmailAndPassword,
   onAuthStateChanged,
   signOut,
+  updatePassword,
+  EmailAuthProvider,
+  reauthenticateWithCredential,
 } from "firebase/auth";
 const AuthContext = createContext();
 
@@ -33,12 +36,29 @@ const AuthProvider = ({ children }) => {
     }
   };
 
+  const changePassword = async (oldPassword, newPassword) => {
+    try {
+      // Reautentikasi pengguna terlebih dahulu
+      const credential = EmailAuthProvider.credential(user.email, oldPassword);
+      await reauthenticateWithCredential(user, credential);
+
+      // Mengganti password
+      await updatePassword(user, newPassword);
+      return;
+    } catch (error) {
+      // Penanganan kesalahan jika ada
+      return error.code;
+    }
+  };
+
   const logout = () => {
     sessionStorage.removeItem("accessToken");
     sessionStorage.removeItem("user");
+
     setAccestoken("");
     return signOut(auth);
   };
+
   const register = async (email, password) => {
     try {
       await createUserWithEmailAndPassword(auth, email, password);
@@ -63,7 +83,9 @@ const AuthProvider = ({ children }) => {
   }, [accestoken, setAccestoken]);
 
   return (
-    <AuthContext.Provider value={{ user, accestoken, login, register, logout }}>
+    <AuthContext.Provider
+      value={{ user, accestoken, login, register, logout, changePassword }}
+    >
       {children}
     </AuthContext.Provider>
   );
