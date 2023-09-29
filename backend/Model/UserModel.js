@@ -3,7 +3,7 @@ import {
   getDoc,
   collection,
   getDocs,
-  addDoc,
+  setDoc,
   doc,
   updateDoc,
   deleteDoc,
@@ -30,11 +30,11 @@ export const getUserById = async (userId) => {
   return null;
 };
 
-export const createUser = async (userData) => {
+export const createUser = async (id, userData) => {
   try {
-    const docRef = await addDoc(usersCollectionRef, userData);
-    console.log(docRef);
-    return docRef.id;
+    const userDocRef = doc(usersCollectionRef, id);
+    await setDoc(userDocRef, userData);
+    return id;
   } catch (error) {
     console.error("Error adding user: ", error);
     throw error;
