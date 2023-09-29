@@ -223,7 +223,7 @@ const LoginPage = () => {
               >
                 {isRegistering ? "Sudah punya akun? " : "Belum punya akun? "}{" "}
                 <span className="text-blue-500">
-                  {isRegistering ? "Login disini" : "Daftar disini"}
+                  {isRegistering ? "Login disini" : "Register disini"}
                 </span>
               </p>
             </div>

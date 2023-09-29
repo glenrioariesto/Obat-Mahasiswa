@@ -40,8 +40,8 @@ const MainNavbarDashboard = () => {
 
   return (
     <div>
-      <nav className=" py-2 shadow-sm">
-        <div className="container mx-auto lg:mx-auto  ">
+      <nav className=" py-2 shadow-md">
+        <div className="container  mx-auto lg:mx-auto  ">
           <MobileMenu isBar={openDropDown} toggleMenu={toggleMenu} />
           <ListMenu isMenuOpen={isMenuOpen} pathname={isOnLoginPage} />
         </div>

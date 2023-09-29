@@ -1,11 +1,11 @@
-import React, { createContext, useEffect, useState } from "react";
+import React, { createContext, useState } from "react";
 
 const NavbarContext = createContext();
 
 const NavbarProvider = ({ children }) => {
   const [menuItems, setMenuItems] = useState("Profile");
   const [openDropDown, setOpenDropDown] = useState(false);
-
+  const [status, setStatus] = useState("Pasien");
   const changeItems = (items) => {
     setMenuItems(items);
   };
@@ -13,13 +13,16 @@ const NavbarProvider = ({ children }) => {
     setOpenDropDown(items);
   };
 
-  useEffect(() => {
-    return () => {};
-  }, []);
-
   return (
     <NavbarContext.Provider
-      value={{ menuItems, changeItems, openDropDown, changeOpenDropdown }}
+      value={{
+        menuItems,
+        changeItems,
+        openDropDown,
+        changeOpenDropdown,
+        status,
+        setStatus,
+      }}
     >
       {children}
     </NavbarContext.Provider>
