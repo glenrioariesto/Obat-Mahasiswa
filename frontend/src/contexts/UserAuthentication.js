@@ -1,5 +1,6 @@
 import { auth } from "../firebase-config.js";
 import React, { createContext, useEffect, useState } from "react";
+import axios from "axios";
 
 import {
   createUserWithEmailAndPassword,
@@ -15,6 +16,28 @@ const AuthContext = createContext();
 const AuthProvider = ({ children }) => {
   const [accestoken, setAccestoken] = useState("");
   const [user, setUser] = useState({});
+  const linkApiBackend = "http://localhost:3001/users";
+  // const [dataUsers, setDataUsers] = useState([]);
+
+  const addUser = async (id) => {
+    try {
+      const response = await axios.post(
+        linkApiBackend + "/create/" + id,
+        {
+          status: "Pasien",
+        },
+        {
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
+
+      console.log("berhasil menambahkan status: ", response.data);
+    } catch (error) {
+      console.error("Error:", error);
+    }
+  };
 
   const login = async (email, password) => {
     try {
@@ -30,6 +53,21 @@ const AuthProvider = ({ children }) => {
         sessionStorage.setItem("user", userCredential.user);
       });
       return;
+    } catch (error) {
+      // console.log(error.code);
+      return error.code;
+    }
+  };
+
+  const register = async (email, password) => {
+    try {
+      const userCredential = await createUserWithEmailAndPassword(
+        auth,
+        email,
+        password
+      );
+      await addUser(userCredential.user.uid);
+      console.log(userCredential.user);
     } catch (error) {
       // console.log(error.code);
       return error.code;
@@ -59,15 +97,6 @@ const AuthProvider = ({ children }) => {
     return signOut(auth);
   };
 
-  const register = async (email, password) => {
-    try {
-      await createUserWithEmailAndPassword(auth, email, password);
-    } catch (error) {
-      // console.log(error.code);
-      return error.code;
-    }
-  };
-
   useEffect(() => {
     const unsubsribe = onAuthStateChanged(auth, (currentUser) => {
       setUser(currentUser);
@@ -77,14 +106,24 @@ const AuthProvider = ({ children }) => {
       setAccestoken(storedAccessToken);
       setUser(sessionStorage.getItem("user"));
     }
+
     return () => {
       unsubsribe();
     };
-  }, [accestoken, setAccestoken]);
+  }, [accestoken, user, setAccestoken]);
 
   return (
     <AuthContext.Provider
-      value={{ user, accestoken, login, register, logout, changePassword }}
+      value={{
+        user,
+        accestoken,
+        linkApiBackend,
+        login,
+        register,
+        logout,
+        changePassword,
+        addUser,
+      }}
     >
       {children}
     </AuthContext.Provider>

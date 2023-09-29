@@ -5,9 +5,10 @@ import { faLock, faEye, faEyeSlash } from "@fortawesome/free-solid-svg-icons";
 import { ToastContainer, toast } from "react-toastify";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faArrowLeft } from "@fortawesome/free-solid-svg-icons";
+import axios from "axios";
 
 const Profile = () => {
-  const { user, changePassword } = useContext(AuthContext);
+  const { user, changePassword, linkApiBackend } = useContext(AuthContext);
   const [openChangePassword, setOpenChangePagePassword] = useState(false);
   const [userData, setUserData] = useState(null);
   const [showOldPassword, setShowOldPassword] = useState(false);
@@ -51,6 +52,15 @@ const Profile = () => {
         break;
     }
   };
+
+  const getUsernameFromEmail = (email) => {
+    const parts = email.split("@");
+    if (parts.length > 0) {
+      return parts[0];
+    } else {
+      return null;
+    }
+  };
   const handleChangePassword = async (e) => {
     e.preventDefault();
 
@@ -71,16 +81,25 @@ const Profile = () => {
     }
   };
   useEffect(() => {
-    if (user) {
-      const { photoURL, email } = user;
-      setUserData({ email, photoURL });
+    if (user.uid) {
+      axios
+        .get(linkApiBackend + "/" + user.uid)
+        .then((response) => {
+          const { status } = response.data;
+          const { photoURL, email } = user;
+
+          setUserData({ email, photoURL, status });
+        })
+        .catch((error) => {
+          console.error("Error fetching user detail : ", error.code);
+        });
     }
-  }, [user]);
+  }, [user, linkApiBackend]);
   return (
     <div className="flex flex-col h-full relative justify-center items-center">
       {openChangePassword ? (
         <div>
-          <div className="absolute  top-0 left-0 transform -translate-y -translate-x pt-4 pl-4">
+          <div className="absolute top-0 left-0 transform -translate-y -translate-x pt-4 pl-4">
             <button
               className="text-[20px] text-gray-600 font-bold"
               onClick={handleGoBack}
@@ -158,7 +177,9 @@ const Profile = () => {
             alt="Foto Profil"
             className="w-32 h-32 items-center justify-center rounded-full object-cover"
           />
-          <p className="mt-4 text-gray-600">{userData.email}</p>
+          <p className="mt-4 text-gray-600">
+            {getUsernameFromEmail(userData.email)}
+          </p>
 
           <button
             className="mt-4 py-2 px-4 bg-blue-500 text-white rounded-md hover:bg-blue-600"
@@ -167,7 +188,8 @@ const Profile = () => {
             Ganti Password
           </button>
           <p className="mt-4">
-            Status Akun: <span className="text-green-600">Pasien</span>
+            Status Akun:{" "}
+            <span className="text-green-600">{userData.status}</span>
           </p>
         </div>
       ) : (

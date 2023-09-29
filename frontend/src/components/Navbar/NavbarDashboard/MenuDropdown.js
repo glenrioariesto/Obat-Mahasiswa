@@ -9,7 +9,7 @@ const MobileMenuDropdown = ({ isBar, isMenuOpen }) => {
   return (
     openDropDown &&
     isMenuOpen && (
-      <div className="absolute w-full bg-white mt-2 border-t-2  py-2 shadow-md rounded-b-lg">
+      <div className="absolute w-full z-10 bg-white mt-2 border-t-2  py-2 shadow-md rounded-b-lg">
         <div className="px-4">
           <button
             onClick={() => {
@@ -39,7 +39,7 @@ const MobileMenuDropdown = ({ isBar, isMenuOpen }) => {
             Layanan
           </button>
           <a href="/" className="block py-2 hover:text-blue-400">
-            Partner
+            Partner Obat Keluarga
           </a>
           <a href="/tentang-kami" className="block  py-2  hover:text-blue-400">
             Tentang Kami

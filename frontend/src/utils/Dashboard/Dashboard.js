@@ -1,4 +1,4 @@
-import React, { useContext, useEffect } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { AuthContext } from "../../contexts/UserAuthentication";
 import { useNavigate } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -7,17 +7,21 @@ import {
   faSignOutAlt,
   faUserPen,
   faHandshake,
+  faPlusCircle,
 } from "@fortawesome/free-solid-svg-icons";
 import { NavbarContext } from "../../contexts/NavbarContext";
 
 import Profile from "./Profile";
 import PartnerOK from "./PartnerOK";
+import AddPartnerOK from "./AddPartnerOK";
+import axios from "axios";
 
 const Dashboard = () => {
-  const { accestoken, logout } = useContext(AuthContext);
+  const { accestoken, logout, user, linkApiBackend } = useContext(AuthContext);
   const { menuItems, changeItems } = useContext(NavbarContext);
-  const navigate = useNavigate();
+  const [dataUsers, setDataUsers] = useState({});
 
+  const navigate = useNavigate();
   const handleLogout = () => {
     logout();
     navigate("/");
@@ -25,16 +29,37 @@ const Dashboard = () => {
 
   useEffect(() => {
     if (accestoken === "") {
-      navigate("/");
+      navigate("/login");
+    } else {
+      if (user.uid) {
+        axios
+          .get(linkApiBackend + "/" + user.uid)
+          .then((response) => {
+            setDataUsers(response.data);
+          })
+          .catch((error) => {
+            console.error("Error fetching user detail : ", error);
+          });
+      }
     }
-  }, [accestoken, navigate]);
+  }, [accestoken, user, linkApiBackend, navigate]);
+
   const handleSidebarItemClick = (item) => {
     changeItems(item);
   };
 
   return (
-    <div className="flex pt-3 h-screen">
+    <div
+      className={`flex pt-3  ${
+        menuItems && menuItems === "PartnerOK"
+          ? "h-[670px] sm:h-[650px] md:h-[650px] lg:h-[1060px] xl:h-[740px]"
+          : menuItems && menuItems === "Profile"
+          ? "h-screen sm:h-screen md:h-screen lg:h-screen xl:h-screen"
+          : ""
+      } `}
+    >
       {/* Sidebar */}
+
       <aside className="pt-5 w-2/12 flex flex-col items-center hidden sm:hidden md:block lg:block">
         <div className="mb-4 flex flex-col items-center">
           <div className="font-bold text-[20px] md:text-[18px]">
@@ -58,7 +83,11 @@ const Dashboard = () => {
               </div>
             </button>
           </div>
-          <div className="my-2 p-2  w-full">
+          <div
+            className={`my-2 p-2  w-full ${
+              dataUsers && dataUsers.status === "Admin" ? "hidden" : ""
+            } `}
+          >
             <button
               className={`w-full hover:bg-blue-800 hover:text-white text-center py-2 px-2  rounded ${
                 menuItems === "JanjiTemu"
@@ -67,7 +96,6 @@ const Dashboard = () => {
               }`}
               onClick={() => handleSidebarItemClick("JanjiTemu")}
             >
-              {" "}
               <div className="flex  items-center justify-center">
                 <FontAwesomeIcon
                   icon={faCalendarAlt}
@@ -76,8 +104,12 @@ const Dashboard = () => {
                 Buat Janji Temu
               </div>
             </button>
-          </div>{" "}
-          <div className="my-2   p-2 flex w-full">
+          </div>
+          <div
+            className={`my-2 p-2  w-full ${
+              dataUsers && dataUsers.status === "Admin" ? "" : "hidden"
+            } `}
+          >
             <button
               className={`w-full hover:bg-blue-800 hover:text-white text-center py-2 px-2  rounded ${
                 menuItems === "PartnerOK"
@@ -94,13 +126,35 @@ const Dashboard = () => {
                 Partner Obat Keluarga
               </div>
             </button>
+          </div>{" "}
+          <div
+            className={`my-2 p-2  w-full ${
+              dataUsers && dataUsers.status === "Admin" ? "" : "hidden"
+            } `}
+          >
+            {" "}
+            <button
+              className={`w-full hover:bg-blue-800 hover:text-white text-center py-2 px-2  rounded ${
+                menuItems === "AddPartner"
+                  ? "bg-blue-700 text-white"
+                  : " bg-white  text-gray-800"
+              }`}
+              onClick={() => handleSidebarItemClick("AddPartner")}
+            >
+              <div className="flex  items-center justify-center">
+                <FontAwesomeIcon
+                  icon={faPlusCircle}
+                  className="mx-2 text-[20px]"
+                />
+                Add Partner
+              </div>
+            </button>
           </div>
           <div className="my-2 p-2  w-full">
             <button
               className={`w-full hover:bg-blue-800 text-gray-800 hover:text-white text-center font-bold py-2 px-2  rounded `}
               onClick={() => handleLogout()}
             >
-              {" "}
               <FontAwesomeIcon
                 icon={faSignOutAlt}
                 className="mx-3  text-[20px]"
@@ -125,6 +179,7 @@ const Dashboard = () => {
                 <h1>Blast Gmail</h1>
               </div>
             )}{" "}
+            {menuItems === "AddPartner" && <AddPartnerOK />}
           </div>
         </div>
       </div>

@@ -1,0 +1,27 @@
+GET  http://localhost:3001/users
+
+
+###
+GET http://localhost:3001/users/
+
+###
+
+POST  http://localhost:3001/users/create/asdlaksldklasddksd
+Content-Type: application/json
+
+{
+    "status":"Admin"
+}   
+###
+PUT http://localhost:3001/users/EcVrlZ8d989orTthtsPD
+Content-Type: application/json
+
+{
+    "status":"Pasien",
+  
+}
+
+###
+DELETE http://localhost:3001/users/g6V9Hr1ljRepaqunD6nH
+
+
