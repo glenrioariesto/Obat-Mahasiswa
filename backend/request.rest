@@ -1,3 +1,4 @@
+### API USERS
 GET  http://localhost:3001/users
 
 
@@ -23,5 +24,40 @@ Content-Type: application/json
 
 ###
 DELETE http://localhost:3001/users/g6V9Hr1ljRepaqunD6nH
+
+
+
+
+###API PARTNER
+
+GET  http://localhost:3001/partners
+
+
+###
+GET http://localhost:3001/partners/rmOr8tM0mYTR7IGaWmGw
+
+###
+
+POST  http://localhost:3001/partners/add/
+Content-Type: application/json
+
+{
+    "name":"Telkom Medika",
+    "alamat": "jl.sukabirus",
+    "deskripsi":"melayani mahasiswa Telkom University"
+
+}   
+###
+PUT http://localhost:3001/partners/EcVrlZ8d989orTthtsPD
+Content-Type: application/json
+
+{
+    "name":"Telkom Medika",
+    "alamat": "jl.sukabirus Telkom University",
+    "deskripsi":"melayani mahasiswa Telkom University"
+}
+
+###
+DELETE http://localhost:3001/partners/g6V9Hr1ljRepaqunD6nH
 
 
