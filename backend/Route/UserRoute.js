@@ -7,15 +7,13 @@ import {
   updateUserController,
   deleteUserController,
 } from "../Controllers/UserControllers.js";
-const router = express.Router();
+const usersrouter = express.Router();
 
 //API USER
-router.get("/users", getUsersController);
-router.get("/users/:id", getUserByIdController);
-router.post("/users/create/:id", createUserController);
-router.put("/users/:id", updateUserController);
-router.delete("/users/:id", deleteUserController);
+usersrouter.get("/users", getUsersController);
+usersrouter.get("/users/:id", getUserByIdController);
+usersrouter.post("/users/create/:id", createUserController);
+usersrouter.put("/users/:id", updateUserController);
+usersrouter.delete("/users/:id", deleteUserController);
 
-//API Partner
-
-export default router;
+export default usersrouter;
