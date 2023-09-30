@@ -22,7 +22,7 @@ const LoginPage = () => {
   });
 
   const handleToggleForm = () => {
-    setIsRegistering(!isRegistering); // Mengganti status registrasi saat tombol toggle ditekan
+    setIsRegistering(!isRegistering);
   };
 
   const handleChange = (e) => {
