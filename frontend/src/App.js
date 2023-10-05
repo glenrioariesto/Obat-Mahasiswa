@@ -8,23 +8,26 @@ import TentangKami from "./utils/TentangKami";
 import LandingPage from "./utils/LandingPage";
 import { AuthProvider } from "./contexts/UserAuthentication";
 import { NavbarProvider } from "./contexts/NavbarContext";
+import { PartnerProvider } from "./contexts/PartnerContex";
 
 function App() {
   return (
     <AuthProvider>
       <NavbarProvider>
-        <BrowserRouter>
-          <Navbar />
-          <Routes>
-            <Route path="/" element={<LandingPage />} />
-            <Route path="/tentang-kami" element={<TentangKami />} />
-            <Route path="/login" element={<LoginPage />} />
-            <Route path="/dashboard" element={<Dashboard />} />
-          </Routes>
-          <Section />
+        <PartnerProvider>
+          <BrowserRouter>
+            <Navbar />
+            <Routes>
+              <Route path="/" element={<LandingPage />} />
+              <Route path="/tentang-kami" element={<TentangKami />} />
+              <Route path="/login" element={<LoginPage />} />
+              <Route path="/dashboard" element={<Dashboard />} />
+            </Routes>
+            <Section />
 
-          <Footer />
-        </BrowserRouter>
+            <Footer />
+          </BrowserRouter>
+        </PartnerProvider>
       </NavbarProvider>
     </AuthProvider>
   );

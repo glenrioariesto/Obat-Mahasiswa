@@ -3,10 +3,9 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faUserCircle } from "@fortawesome/free-solid-svg-icons";
 
 const Section = () => {
-  const whatsappNumber = "+628123456789"; // Ganti dengan nomor WhatsApp yang sesuai
+  const whatsappNumber = "+628123456789";
 
   const handleClick = () => {
-    // Logika untuk menangani klik tombol WhatsApp
     window.open(`https://wa.me/${whatsappNumber}`, "_blank");
   };
 
@@ -15,8 +14,8 @@ const Section = () => {
       <div className="container mx-auto flex flex-col md:flex-row items-center justify-between">
         <div className=" text-center md:text-left mb-4 md:mb-0">
           <p className="text-xl text-white cursor-default">
-            Kini Whatsapp Customer <b>Nama Perusahaan</b> hadir <br />
-            untuk menjawab kebutuhan informasi Sahabat
+            Kini Whatsapp Customer <b>Obat Mahasiswa</b> hadir <br />
+            untuk menjawab kebutuhan informasi Mahasiswa
           </p>
         </div>
         <button

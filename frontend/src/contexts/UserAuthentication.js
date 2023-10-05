@@ -39,6 +39,15 @@ const AuthProvider = ({ children }) => {
     }
   };
 
+  const fetchData = async (id) => {
+    try {
+      const res = await axios.get(linkApiBackend + "/" + id);
+
+      return res.data;
+    } catch (error) {
+      console.error("Error fetching user detail:", error);
+    }
+  };
   const login = async (email, password) => {
     try {
       const userCredential = await signInWithEmailAndPassword(
@@ -76,15 +85,13 @@ const AuthProvider = ({ children }) => {
 
   const changePassword = async (oldPassword, newPassword) => {
     try {
-      // Reautentikasi pengguna terlebih dahulu
       const credential = EmailAuthProvider.credential(user.email, oldPassword);
       await reauthenticateWithCredential(user, credential);
 
-      // Mengganti password
       await updatePassword(user, newPassword);
       return;
     } catch (error) {
-      // Penanganan kesalahan jika ada
+      // console.log(error.code);
       return error.code;
     }
   };
@@ -117,7 +124,7 @@ const AuthProvider = ({ children }) => {
       value={{
         user,
         accestoken,
-        linkApiBackend,
+        fetchData,
         login,
         register,
         logout,
