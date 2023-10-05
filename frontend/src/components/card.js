@@ -15,10 +15,7 @@ const CardItem = () => {
   );
 };
 
-const Card = ({ imageSrc, title, description }) => {
-  const handleClick = () => {
-    // Logika untuk perpindahan halaman saat card diklik
-  };
+const Card = ({ imageSrc, title, description, handleClick }) => {
   const MAX_DESCRIPTION_LENGTH = 300;
 
   const truncatedDescription =

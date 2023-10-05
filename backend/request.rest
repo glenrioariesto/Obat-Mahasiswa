@@ -34,7 +34,8 @@ GET  http://localhost:3001/partners
 
 
 ###
-GET http://localhost:3001/partners/rmOr8tM0mYTR7IGaWmGw
+GET http://localhost:3001/partners/aNVQZ0Gm8Vpq0C0z5hCM
+
 
 ###
 
@@ -48,7 +49,7 @@ Content-Type: application/json
 
 }   
 ###
-PUT http://localhost:3001/partners/EcVrlZ8d989orTthtsPD
+PUT http://localhost:3001/partners/rmOr8tM0mYTR7IGaWmGw
 Content-Type: application/json
 
 {
@@ -58,6 +59,6 @@ Content-Type: application/json
 }
 
 ###
-DELETE http://localhost:3001/partners/g6V9Hr1ljRepaqunD6nH
+DELETE http://localhost:3001/partners/rmOr8tM0mYTR7IGaWmGw
 
 

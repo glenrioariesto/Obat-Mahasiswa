@@ -50,7 +50,7 @@ const MainNavbarLobby = () => {
           <div className="container mx-auto pb-2">
             <div className="flex items-center justify-between">
               <div className="flex-initial cursor-default">
-                <img src={logo} alt="Logo" className="w-16 h-16" />
+                <img src={logo} alt="Logo" className=" h-9" />
               </div>
               <SearchInput isMenuOpen={isMenuOpen} />
               <SearchButton isMenuOpen={isMenuOpen} />

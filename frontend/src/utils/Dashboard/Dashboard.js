@@ -14,12 +14,11 @@ import { NavbarContext } from "../../contexts/NavbarContext";
 import Profile from "./Profile";
 import PartnerOK from "./PartnerOK";
 import AddPartnerOK from "./AddPartnerOK";
-import axios from "axios";
 
 const Dashboard = () => {
-  const { accestoken, logout, user, linkApiBackend } = useContext(AuthContext);
+  const { accestoken, logout, user, fetchData } = useContext(AuthContext);
   const { menuItems, changeItems } = useContext(NavbarContext);
-  const [dataUsers, setDataUsers] = useState({});
+  const [dataUsers, setUserData] = useState({});
 
   const navigate = useNavigate();
   const handleLogout = () => {
@@ -32,17 +31,21 @@ const Dashboard = () => {
       navigate("/login");
     } else {
       if (user.uid) {
-        axios
-          .get(linkApiBackend + "/" + user.uid)
-          .then((response) => {
-            setDataUsers(response.data);
-          })
-          .catch((error) => {
-            console.error("Error fetching user detail : ", error);
-          });
+        const userData = async () => {
+          try {
+            const res = await fetchData(user.uid);
+            const { status } = res;
+            const { photoURL, email } = user;
+            setUserData({ email, photoURL, status });
+          } catch (error) {
+            console.error("Error fetching user detail:", error);
+          }
+        };
+
+        userData();
       }
     }
-  }, [accestoken, user, linkApiBackend, navigate]);
+  }, [accestoken, user, fetchData, navigate]);
 
   const handleSidebarItemClick = (item) => {
     changeItems(item);
@@ -63,7 +66,7 @@ const Dashboard = () => {
       <aside className="pt-5 w-2/12 flex flex-col items-center hidden sm:hidden md:block lg:block">
         <div className="mb-4 flex flex-col items-center">
           <div className="font-bold text-[20px] md:text-[18px]">
-            <p>Obat Keluarga</p>
+            <p>Obat Mahasiswa</p>
           </div>
           <div className="my-2 p-2 w-full">
             <button
@@ -123,7 +126,7 @@ const Dashboard = () => {
                   icon={faHandshake}
                   className="mx-2 text-[20px]"
                 />
-                Partner Obat Keluarga
+                Partner Obat Mahasiswa
               </div>
             </button>
           </div>{" "}

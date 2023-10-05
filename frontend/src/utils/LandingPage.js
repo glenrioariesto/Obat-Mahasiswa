@@ -9,7 +9,7 @@ const LandingPage = () => {
     <div>
       <section className="pb-20">
         <ImageMain
-          title="Pelayanan Utama Obat Keluarga"
+          title="Pelayanan Utama Obat Mahasiswa"
           subtitle="Tenang penyakit anda tidak hanya satu"
           imageUrl="https://media.istockphoto.com/id/1189309997/id/foto/konsultasi-medis-online-dokter-yang-bekerja-pada-komputer-laptop-di-kantor-klinik-ruang-salin.jpg?s=612x612&w=0&k=20&c=xDtTcampxwH7klIozzEtIeZrzldGawmUHTJy18qn5BA="
         />

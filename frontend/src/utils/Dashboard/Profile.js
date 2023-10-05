@@ -5,10 +5,9 @@ import { faLock, faEye, faEyeSlash } from "@fortawesome/free-solid-svg-icons";
 import { ToastContainer, toast } from "react-toastify";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faArrowLeft } from "@fortawesome/free-solid-svg-icons";
-import axios from "axios";
 
 const Profile = () => {
-  const { user, changePassword, linkApiBackend } = useContext(AuthContext);
+  const { user, changePassword, fetchData } = useContext(AuthContext);
   const [openChangePassword, setOpenChangePagePassword] = useState(false);
   const [userData, setUserData] = useState(null);
   const [showOldPassword, setShowOldPassword] = useState(false);
@@ -82,19 +81,20 @@ const Profile = () => {
   };
   useEffect(() => {
     if (user.uid) {
-      axios
-        .get(linkApiBackend + "/" + user.uid)
-        .then((response) => {
-          const { status } = response.data;
+      const userData = async () => {
+        try {
+          const res = await fetchData(user.uid);
+          const { status } = res;
           const { photoURL, email } = user;
-
           setUserData({ email, photoURL, status });
-        })
-        .catch((error) => {
-          console.error("Error fetching user detail : ", error.code);
-        });
+        } catch (error) {
+          console.error("Error fetching user detail:", error);
+        }
+      };
+
+      userData();
     }
-  }, [user, linkApiBackend]);
+  }, [user, fetchData]);
   return (
     <div className="flex flex-col h-full relative justify-center items-center">
       {openChangePassword ? (

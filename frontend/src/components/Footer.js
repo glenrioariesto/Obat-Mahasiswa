@@ -18,7 +18,7 @@ const Footer = () => {
         {/* Logo */}
         <div className="flex flex-col md:flex-row justify-between">
           <div className="flex items-start">
-            <img src={logo} alt="Logo" className="w-36  h-36" />
+            <img src={logo} alt="Logo" className="  h-20" />
           </div>
           {/* Menu Kolom 1 */}
           <div className="flex-2 md:space-y-2 px-2 md:ml-8 mt-4 md:mt-0">
