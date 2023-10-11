@@ -42,12 +42,13 @@ const AuthProvider = ({ children }) => {
   const fetchData = async (id) => {
     try {
       const res = await axios.get(linkApiBackend + "/" + id);
-
+      console.log("berhasil fetch Data User: ", res.data);
       return res.data;
     } catch (error) {
       console.error("Error fetching user detail:", error);
     }
   };
+
   const login = async (email, password) => {
     try {
       const userCredential = await signInWithEmailAndPassword(

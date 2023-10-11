@@ -9,7 +9,7 @@ const PartnerProvider = ({ children }) => {
   const fetchPartner = async () => {
     try {
       const res = await axios.get(ApiPartner);
-
+      console.log("berhasil fetch partner: ", res.data);
       return res.data;
     } catch (error) {
       console.error("Error fetching partner data:", error.code);
@@ -47,26 +47,34 @@ const PartnerProvider = ({ children }) => {
     }
   };
 
-  //   const UpdatePartner = async (name, alamat, deskripsi, imgUrl) => {
-  //     try {
-  //       await axios.put(
-  //         ApiPartner + "/add/",
-  //         {
-  //           name: name ? name : "",
-  //           alamat: alamat ? alamat : "",
-  //           deskripsi: deskripsi ? deskripsi : "",
-  //           imgUrl: imgUrl,
-  //         },
-  //         {
-  //           headers: {
-  //             "Content-Type": "application/json",
-  //           },
-  //         }
-  //       );
-  //     } catch (error) {
-  //       console.error("Error Add partner:", error.code);
-  //     }
-  //   };
+  const UpdatePartner = async (
+    id,
+    name,
+    alamat,
+    deskripsi,
+    imgUrl,
+    pathstorage
+  ) => {
+    try {
+      await axios.put(
+        ApiPartner + "/" + id,
+        {
+          name: name ? name : "",
+          alamat: alamat ? alamat : "",
+          deskripsi: deskripsi ? deskripsi : "",
+          imgUrl: imgUrl,
+          pathstorage: pathstorage,
+        },
+        {
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
+    } catch (error) {
+      console.error("Error Add partner:", error.code);
+    }
+  };
 
   const deletePartner = async (id) => {
     try {
@@ -79,7 +87,13 @@ const PartnerProvider = ({ children }) => {
 
   return (
     <PartnerContext.Provider
-      value={{ fetchPartner, fetchPartnerById, addPartner, deletePartner }}
+      value={{
+        fetchPartner,
+        fetchPartnerById,
+        addPartner,
+        UpdatePartner,
+        deletePartner,
+      }}
     >
       {children}
     </PartnerContext.Provider>
