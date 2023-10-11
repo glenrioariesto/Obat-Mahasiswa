@@ -188,7 +188,7 @@ const Profile = () => {
             Ganti Password
           </button>
           <p className="mt-4">
-            Status Akun:{" "}
+            Status Akun:
             <span className="text-green-600">{userData.status}</span>
           </p>
         </div>

@@ -9,6 +9,8 @@ import LandingPage from "./utils/LandingPage";
 import { AuthProvider } from "./contexts/UserAuthentication";
 import { NavbarProvider } from "./contexts/NavbarContext";
 import { PartnerProvider } from "./contexts/PartnerContex";
+import { Helmet } from "react-helmet";
+import logotitle from "./assets/image/logotitle.png";
 
 function App() {
   return (
@@ -16,6 +18,10 @@ function App() {
       <NavbarProvider>
         <PartnerProvider>
           <BrowserRouter>
+            <Helmet>
+              <title>Obat Mahasiswa</title>
+              <link rel="icon" type="image/png" href={logotitle} />
+            </Helmet>
             <Navbar />
             <Routes>
               <Route path="/" element={<LandingPage />} />

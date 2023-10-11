@@ -5,9 +5,19 @@ import { v4 } from "uuid";
 import { PartnerContext } from "../../contexts/PartnerContex";
 import { ToastContainer, toast } from "react-toastify";
 import Input from "../../components/Input";
+import Modal from "react-modal";
+import customModalStyles from "../../assets/CustomModalStyle";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import {
+  faHospital,
+  faMapMarker,
+  faAlignLeft,
+} from "@fortawesome/free-solid-svg-icons";
 
-const AddPartnerOK = () => {
-  const { addPartner } = useContext(PartnerContext);
+Modal.setAppElement("#root");
+
+const ModalAddPartner = ({ isOpen, onRequestClose, setData }) => {
+  const { addPartner, fetchPartner } = useContext(PartnerContext);
   const [remainingWords, setRemainingWords] = useState(300);
   const [form, setForm] = useState({
     name: "",
@@ -24,7 +34,7 @@ const AddPartnerOK = () => {
   const handleDeskripsiChange = (event) => {
     const inputValue = event.target.value;
     const words = inputValue.split(/\s+/).filter(Boolean);
-    const remaining = remainingWords - words.length;
+    const remaining = 300 - words.length;
 
     if (remaining >= 0) {
       setForm({ ...form, deskripsi: inputValue });
@@ -65,6 +75,13 @@ const AddPartnerOK = () => {
         toast.success("Berhasil menambahkan partner", {
           position: "top-right",
         });
+        setRemainingWords(300);
+        const data = await fetchPartner();
+        const dataPartner = data.map((item, index) => ({
+          no: index + 1,
+          ...item,
+        }));
+        setData(dataPartner);
       } else {
         toast.error("Inputkan data dengan benar", {
           position: "top-right",
@@ -76,10 +93,17 @@ const AddPartnerOK = () => {
   };
 
   return (
-    <div className="p-20 relative h-full w-full">
-      <div className="container w-full h-full ">
+    <Modal
+      isOpen={isOpen}
+      onRequestClose={onRequestClose}
+      contentLabel="Deskripsi Modal bg-blue"
+      className="bg-white p-4 rounded shadow-lg  "
+      style={customModalStyles.AddPartner}
+      appElement={document.getElementById("root")}
+    >
+      <div>
         <form onSubmit={handleSubmit}>
-          <div className="pb-4">
+          <div className="pb-10">
             <label
               htmlFor="Add-Partner"
               className="text-[30px] text-gray-600 font-bold"
@@ -89,6 +113,7 @@ const AddPartnerOK = () => {
           </div>
           <div className="pb-4">
             <Input
+              firstIcons={faHospital}
               placeholder="Name Partner Obat Keluarga"
               className="py-2 px-4 "
               type="text"
@@ -100,6 +125,7 @@ const AddPartnerOK = () => {
           </div>
           <div className="pb-4">
             <Input
+              firstIcons={faMapMarker}
               placeholder="Alamat"
               className="py-2 px-4 "
               type="text"
@@ -110,14 +136,17 @@ const AddPartnerOK = () => {
             />
           </div>
           <textarea
-            className={`pl-10 pr-5 py-3 w-full bg-white border border-gray-400 text-gray-800 rounded-md  focus:outline-none `}
+            className="pl-10 pr-5 py-3 w-full bg-white border border-gray-400 text-gray-800 rounded-md  focus:outline-none "
             id="deskripsi"
             name="deskripsi"
             value={form.deskripsi}
-            placeholder="deskripsi"
+            placeholder="Deskripsi"
             onChange={handleDeskripsiChange}
             required
-          ></textarea>
+          />
+          <span className="absolute inset-y-0 left-5 flex items-center pl-3 text-gray-400">
+            <FontAwesomeIcon icon={faAlignLeft} className="mr-2" />
+          </span>
           <div className="flex justify-end">
             <div className="text-right" id="wordCount">
               {remainingWords > 0
@@ -168,7 +197,7 @@ const AddPartnerOK = () => {
         <ToastContainer
           position="top-right"
           autoClose={5000}
-          limit={3}
+          limit={1}
           hideProgressBar={false}
           newestOnTop={false}
           closeOnClick
@@ -179,8 +208,8 @@ const AddPartnerOK = () => {
           theme="light"
         />
       </div>
-    </div>
+    </Modal>
   );
 };
 
-export default AddPartnerOK;
+export default ModalAddPartner;

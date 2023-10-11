@@ -1,4 +1,4 @@
-const customStyles = {
+const customTableStyles = {
   rows: {
     style: {
       backgroundColor: "rgb(229,231,235)",
@@ -40,4 +40,4 @@ const customStyles = {
   },
 };
 
-export default customStyles;
+export default customTableStyles;
