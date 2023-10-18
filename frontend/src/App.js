@@ -3,14 +3,16 @@ import Navbar from "./components/Navbar/NavbarLobby/MainNavbarLobby";
 import Footer from "./components/Footer";
 import Section from "./components/SectContPers";
 import LoginPage from "./utils/LoginPage";
-import Dashboard from "./utils/Dashboard/Dashboard";
+import DashboardAdmin from "./utils/Admin/DashboardAdmin";
+import DashboardPasien from "./utils/Pasien/DashboardPasien";
 import TentangKami from "./utils/TentangKami";
-import LandingPage from "./utils/LandingPage";
+import PartnerPage from "./utils/PartnerPage";
 import { AuthProvider } from "./contexts/UserAuthentication";
 import { NavbarProvider } from "./contexts/NavbarContext";
 import { PartnerProvider } from "./contexts/PartnerContex";
 import { Helmet } from "react-helmet";
 import logotitle from "./assets/image/logotitle.png";
+import DetailPartner from "./utils/SpesialisasiPage";
 
 function App() {
   return (
@@ -24,10 +26,12 @@ function App() {
             </Helmet>
             <Navbar />
             <Routes>
-              <Route path="/" element={<LandingPage />} />
+              <Route path="/" element={<PartnerPage />} />
               <Route path="/tentang-kami" element={<TentangKami />} />
+              <Route path="/detailPartner" element={<DetailPartner />} />
               <Route path="/login" element={<LoginPage />} />
-              <Route path="/dashboard" element={<Dashboard />} />
+              <Route path="/dashboardAdmin" element={<DashboardAdmin />} />
+              <Route path="/dashboardPasien" element={<DashboardPasien />} />
             </Routes>
             <Section />
 

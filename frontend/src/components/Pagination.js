@@ -17,7 +17,7 @@ const Pagination = ({ currentPage, totalPages, onPageChange }) => {
   };
 
   return (
-    <div className="flex items-center justify-center mt-4">
+    <div className="flex items-center justify-center">
       <button
         className={`px-4 py-2 mr-2 bg-gray-200 text-gray-600 rounded ${
           isFirstPage ? "opacity-50 cursor-not-allowed" : "hover:bg-gray-300"

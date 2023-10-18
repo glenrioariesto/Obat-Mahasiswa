@@ -57,10 +57,21 @@ const AuthProvider = ({ children }) => {
         password
       );
       setUser(userCredential.user);
-      userCredential.user.getIdToken().then((accessToken) => {
-        setAccestoken(accessToken);
+      userCredential.user.getIdToken().then(async (accessToken) => {
+        const res = await fetchData(userCredential.user.uid);
+        const { status } = res;
+
+        // Gabungkan data pengguna dan status ke dalam satu objek
+        const userWithStatus = { ...userCredential.user, status };
+        console.log(userWithStatus);
+        // Simpan objek userWithStatus ke dalam sessionStorage
         sessionStorage.setItem("accessToken", accessToken);
-        sessionStorage.setItem("user", userCredential.user);
+        sessionStorage.setItem("user", JSON.stringify(userWithStatus));
+        sessionStorage.setItem("status", status);
+
+        // Atur objek userWithStatus ke dalam state user
+        setUser(userWithStatus);
+        setAccestoken(accessToken);
       });
       return;
     } catch (error) {
@@ -100,6 +111,7 @@ const AuthProvider = ({ children }) => {
   const logout = () => {
     sessionStorage.removeItem("accessToken");
     sessionStorage.removeItem("user");
+    sessionStorage.removeItem("status");
 
     setAccestoken("");
     return signOut(auth);
@@ -112,13 +124,14 @@ const AuthProvider = ({ children }) => {
     const storedAccessToken = sessionStorage.getItem("accessToken");
     if (storedAccessToken) {
       setAccestoken(storedAccessToken);
-      setUser(sessionStorage.getItem("user"));
+      const storedUser = JSON.parse(sessionStorage.getItem("user")); // Parse kembali dari JSON string
+      setUser(storedUser);
     }
 
     return () => {
       unsubsribe();
     };
-  }, [accestoken, user, setAccestoken]);
+  }, [accestoken, setAccestoken]);
 
   return (
     <AuthContext.Provider

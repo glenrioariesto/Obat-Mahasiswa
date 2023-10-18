@@ -37,10 +37,10 @@ const ListMenu = ({ isMenuOpen, pathname }) => {
       </li>
       <li className="mr-4">
         <a
-          href="/"
+          href="/detailPartner"
           className="text-lg no-underline hover:underline hover:text-blue-400"
         >
-          Spesialisai
+          Spesialisasi
         </a>
       </li>
       <li className="mr-4">

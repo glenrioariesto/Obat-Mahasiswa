@@ -19,7 +19,9 @@ const MainNavbarLobby = () => {
   const isOnLobbyPage =
     location.pathname === "/login" ||
     location.pathname === "/" ||
-    location.pathname === "/tentang-kami";
+    location.pathname === "/tentang-kami" ||
+    location.pathname === "/detailPartner";
+
   const isOnLoginPage = location.pathname === "/login";
   const toggleMenu = () => {
     setIsBar(!isBar);

@@ -21,9 +21,8 @@ const customTableStyles = {
       textAlign: "center",
       justifyContent: "center",
       alignItems: "center",
-      width: "10%",
-      padding: "2px",
-      margin: "2px",
+      padding: "1px",
+      margin: "1px",
     },
   },
   pagination: {

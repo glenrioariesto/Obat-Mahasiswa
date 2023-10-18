@@ -21,7 +21,7 @@ const PartnerOK = () => {
   const [isModalOpenEdit, setIsModalOpenEdit] = useState(false);
   const [isModalOpenAdd, setIsModalOpenAdd] = useState(false);
   const [selectedDescription, setSelectedDescription] = useState("");
-  const [dataEdit, setDataEdit] = useState(null);
+  const [dataEdit, setDataEdit] = useState({});
 
   const columns = [
     {
@@ -195,11 +195,7 @@ const PartnerOK = () => {
           <ModalEditPartner
             isOpen={isModalOpenEdit}
             onRequestClose={() => setIsModalOpenEdit(false)}
-            dataEdit={{
-              id: dataEdit.id,
-              imgUrl: dataEdit.imgUrl,
-              pathstorage: dataEdit.pathstorage,
-            }}
+            dataEdit={dataEdit}
             setData={setData}
           />
         )}

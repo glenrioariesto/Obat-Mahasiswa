@@ -10,7 +10,6 @@ Modal.setAppElement("#root");
 const ModalEditPartner = ({ isOpen, onRequestClose, dataEdit, setData }) => {
   const { UpdatePartner, fetchPartner } = useContext(PartnerContext);
   const [remainingWords, setRemainingWords] = useState(300);
-
   const [form, setForm] = useState({
     name: "",
     alamat: "",
@@ -47,9 +46,19 @@ const ModalEditPartner = ({ isOpen, onRequestClose, dataEdit, setData }) => {
     event.preventDefault();
     const { name, alamat, deskripsi } = form;
     const { id, imgUrl, pathstorage } = dataEdit;
+    const updateName = name.trim() ? name : dataEdit.name;
+    const updateAlamat = alamat.trim() ? alamat : dataEdit.alamat;
+    const updateDeskripsi = deskripsi.trim() ? deskripsi : dataEdit.deskripsi;
 
     try {
-      await UpdatePartner(id, name, alamat, deskripsi, imgUrl, pathstorage);
+      await UpdatePartner(
+        id,
+        updateName,
+        updateAlamat,
+        updateDeskripsi,
+        imgUrl,
+        pathstorage
+      );
       setForm({
         name: "",
         alamat: "",
@@ -137,7 +146,6 @@ const ModalEditPartner = ({ isOpen, onRequestClose, dataEdit, setData }) => {
             name="deskripsi"
             value={form.deskripsi}
             onChange={handleDeskripsiChange}
-            required
           ></textarea>
           <div className="flex justify-end">
             <div className="text-right" id="wordCount">
@@ -147,12 +155,25 @@ const ModalEditPartner = ({ isOpen, onRequestClose, dataEdit, setData }) => {
             </div>
           </div>
           <div className="pt-3 ">
-            <button
-              type="submit"
-              className="w-full bg-blue-500 hover:bg-blue-600 text-white font-bold py-2  rounded-md focus:outline-none focus:bg-blue-600"
-            >
-              Save
-            </button>
+            <div className="flex justify-end">
+              <div className="w-1/4 pr-1">
+                <button
+                  type="submit"
+                  className="w-full bg-blue-500 hover:bg-blue-600 text-white font-bold py-2  rounded-md focus:outline-none focus:bg-blue-600"
+                >
+                  Save
+                </button>
+              </div>
+              <div className="w-1/4 pl-1">
+                <button
+                  type="button"
+                  onClick={handleRequestClose}
+                  className="w-full bg-red-500 hover:bg-red-600 text-white font-bold py-2  rounded-md focus:outline-none focus:bg-red-600"
+                >
+                  Close
+                </button>
+              </div>
+            </div>
           </div>
         </form>
       </div>

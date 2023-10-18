@@ -8,12 +8,11 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 const LoginPage = () => {
-  const { login, register, accestoken } = useContext(AuthContext);
-  const navigate = useNavigate();
-
+  const { login, register, accestoken, user } = useContext(AuthContext);
   const [isRegistering, setIsRegistering] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+  const navigate = useNavigate();
 
   const [form, setFrom] = useState({
     email: "",
@@ -42,6 +41,7 @@ const LoginPage = () => {
         });
       } else {
         const msg = await register(email, password);
+
         handleRegistrationResult(msg);
       }
     } else {
@@ -101,8 +101,6 @@ const LoginPage = () => {
         });
         break;
       default:
-        toast.warn("Maaf, terjadi kesalahan.", { position: "top-right" });
-        break;
     }
   };
 
@@ -110,9 +108,15 @@ const LoginPage = () => {
     if (accestoken) {
       // console.log("masuk");
       // console.log(accestoken);
-      navigate("/dashboard");
+      const status = user.status;
+      if (status === "Admin") {
+        navigate("/dashboardAdmin");
+      } else if (status === "Pasien") {
+        navigate("/dashboardPasien");
+      }
     }
-  }, [accestoken, navigate]);
+  }, [accestoken, user, navigate]);
+
   return (
     <div>
       <section className="">
@@ -218,11 +222,11 @@ const LoginPage = () => {
 
             <div className="sm:pb-3 pt-3">
               <p
-                className="text-center cursor-default"
+                className="text-center cursor-default "
                 onClick={handleToggleForm}
               >
                 {isRegistering ? "Sudah punya akun? " : "Belum punya akun? "}{" "}
-                <span className="text-blue-500">
+                <span className="text-blue-500 cursor-pointer">
                   {isRegistering ? "Login disini" : "Register disini"}
                 </span>
               </p>

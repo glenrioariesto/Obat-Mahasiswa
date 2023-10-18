@@ -1,21 +1,6 @@
 import React from "react";
 
-const CardItem = () => {
-  return (
-    <section className="">
-      <div className="card-container grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 justify-end pt-5">
-        <Card title="Judul Card 1" description="Deskripsi Card 1" />
-        <Card title="Judul Card 2" description="Deskripsi Card 2" />
-        <Card title="Judul Card 3" description="Deskripsi Card 3" />
-        <Card title="Judul Card 4" description="Deskripsi Card 4" />
-        <Card title="Judul Card 5" description="" />
-        <Card title="Judul Card 6" description="" />
-      </div>
-    </section>
-  );
-};
-
-const Card = ({ imageSrc, title, description, handleClick }) => {
+const CardPartner = ({ imageSrc, title, description, handleClick }) => {
   const MAX_DESCRIPTION_LENGTH = 300;
 
   const truncatedDescription =
@@ -39,4 +24,4 @@ const Card = ({ imageSrc, title, description, handleClick }) => {
   );
 };
 
-export default CardItem;
+export default CardPartner;

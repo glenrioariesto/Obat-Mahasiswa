@@ -121,6 +121,7 @@ const ModalAddPartner = ({ isOpen, onRequestClose, setData }) => {
               name="name"
               value={form.name}
               onChange={handleChange}
+              required={true}
             />
           </div>
           <div className="pb-4">
@@ -133,6 +134,7 @@ const ModalAddPartner = ({ isOpen, onRequestClose, setData }) => {
               name="alamat"
               value={form.alamat}
               onChange={handleChange}
+              required={true}
             />
           </div>
           <textarea
@@ -184,12 +186,25 @@ const ModalAddPartner = ({ isOpen, onRequestClose, setData }) => {
           </div>
 
           <div className="pt-3 ">
-            <button
-              type="submit"
-              className="w-full bg-blue-500 hover:bg-blue-600 text-white font-bold py-2  rounded-md focus:outline-none focus:bg-blue-600"
-            >
-              Save
-            </button>
+            <div className="flex justify-end">
+              <div className="w-1/2 pr-1">
+                <button
+                  type="submit"
+                  className="w-full bg-blue-500 hover:bg-blue-600 text-white font-bold py-2  rounded-md focus:outline-none focus:bg-blue-600"
+                >
+                  Save
+                </button>
+              </div>
+              <div className="w-1/2 pl-1">
+                <button
+                  type="button"
+                  onClick={onRequestClose}
+                  className="w-full bg-red-500 hover:bg-red-600 text-white font-bold py-2  rounded-md focus:outline-none focus:bg-red-600"
+                >
+                  Close
+                </button>
+              </div>
+            </div>
           </div>
         </form>
       </div>
