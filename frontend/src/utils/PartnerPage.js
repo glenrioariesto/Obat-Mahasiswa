@@ -1,10 +1,22 @@
-import React from "react";
-// import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-// import { faCalendarAlt } from "@fortawesome/free-solid-svg-icons";
-import CardItem from "../components/card";
-import ImageMain from "../components/ImageMain";
+import React, { useState, useContext, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 
-const LandingPage = () => {
+import Card from "../components/CardPartner";
+import ImageMain from "../components/ImageMain";
+import { PartnerContext } from "../contexts/PartnerContex";
+
+const ParPage = () => {
+  const { fetchPartner } = useContext(PartnerContext);
+  const [data, setData] = useState([]);
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    const partnerData = async () => {
+      const data = await fetchPartner();
+      setData(data);
+    };
+    partnerData();
+  }, [fetchPartner]);
   return (
     <div>
       <section className="pb-20">
@@ -16,14 +28,28 @@ const LandingPage = () => {
       </section>
       <div className="px-10 py-10 pt-0 sm:pt-40 md:pt-40 lg:pt-40">
         <div className="title flex items-center justify-between">
-          <h2 className="text-3xl text-blue-500 font-bold">Judul Sudut Kiri</h2>
+          <h2 className="text-3xl text-blue-500 font-bold">
+            Partner Obat Mahasiswa
+          </h2>
           <div className="view-all">
             <a href="/" className="text-gray-500 text-sm hover:text-blue-800">
-              Lihat Semua Sudut
+              Lihat Semua
             </a>
           </div>
         </div>
-        <CardItem />
+        <div className="card-container grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 justify-end pt-5">
+          {data.map((item, index) => (
+            <Card
+              key={index}
+              title={item.name}
+              description={item.deskripsi}
+              imageSrc={item.imgUrl}
+              handleClick={() => {
+                navigate(`/detailPartner?cardId=${item.id}`);
+              }}
+            />
+          ))}
+        </div>
       </div>
       {/* <div className="fixed top-40 right-1 hidden md:block">
         <div className="px-2 py-2 shadow-inner shadow hover:shadow-lg drop-shadow-lg  text-gray-500 hover:text-white flex items-center md:max-w-auto bg-gradient-to-r from-white to-white hover:from-orange-300 hover:to-red-500 shadow-md rounded-lg cursor-pointer">
@@ -42,4 +68,4 @@ const LandingPage = () => {
   );
 };
 
-export default LandingPage;
+export default ParPage;

@@ -1,6 +1,6 @@
 import React, { useContext, useEffect, useState } from "react";
-import { AuthContext } from "../../contexts/UserAuthentication";
-import Input from "../../components/Input";
+import { AuthContext } from "../contexts/UserAuthentication";
+import Input from "../components/Input";
 import { faLock, faEye, faEyeSlash } from "@fortawesome/free-solid-svg-icons";
 import { ToastContainer, toast } from "react-toastify";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -80,19 +80,21 @@ const Profile = () => {
     }
   };
   useEffect(() => {
-    if (user.uid) {
-      const userData = async () => {
-        try {
-          const res = await fetchData(user.uid);
-          const { status } = res;
-          const { photoURL, email } = user;
-          setUserData({ email, photoURL, status });
-        } catch (error) {
-          console.error("Error fetching user detail:", error);
-        }
-      };
+    if (user) {
+      if (user.uid) {
+        const userData = async () => {
+          try {
+            const res = await fetchData(user.uid);
+            const { status } = res;
+            const { photoURL, email } = user;
+            setUserData({ email, photoURL, status });
+          } catch (error) {
+            console.error("Error fetching user detail:", error);
+          }
+        };
 
-      userData();
+        userData();
+      }
     }
   }, [user, fetchData]);
   return (

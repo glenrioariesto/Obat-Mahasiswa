@@ -8,10 +8,11 @@ import LoginButton from "./LoginButton";
 import EmergencyButton from "./EmergencyButton";
 import MobileMenu from "./MoblieMenu";
 import { AuthContext } from "../../../contexts/UserAuthentication";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import MainNavbarDashboard from "../NavbarDashboard/MainNavbarDashboard";
 
 const MainNavbarLobby = () => {
+  const [search, setSearch] = useState("");
   const { accestoken } = useContext(AuthContext);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isBar, setIsBar] = useState(false);
@@ -19,7 +20,12 @@ const MainNavbarLobby = () => {
   const isOnLobbyPage =
     location.pathname === "/login" ||
     location.pathname === "/" ||
-    location.pathname === "/tentang-kami";
+    location.pathname === "/tentang-kami" ||
+    location.pathname === "/detailPartner" ||
+    location.pathname === "/search" ||
+    location.pathname === "/profiledokter";
+  const navigate = useNavigate();
+
   const isOnLoginPage = location.pathname === "/login";
   const toggleMenu = () => {
     setIsBar(!isBar);
@@ -52,8 +58,18 @@ const MainNavbarLobby = () => {
               <div className="flex-initial cursor-default">
                 <img src={logo} alt="Logo" className=" h-9" />
               </div>
-              <SearchInput isMenuOpen={isMenuOpen} />
-              <SearchButton isMenuOpen={isMenuOpen} />
+              <SearchInput
+                isMenuOpen={isMenuOpen}
+                onChange={(e) => {
+                  setSearch(e.target.value);
+                }}
+              />
+              <SearchButton
+                isMenuOpen={isMenuOpen}
+                handleClick={() => {
+                  navigate(`/search?cardId=${search}`);
+                }}
+              />
               <div className="flex items-center justify-between">
                 <EmergencyButton isMenuOpen={isMenuOpen} />
                 <LoginButton changeClassName={isMenuOpen ? "" : "hidden"} />

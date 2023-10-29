@@ -15,12 +15,10 @@ const Footer = () => {
   return (
     <footer className="bg-gray-100 py-4 md:h-62 pr-4">
       <div className="container mx-auto">
-        {/* Logo */}
         <div className="flex flex-col md:flex-row justify-between">
           <div className="flex items-start">
             <img src={logo} alt="Logo" className="  h-20" />
           </div>
-          {/* Menu Kolom 1 */}
           <div className="flex-2 md:space-y-2 px-2 md:ml-8 mt-4 md:mt-0">
             <div>
               <p className="text-gray-600 font-bold cursor-default">
@@ -32,7 +30,6 @@ const Footer = () => {
               <FooterLink href="#" text="Investor" />
             </div>
           </div>
-          {/* Menu Kolom 2 */}
           <div className="flex-2 md:space-y-2 px-2 md:ml-8 mt-4 md:mt-0">
             <div>
               <p className="text-gray-600 font-bold cursor-default">
@@ -45,7 +42,6 @@ const Footer = () => {
               <FooterLink href="#" text="Karir" />
             </div>
           </div>
-          {/* Hubungi dan Menu Lainnya */}
           <div className="flex-2 md:space-y-2 px-2 md:ml-8 mt-4 md:mt-0">
             <div>
               <p className="text-gray-600 font-bold cursor-default">Hubungi</p>

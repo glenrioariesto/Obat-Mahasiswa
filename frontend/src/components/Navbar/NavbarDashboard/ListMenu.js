@@ -1,6 +1,6 @@
 import logo from "../../../assets/image/logo.png";
 
-const ListMenu = ({ isMenuOpen, pathname }) => {
+const ListMenu = ({ isMenuOpen }) => {
   return (
     <ul
       className={`flex ${isMenuOpen ? "hidden" : "  "}  w-full  items-center`}

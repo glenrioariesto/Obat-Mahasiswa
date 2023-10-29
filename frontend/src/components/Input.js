@@ -14,6 +14,7 @@ const Input = ({
   name,
   onClick,
   value,
+  required,
 }) => {
   return (
     <div className="relative w-full">
@@ -26,7 +27,7 @@ const Input = ({
         className={`pl-10 w-full bg-white border border-gray-400 text-gray-800 rounded-md  focus:outline-none ${className}`}
         disabled={disabled}
         value={value}
-        required
+        required={required}
       />
       <span
         className={`${
