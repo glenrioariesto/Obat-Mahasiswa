@@ -22,22 +22,14 @@ const MobileMenuDropdown = ({ isBar, isMenuOpen }) => {
           </button>
           <button
             onClick={() => {
-              changeItems("janjiTemu");
+              changeItems("JanjiTemu");
               changeOpenDropdown(!openDropDown);
             }}
             className="block py-2 hover:text-blue-400"
           >
             Janji Temu
           </button>
-          <button
-            onClick={() => {
-              changeItems("janjiTemu");
-              changeOpenDropdown(!openDropDown);
-            }}
-            className="block py-2 hover:text-blue-400"
-          >
-            Layanan
-          </button>
+
           <a href="/" className="block py-2 hover:text-blue-400">
             Partner Obat Keluarga
           </a>

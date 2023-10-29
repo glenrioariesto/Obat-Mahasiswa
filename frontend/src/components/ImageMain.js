@@ -2,7 +2,7 @@ import React from "react";
 
 const ImageMain = ({ imageUrl, title, subtitle }) => {
   return (
-    <div className="relative h-[280px] text-white pt-36 sm:pt-36 md:pt-36 lg:pt-36 ">
+    <div className="relative h-[280px] text-white pt-36">
       <img
         src={imageUrl}
         alt="Background"

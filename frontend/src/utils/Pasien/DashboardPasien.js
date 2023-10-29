@@ -10,6 +10,7 @@ import {
 import { NavbarContext } from "../../contexts/NavbarContext";
 
 import Profile from "../Profile";
+import JanjiTemu from "./JanjiTemu";
 
 const DashboardPasien = () => {
   const { accestoken, logout } = useContext(AuthContext);
@@ -34,10 +35,10 @@ const DashboardPasien = () => {
   return (
     <div
       className={`flex pt-3  ${
-        menuItems && menuItems === "PartnerOK"
-          ? "h-[670px] sm:h-[650px] md:h-[650px] lg:h-[1060px] xl:h-[740px]"
-          : menuItems && menuItems === "Profile"
+        menuItems && menuItems === "Profile"
           ? "h-screen sm:h-screen md:h-screen lg:h-screen xl:h-screen"
+          : menuItems && menuItems === "JanjiTemu"
+          ? "h-[740px]"
           : ""
       } `}
     >
@@ -109,11 +110,7 @@ const DashboardPasien = () => {
         <div className="container bg-white h-full mx-auto rounded ">
           <div className="content h-[580px]">
             {menuItems === "Profile" && <Profile />}
-            {menuItems === "JanjiTemu" && (
-              <div>
-                <h1>Blast Gmail</h1>
-              </div>
-            )}
+            {menuItems === "JanjiTemu" && <JanjiTemu />}
           </div>
         </div>
       </div>

@@ -8,17 +8,11 @@ const MobileMenuDropdown = ({ isBar, isMenuOpen }) => {
           <a href="/" className="block py-2 hover:text-blue-400">
             Partner Obat Keluarga
           </a>
-          <a href="/tentang-kami" className="block  py-2  hover:text-blue-400">
-            Tentang Kami
-          </a>
-          <a href="#" className="block py-2  hover:text-blue-400">
-            Cabang
-          </a>
-          <a href="#" className="block py-2  hover:text-blue-400">
+          <a href="/detailPartner" className="block py-2  hover:text-blue-400">
             Spesialisai
           </a>
-          <a href="#" className="block py-2  hover:text-blue-400">
-            Layanan
+          <a href="/tentang-kami" className="block  py-2  hover:text-blue-400">
+            Tentang Kami
           </a>
         </div>
       </div>

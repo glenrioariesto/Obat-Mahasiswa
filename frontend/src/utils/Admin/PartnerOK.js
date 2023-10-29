@@ -141,7 +141,9 @@ const PartnerOK = () => {
   return (
     <div className="px-10 relative py-5 h-[620px]  sm:h-[600px] md:h-[600px] lg:h-[1040px] xl:h-[690px]">
       <div className=" mb-1">
-        <p className="font-bold text-[25px]">Partner Obat Mahasiswa</p>
+        <p className="font-bold text-gray-600  text-2xl">
+          Partner Obat Mahasiswa
+        </p>
         <div className=" flex justify-end ">
           <div className="flex flex-row items-center w-[310px] justify-between">
             <button

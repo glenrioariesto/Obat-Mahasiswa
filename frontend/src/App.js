@@ -13,6 +13,8 @@ import { PartnerProvider } from "./contexts/PartnerContex";
 import { Helmet } from "react-helmet";
 import logotitle from "./assets/image/logotitle.png";
 import DetailPartner from "./utils/SpesialisasiPage";
+import SearchPage from "./utils/SearchPage";
+import ProfileDokter from "./utils/ProfileDokter";
 
 function App() {
   return (
@@ -29,6 +31,8 @@ function App() {
               <Route path="/" element={<PartnerPage />} />
               <Route path="/tentang-kami" element={<TentangKami />} />
               <Route path="/detailPartner" element={<DetailPartner />} />
+              <Route path="/search" element={<SearchPage />} />
+              <Route path="/profiledokter" element={<ProfileDokter />} />
               <Route path="/login" element={<LoginPage />} />
               <Route path="/dashboardAdmin" element={<DashboardAdmin />} />
               <Route path="/dashboardPasien" element={<DashboardPasien />} />
