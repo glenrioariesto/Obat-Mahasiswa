@@ -17,7 +17,7 @@ const TentangKami = () => {
         <div className="container mx-auto  py-14 flex flex-row md:flex-col  relative ">
           <ImageContainer
             classNameContainer={
-              "flex sm:justify-center sm:w-full  md:justify-center sm:w-full md:w-full lg:w-full sm:h-60 md:h-60 lg:h-1/2 lg:justify-end  "
+              "flex sm:justify-center sm:w-full md:justify-center sm:w-full md:w-full lg:w-full sm:h-60 md:h-60 lg:h-1/2 lg:justify-end  "
             }
             className={" sm:w-full md:w-full lg:w-1/2"}
             imageUrl={

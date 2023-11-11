@@ -6,11 +6,13 @@ import {
   faCalendarAlt,
   faSignOutAlt,
   faUserPen,
+  faHistory,
 } from "@fortawesome/free-solid-svg-icons";
 import { NavbarContext } from "../../contexts/NavbarContext";
 
 import Profile from "../Profile";
 import JanjiTemu from "./JanjiTemu";
+import Riwayat from "./Riwayat";
 
 const DashboardPasien = () => {
   const { accestoken, logout } = useContext(AuthContext);
@@ -38,7 +40,9 @@ const DashboardPasien = () => {
         menuItems && menuItems === "Profile"
           ? "h-screen sm:h-screen md:h-screen lg:h-screen xl:h-screen"
           : menuItems && menuItems === "JanjiTemu"
-          ? "h-[740px]"
+          ? "h-[800px] sm:h-[800px] md:h-[800px] lg:h-[640px]"
+          : menuItems && menuItems === "Riwayat"
+          ? "h-[500px] lg:h-[740px] "
           : ""
       } `}
     >
@@ -59,7 +63,7 @@ const DashboardPasien = () => {
                 }`}
                 onClick={() => handleSidebarItemClick("Profile")}
               >
-                <div className="flex  items-center justify-center">
+                <div className="flex  items-center ">
                   <FontAwesomeIcon
                     icon={faUserPen}
                     className="mx-3  text-[20px]"
@@ -77,7 +81,7 @@ const DashboardPasien = () => {
                 }`}
                 onClick={() => handleSidebarItemClick("JanjiTemu")}
               >
-                <div className="flex  items-center justify-center">
+                <div className="flex  items-center ">
                   <FontAwesomeIcon
                     icon={faCalendarAlt}
                     className="mx-3  text-[20px]"
@@ -85,10 +89,28 @@ const DashboardPasien = () => {
                   Buat Janji Temu
                 </div>
               </button>
+            </div>{" "}
+            <div className={`my-2 p-2  w-full  `}>
+              <button
+                className={`w-full hover:bg-blue-800 hover:text-white text-center py-2 px-2  rounded ${
+                  menuItems === "Riwayat"
+                    ? "bg-blue-700 text-white"
+                    : " bg-white  text-gray-800"
+                }`}
+                onClick={() => handleSidebarItemClick("Riwayat")}
+              >
+                <div className="flex  items-center ">
+                  <FontAwesomeIcon
+                    icon={faHistory}
+                    className="mx-3  text-[20px]"
+                  />
+                  Riwayat
+                </div>
+              </button>
             </div>
             <div className="my-2 p-2  w-full">
               <button
-                className={`w-full hover:bg-blue-800 text-gray-800 hover:text-white text-center font-bold py-2 px-2  rounded `}
+                className={`w-full hover:bg-blue-800 text-gray-800 hover:text-white text-start font-bold py-2 px-2 rounded `}
                 onClick={() => handleLogout()}
               >
                 <FontAwesomeIcon
@@ -111,6 +133,7 @@ const DashboardPasien = () => {
           <div className="content h-[580px]">
             {menuItems === "Profile" && <Profile />}
             {menuItems === "JanjiTemu" && <JanjiTemu />}
+            {menuItems === "Riwayat" && <Riwayat />}
           </div>
         </div>
       </div>

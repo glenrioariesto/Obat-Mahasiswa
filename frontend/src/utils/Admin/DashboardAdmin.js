@@ -14,6 +14,7 @@ import { NavbarContext } from "../../contexts/NavbarContext";
 import Profile from "../Profile";
 import PartnerOK from "./PartnerOK";
 import DokterOK from "./DokterOK";
+import DaftarJanjiTemu from "./Riwayat";
 
 const DashboardAdmin = () => {
   const { accestoken, logout } = useContext(AuthContext);
@@ -38,9 +39,13 @@ const DashboardAdmin = () => {
     <div
       className={`flex pt-3  ${
         menuItems && menuItems === "PartnerOK"
-          ? "h-[670px] sm:h-[650px] md:h-[650px] lg:h-[1060px] xl:h-[740px]"
+          ? "h-[670px] sm:h-[650px] md:h-[650px] lg:h-[1040px] xl:h-[740px]"
           : menuItems && menuItems === "Profile"
           ? "h-screen sm:h-screen md:h-screen lg:h-screen xl:h-screen"
+          : menuItems && menuItems === "Dokter"
+          ? "h-[620px] sm:h-[600px] md:h-[640px] lg:h-[680px] xl:h-screen"
+          : menuItems && menuItems === "DaftarJanjiTemu"
+          ? "h-[500px] lg:h-[740px] "
           : ""
       } `}
     >
@@ -62,7 +67,7 @@ const DashboardAdmin = () => {
                 }`}
                 onClick={() => handleSidebarItemClick("Profile")}
               >
-                <div className="flex justify-center items-center ">
+                <div className="flex items-center ">
                   <div className="mx-2">
                     <FontAwesomeIcon
                       icon={faUserPen}
@@ -82,14 +87,14 @@ const DashboardAdmin = () => {
                 }`}
                 onClick={() => handleSidebarItemClick("PartnerOK")}
               >
-                <div className="flex justify-center items-center ">
+                <div className="flex items-center ">
                   <div className="mx-2">
                     <FontAwesomeIcon
                       icon={faHandshake}
                       className=" text-[20px]"
                     />
                   </div>
-                  <div className="mx-2">Partner Obat Mahasiswa</div>
+                  <div className="text-[12px]">Partner Obat Mahasiswa</div>
                 </div>
               </button>
             </div>
@@ -102,7 +107,7 @@ const DashboardAdmin = () => {
                 }`}
                 onClick={() => handleSidebarItemClick("Dokter")}
               >
-                <div className="flex justify-center items-center">
+                <div className="flex items-center">
                   <div className="mx-2">
                     <FontAwesomeIcon icon={faUserMd} className="text-[20px]" />
                   </div>
@@ -119,7 +124,7 @@ const DashboardAdmin = () => {
                 }`}
                 onClick={() => handleSidebarItemClick("DaftarJanjiTemu")}
               >
-                <div className="flex justify-center items-center">
+                <div className="flex items-center">
                   <div className="mx-2">
                     <FontAwesomeIcon
                       icon={faCalendarDays}
@@ -135,7 +140,7 @@ const DashboardAdmin = () => {
                 className={`w-full hover:bg-blue-800 text-gray-800 hover:text-white text-center font-bold py-2 px-2  rounded `}
                 onClick={() => handleLogout()}
               >
-                <div className="flex justify-center items-center">
+                <div className="flex items-center">
                   <div className="mx-2">
                     <FontAwesomeIcon
                       icon={faSignOutAlt}
@@ -161,6 +166,7 @@ const DashboardAdmin = () => {
             {menuItems === "Profile" && <Profile />}
             {menuItems === "PartnerOK" && <PartnerOK />}
             {menuItems === "Dokter" && <DokterOK />}
+            {menuItems === "DaftarJanjiTemu" && <DaftarJanjiTemu />}
           </div>
         </div>
       </div>

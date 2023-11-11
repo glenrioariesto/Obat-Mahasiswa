@@ -139,7 +139,7 @@ const PartnerOK = () => {
   }, [fetchPartner]);
 
   return (
-    <div className="px-10 relative py-5 h-[620px]  sm:h-[600px] md:h-[600px] lg:h-[1040px] xl:h-[690px]">
+    <div className="px-10 relative py-5 h-[620px]  sm:h-[600px] md:h-[600px] lg:h-[1000px] xl:h-[690px]">
       <div className=" mb-1">
         <p className="font-bold text-gray-600  text-2xl">
           Partner Obat Mahasiswa

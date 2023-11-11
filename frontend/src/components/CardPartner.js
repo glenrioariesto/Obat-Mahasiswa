@@ -12,7 +12,13 @@ const CardPartner = ({ imageSrc, title, description, handleClick }) => {
       className="card border-2 border-gray-300 p-4 rounded-lg shadow-md hover:shadow-lg hover:border-blue-400 cursor-pointer"
       onClick={handleClick}
     >
-      <img src={imageSrc} alt="Gambar" className="w-full rounded-lg" />
+      <div className="flex justify-center">
+        <img
+          src={imageSrc}
+          alt="Gambar"
+          className="h-48 w-48 object-contain rounded-lg"
+        />
+      </div>
       <div className="overflow-y-auto">
         <h5 className="text-lg font-semibold mt-4 ">{title}</h5>
 
