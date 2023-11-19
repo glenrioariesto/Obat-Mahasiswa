@@ -5,6 +5,7 @@ import { faSearch } from "@fortawesome/free-solid-svg-icons";
 const Input = ({
   placeholder,
   className,
+  classnameFirstIcons,
   disabled,
   firstIcons,
   secondsIcons,
@@ -36,7 +37,7 @@ const Input = ({
       >
         <FontAwesomeIcon
           icon={firstIcons ? firstIcons : faSearch}
-          className="text-gray-500"
+          className={classnameFirstIcons ? classnameFirstIcons : ""}
         />
       </span>
       <span
@@ -47,7 +48,7 @@ const Input = ({
       >
         <FontAwesomeIcon
           icon={secondsIcons ? secondsIcons : faSearch}
-          className="text-gray-500"
+          className="text-gray-500 "
         />
       </span>
     </div>

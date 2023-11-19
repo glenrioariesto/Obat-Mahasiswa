@@ -4,6 +4,7 @@ import CardDokter from "../../components/CardDokterAdmin";
 import DetailDokter from "./DetailDokter";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faArrowLeft } from "@fortawesome/free-solid-svg-icons";
+import ModalAddDokter from "../../components/modal/Dokter/ModalAddDokter";
 
 const DokterOK = () => {
   const items = [
@@ -91,6 +92,7 @@ const DokterOK = () => {
   const itemsToDisplay = items.slice(startIndex, endIndex);
   const [openDetailDokter, setOpenDetailDokter] = useState(false);
   const [dataProfileDokter, setDataProfileDokter] = useState({});
+  const [isModalOpenAdd, setIsModalOpenAdd] = useState(false);
 
   const handleDetailDokter = (items) => {
     setDataProfileDokter(items);
@@ -138,7 +140,12 @@ const DokterOK = () => {
         <div>
           <div className="flex justify-between">
             <label className="text-2xl text-gray-600 font-bold">Dokter</label>
-            <button className="bg-green-500 text-white rounded-lg px-2 py-2 cursor-pointer hover:bg-green-600 ">
+            <button
+              onClick={() => {
+                setIsModalOpenAdd(true);
+              }}
+              className="bg-green-500 text-white rounded-lg px-2 py-2 cursor-pointer hover:bg-green-600 "
+            >
               Add Dokter
             </button>
           </div>
@@ -163,6 +170,10 @@ const DokterOK = () => {
           </div>
         </div>
       )}
+      <ModalAddDokter
+        isOpen={isModalOpenAdd}
+        onRequestClose={() => setIsModalOpenAdd(false)}
+      />
     </div>
   );
 };
