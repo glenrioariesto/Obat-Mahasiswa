@@ -1,8 +1,11 @@
 import React, { useState, useEffect } from "react";
 import Pagination from "../../components/Pagination";
 import CardDokter from "../../components/CardDokterAdmin";
+import DetailDokter from "./DetailDokter";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faArrowLeft } from "@fortawesome/free-solid-svg-icons";
 
-const AddPartnerOK = () => {
+const DokterOK = () => {
   const items = [
     {
       imgUrl:
@@ -10,6 +13,10 @@ const AddPartnerOK = () => {
       name: "dr. Alexander Leonard Caesar Josediputra Sp.A",
       keahlian: "Keahlian 1",
       lokasi: "Lokasi 1",
+      pendidikan: "",
+      kondisi_klinis: "",
+      prestasi: "",
+      seminar: "",
     },
     {
       imgUrl:
@@ -82,6 +89,13 @@ const AddPartnerOK = () => {
   const startIndex = (currentPage - 1) * itemsPerPage;
   const endIndex = startIndex + itemsPerPage;
   const itemsToDisplay = items.slice(startIndex, endIndex);
+  const [openDetailDokter, setOpenDetailDokter] = useState(false);
+  const [dataProfileDokter, setDataProfileDokter] = useState({});
+
+  const handleDetailDokter = (items) => {
+    setDataProfileDokter(items);
+    setOpenDetailDokter(true);
+  };
 
   const handlePageChange = (newPage) => {
     setCurrentPage(newPage);
@@ -104,32 +118,53 @@ const AddPartnerOK = () => {
   }, []);
   return (
     <div className="p-10 relative h-full w-full">
-      <div className="flex justify-between">
-        <label className="text-2xl text-gray-600 font-bold">Dokter</label>
-        <button className="bg-green-500 text-white rounded-lg px-2 py-2 cursor-pointer hover:bg-green-600 ">
-          Add Dokter
-        </button>
-      </div>
-      <div className="card-container grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3 pt-3">
-        {itemsToDisplay.map((item, index) => (
-          <CardDokter
-            key={index}
-            imageSrc={item.imgUrl}
-            name={item.name}
-            keahlian={item.keahlian}
-            lokasi={item.lokasi}
-          />
-        ))}
-      </div>
-      <div className="mt-5 flex justify-center">
-        <Pagination
-          currentPage={currentPage}
-          totalPages={totalPages}
-          onPageChange={handlePageChange}
-        />
-      </div>
+      {openDetailDokter ? (
+        <div>
+          <div className="absolute top-0 left-0 transform -translate-y -translate-x pt-4 pl-4">
+            <button
+              className="text-[20px] text-gray-600 font-bold"
+              onClick={() => {
+                setDataProfileDokter({});
+                setOpenDetailDokter(false);
+              }}
+            >
+              <FontAwesomeIcon icon={faArrowLeft} />
+              Kembali
+            </button>
+          </div>
+          <DetailDokter data={dataProfileDokter} />
+        </div>
+      ) : (
+        <div>
+          <div className="flex justify-between">
+            <label className="text-2xl text-gray-600 font-bold">Dokter</label>
+            <button className="bg-green-500 text-white rounded-lg px-2 py-2 cursor-pointer hover:bg-green-600 ">
+              Add Dokter
+            </button>
+          </div>
+          <div className="card-container grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3 pt-3">
+            {itemsToDisplay.map((item, index) => (
+              <CardDokter
+                key={index}
+                imageSrc={item.imgUrl}
+                name={item.name}
+                keahlian={item.keahlian}
+                lokasi={item.lokasi}
+                handleClickProfile={() => handleDetailDokter(item)}
+              />
+            ))}
+          </div>
+          <div className="mt-5 flex justify-center">
+            <Pagination
+              currentPage={currentPage}
+              totalPages={totalPages}
+              onPageChange={handlePageChange}
+            />
+          </div>
+        </div>
+      )}
     </div>
   );
 };
 
-export default AddPartnerOK;
+export default DokterOK;

@@ -18,9 +18,6 @@ const Profile = () => {
     newPassword: "",
     confirmNewPassword: "",
   });
-  const handleGoBack = () => {
-    setOpenChangePagePassword(!openChangePassword);
-  };
 
   const handleChangePagePassword = () => {
     setOpenChangePagePassword(!openChangePassword);
@@ -104,7 +101,7 @@ const Profile = () => {
           <div className="absolute top-0 left-0 transform -translate-y -translate-x pt-4 pl-4">
             <button
               className="text-[20px] text-gray-600 font-bold"
-              onClick={handleGoBack}
+              onClick={handleChangePagePassword}
             >
               <FontAwesomeIcon icon={faArrowLeft} />
               Kembali

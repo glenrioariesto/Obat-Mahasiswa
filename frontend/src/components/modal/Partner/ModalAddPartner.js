@@ -1,12 +1,12 @@
 import React, { useState, useContext } from "react";
-import { storage } from "../../firebase-config";
+import { storage } from "../../../firebase-config";
 import { ref, uploadBytes, getDownloadURL } from "@firebase/storage";
 import { v4 } from "uuid";
-import { PartnerContext } from "../../contexts/PartnerContex";
+import { PartnerContext } from "../../../contexts/PartnerContex";
 import { ToastContainer, toast } from "react-toastify";
-import Input from "../../components/Input";
+import Input from "../../Input";
 import Modal from "react-modal";
-import customModalStyles from "../../assets/CustomModalStyle";
+import customModalStyles from "../../../assets/CustomModalStyle";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faHospital,

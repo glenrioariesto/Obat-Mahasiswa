@@ -1,8 +1,8 @@
 import React, { useContext, useState } from "react";
 import Modal from "react-modal";
-import Input from "../Input";
-import customModalStyles from "../../assets/CustomModalStyle";
-import { PartnerContext } from "../../contexts/PartnerContex";
+import Input from "../../Input";
+import customModalStyles from "../../../assets/CustomModalStyle";
+import { PartnerContext } from "../../../contexts/PartnerContex";
 import { ToastContainer, toast } from "react-toastify";
 
 Modal.setAppElement("#root");

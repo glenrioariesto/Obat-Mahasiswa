@@ -1,5 +1,5 @@
 import Modal from "react-modal";
-import customModalStyles from "../../assets/CustomModalStyle";
+import customModalStyles from "../../../assets/CustomModalStyle";
 
 const DescriptionModal = ({ isOpen, onRequestClose, description }) => {
   return (
