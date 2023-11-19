@@ -2,7 +2,11 @@
     color: gray !important;
   }
   
-  .react-calendar__tile--weekend {
-    color: gray !important;
-  }
+.react-calendar__tile--weekend { 
+  color: gray !important;
+}
+
+.highlighted-day{
+  color: black !important;
+}
   
