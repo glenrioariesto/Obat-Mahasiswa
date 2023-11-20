@@ -1,5 +1,7 @@
 import React, { useState, useContext, useEffect } from "react";
-
+import { storage } from "../../../firebase-config";
+import { ref, uploadBytes, getDownloadURL } from "@firebase/storage";
+import { v4 } from "uuid";
 import { PartnerContext } from "../../../contexts/PartnerContex";
 import { ToastContainer, toast } from "react-toastify";
 import Calendar from "react-calendar";
@@ -23,6 +25,7 @@ const ModalAddDokter = ({ isOpen, onRequestClose, setData }) => {
   const { fetchPartner } = useContext(PartnerContext);
   const [selectedPartner, setSelectedPartner] = useState("null");
   const [selectedDate, setSelectedDate] = useState([]);
+
   const [partnerOptions, setPartnerOptions] = useState([
     { value: "null", label: "Pilih Partner" },
   ]);
@@ -38,9 +41,9 @@ const ModalAddDokter = ({ isOpen, onRequestClose, setData }) => {
     prestasi: "",
     seminar: "",
   });
-  const [currentStep, setCurrentStep] = useState(1); // Menambah state currentStep
-  console.log(selectedDate);
+  const [currentStep, setCurrentStep] = useState(1);
   const sessionOptions = [
+    { value: "anytime", label: "kapan saja" },
     { value: "morning", label: "Pagi (08:00 - 12:00)" },
     { value: "afternoon", label: "Sore (13:00 - 17:00)" },
     { value: "evening", label: "Malam (18:00 - 21:00)" },
@@ -89,19 +92,54 @@ const ModalAddDokter = ({ isOpen, onRequestClose, setData }) => {
     );
 
     if (index !== -1) {
-      // Date already exists, remove it
       const updatedDates = [...selectedDate];
       updatedDates.splice(index, 1);
       setSelectedDate(updatedDates);
     } else {
-      // Date doesn't exist, add it
       setSelectedDate([...selectedDate, date]);
     }
   };
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-    // const { name, alamat, deskripsi, file } = form;
+    const {
+      file,
+      name,
+      keahlian,
+      lokasi,
+      partner,
+      pendidikan,
+      kondisi_klinis,
+      prestasi,
+      seminar,
+    } = form;
+
+    try {
+      let imgUrl = "";
+      if (file) {
+        const path = v4();
+        const imageRef = ref(storage, `Dokter/profile/${path}`);
+        await uploadBytes(imageRef, file);
+        imgUrl = await getDownloadURL(imageRef);
+
+        setForm({
+          name: "",
+          keahlian: "",
+          lokasi: "",
+          file: null,
+          partner: "",
+          pendidikan: "",
+          kondisi_klinis: "",
+          prestasi: "",
+          seminar: "",
+        });
+        toast.success("Berhasil menambahkan partner", {
+          position: "top-right",
+        });
+      }
+    } catch (error) {
+      console.error("Error:", error);
+    }
   };
 
   useEffect(() => {
@@ -137,14 +175,17 @@ const ModalAddDokter = ({ isOpen, onRequestClose, setData }) => {
       appElement={document.getElementById("root")}
     >
       <div>
-        <form>
-          <div className="pb-10">
+        <form onSubmit={handleSubmit}>
+          <div className="pb-10 flex justify-between">
             <label
               htmlFor="Add-Partner"
               className="text-[30px] text-gray-600 font-bold"
             >
               Add Dokter
             </label>
+            <span onClick={onRequestClose} className="text-2xl cursor-pointer">
+              X
+            </span>
           </div>
           {currentStep === 1 && (
             <>
@@ -322,9 +363,23 @@ const ModalAddDokter = ({ isOpen, onRequestClose, setData }) => {
                 </div>
                 <div className="w-1/2">
                   <div>
-                    <button type="button" onClick={handleOpenCalendar}>
-                      Pilih Tanggal :
-                    </button>
+                    <div className="flex flex-col">
+                      <button
+                        className="w-[150px]"
+                        type="button"
+                        onClick={handleOpenCalendar}
+                      >
+                        Pilih Tanggal :
+                      </button>
+                      {selectedDate.length > 0 && (
+                        <div className="ml-6 text-justify overflow-hidden whitespace-nowrap">
+                          {selectedDate
+                            .sort((a, b) => a - b) // Urutkan tanggal
+                            .map((date) => date.toLocaleDateString())
+                            .join(", ")}
+                        </div>
+                      )}
+                    </div>
                     {isOpenCalender && (
                       <div style={{ position: "absolute", zIndex: 1000 }}>
                         <Calendar

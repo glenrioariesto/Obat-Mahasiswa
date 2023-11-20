@@ -30,7 +30,7 @@ const DetailDokter = ({ data }) => {
                   <h1 className="font-bold text-gray-600">
                     Riwayat Pendidikan
                   </h1>
-                  <p>deskripsi</p>
+                  <p>{data.pendidikan}</p>
                 </div>
                 <div className="col-span-1 row-span-1">
                   <span>
@@ -42,7 +42,7 @@ const DetailDokter = ({ data }) => {
                   <h1 className="font-bold text-gray-600">
                     Kondisi Klinis yang Ditangani
                   </h1>
-                  <p>deskripsi</p>
+                  <p>{data.kondisi_klinis}</p>
                 </div>
                 <div className="col-span-1 row-span-1">
                   <span>
@@ -54,7 +54,7 @@ const DetailDokter = ({ data }) => {
                   <h1 className="font-bold text-gray-600">
                     Prestasi & Penghargaan
                   </h1>
-                  <p>deskripsi</p>
+                  <p>{data.prestasi}</p>
                 </div>
                 <div className="col-span-1 row-span-1">
                   <span>
@@ -64,8 +64,8 @@ const DetailDokter = ({ data }) => {
                     />
                   </span>
                   <h1 className="font-bold text-gray-600">Seminar/Course</h1>
-                  <p>deskripsi</p>
-                </div>{" "}
+                  <p>{data.seminar}</p>
+                </div>
               </div>
               <div className="flex flex-col w-1/2">
                 <div className="container bg-white mx-auto shadow-lg rounded-lg">
