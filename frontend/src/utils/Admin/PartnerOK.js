@@ -7,9 +7,9 @@ import Input from "../../components/Input";
 import { PartnerContext } from "../../contexts/PartnerContex";
 import { storage } from "../../firebase-config";
 import { ref, deleteObject } from "@firebase/storage";
-import ModalEditPartner from "../../components/modal/ModalEditPartner";
-import ModalAddPartner from "../../components/modal/ModalAddPartner";
-import DescriptionModal from "../../components/modal/ModalDescriptionPartner";
+import ModalEditPartner from "../../components/modal/Partner/ModalEditPartner";
+import ModalAddPartner from "../../components/modal/Partner/ModalAddPartner";
+import DescriptionModal from "../../components/modal/Partner/ModalDescriptionPartner";
 
 const PartnerOK = () => {
   const { fetchPartner, deletePartner } = useContext(PartnerContext);

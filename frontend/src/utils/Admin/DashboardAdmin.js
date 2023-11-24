@@ -13,8 +13,8 @@ import { NavbarContext } from "../../contexts/NavbarContext";
 
 import Profile from "../Profile";
 import PartnerOK from "./PartnerOK";
-import DokterOK from "./DokterOK";
 import DaftarJanjiTemu from "./Riwayat";
+import DokterOK from "./DokterOK";
 
 const DashboardAdmin = () => {
   const { accestoken, logout } = useContext(AuthContext);
