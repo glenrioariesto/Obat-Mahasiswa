@@ -8,18 +8,30 @@ import ModalAddDokter from "../../components/modal/Dokter/ModalAddDokter";
 import ModalEditDokter from "../../components/modal/Dokter/ModalEditDokter";
 
 const DokterOK = () => {
-  const items = [];
+  const items = [
+    {
+      imgUrl:
+        "https://d3uhejzrzvtlac.cloudfront.net/doctor/photo/8954b498-294d-4b8a-8ee5-4aa62f2280a0.png",
+      name: "dr. Alexander Leonard Caesar Josediputra Sp.A",
+      keahlian: "Keahlian 1",
+      lokasi: "Lokasi 1",
+      pendidikan: "",
+      kondisi_klinis: "",
+      prestasi: "",
+      seminar: "",
+    },
+  ];
   const [itemsPerPage, setItemsPerPage] = useState(0);
-  const totalPages = Math.ceil(items.length / itemsPerPage);
-
   const [currentPage, setCurrentPage] = useState(1);
-  const startIndex = (currentPage - 1) * itemsPerPage;
-  const endIndex = startIndex + itemsPerPage;
-  const itemsToDisplay = items.slice(startIndex, endIndex);
   const [openDetailDokter, setOpenDetailDokter] = useState(false);
   const [dataProfileDokter, setDataProfileDokter] = useState({});
   const [isModalOpenAdd, setIsModalOpenAdd] = useState(false);
   const [isModalOpenEdit, setIsModalOpenEdit] = useState(false);
+
+  const startIndex = (currentPage - 1) * itemsPerPage;
+  const endIndex = startIndex + itemsPerPage;
+  const itemsToDisplay = items.slice(startIndex, endIndex);
+  const totalPages = Math.ceil(items.length / itemsPerPage);
 
   const handleDetailDokter = (items) => {
     setDataProfileDokter(items);

@@ -21,11 +21,10 @@ import {
 
 Modal.setAppElement("#root");
 
-const ModalAddDokter = ({ isOpen, onRequestClose, setData }) => {
+const ModalEditDokter = ({ isOpen, onRequestClose, dataEdit, setData }) => {
   const { fetchPartner } = useContext(PartnerContext);
   const [selectedPartner, setSelectedPartner] = useState("null");
   const [selectedDate, setSelectedDate] = useState([]);
-
   const [partnerOptions, setPartnerOptions] = useState([
     { value: "null", label: "Pilih Partner" },
   ]);
@@ -94,18 +93,7 @@ const ModalAddDokter = ({ isOpen, onRequestClose, setData }) => {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-    const {
-      file,
-      name,
-      keahlian,
-      lokasi,
-      partner,
-      pendidikan,
-      kondisi_klinis,
-      prestasi,
-      seminar,
-    } = form;
-
+    const { file } = form;
     try {
       let imgUrl = "";
       if (file) {
@@ -113,7 +101,6 @@ const ModalAddDokter = ({ isOpen, onRequestClose, setData }) => {
         const imageRef = ref(storage, `Dokter/profile/${path}`);
         await uploadBytes(imageRef, file);
         imgUrl = await getDownloadURL(imageRef);
-
         setForm({
           name: "",
           keahlian: "",
@@ -173,7 +160,7 @@ const ModalAddDokter = ({ isOpen, onRequestClose, setData }) => {
               htmlFor="Add-Partner"
               className="text-[30px] text-gray-600 font-bold"
             >
-              Add Dokter
+              Edit Dokter
             </label>
             <span onClick={onRequestClose} className="text-2xl cursor-pointer">
               X
@@ -338,7 +325,6 @@ const ModalAddDokter = ({ isOpen, onRequestClose, setData }) => {
                         : "No file chosen"}
                     </div>
                   </div>
-
                   <div>
                     <p className="w-[150px] mx-5" type="text">
                       Pilih Tanggal :
@@ -353,6 +339,7 @@ const ModalAddDokter = ({ isOpen, onRequestClose, setData }) => {
                     )}
                   </div>
                 </div>
+
                 <div className="flex justify-end w-1/2">
                   <Calendar
                     id="datePicker"
@@ -375,7 +362,7 @@ const ModalAddDokter = ({ isOpen, onRequestClose, setData }) => {
               </div>
             </>
           )}
-          <div className="">
+          <div className="pt-3">
             <div
               className={`flex ${
                 currentStep > 1 ? "justify-between" : "justify-end"
@@ -436,4 +423,4 @@ const ModalAddDokter = ({ isOpen, onRequestClose, setData }) => {
   );
 };
 
-export default ModalAddDokter;
+export default ModalEditDokter;
