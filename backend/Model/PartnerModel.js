@@ -8,11 +8,11 @@ import {
   updateDoc,
   deleteDoc,
 } from "firebase/firestore";
-const usersCollectionRef = collection(db, "Partners");
+const partnersCollectionRef = collection(db, "Partners");
 
 export const getPartner = async () => {
   const partners = [];
-  const querySnapshot = await getDocs(usersCollectionRef);
+  const querySnapshot = await getDocs(partnersCollectionRef);
   querySnapshot.forEach((doc) => {
     partners.push({ id: doc.id, ...doc.data() });
   });
@@ -20,18 +20,17 @@ export const getPartner = async () => {
 };
 
 export const getPartnerById = async (partnersId) => {
-  const userDocRef = doc(usersCollectionRef, partnersId);
-  const userDocSnapshot = await getDoc(userDocRef);
-  if (userDocSnapshot.exists()) {
-    return { id: userDocSnapshot.id, ...userDocSnapshot.data() };
+  const partnerDocRef = doc(partnersCollectionRef, partnersId);
+  const partnerDocSnapshot = await getDoc(partnerDocRef);
+  if (partnerDocSnapshot.exists()) {
+    return { id: partnerDocSnapshot.id, ...partnerDocSnapshot.data() };
   }
   return null;
 };
 
-export const addPartner = async (userData) => {
-  console.log(usersCollectionRef);
+export const addPartner = async (partnerData) => {
   try {
-    const docRef = await addDoc(usersCollectionRef, userData);
+    const docRef = await addDoc(partnersCollectionRef, partnerData);
     return docRef.id;
   } catch (error) {
     console.error("Error adding partner: ", error);
@@ -40,9 +39,9 @@ export const addPartner = async (userData) => {
 };
 
 export const updatePartner = async (partnersId, updatedPartnerData) => {
-  const userDocRef = doc(usersCollectionRef, partnersId);
+  const partnerDocRef = doc(partnersCollectionRef, partnersId);
   try {
-    await updateDoc(userDocRef, updatedPartnerData);
+    await updateDoc(partnerDocRef, updatedPartnerData);
   } catch (error) {
     console.error("Error updating partner: ", error);
     throw error;
@@ -50,9 +49,9 @@ export const updatePartner = async (partnersId, updatedPartnerData) => {
 };
 
 export const deletePartner = async (partnersId) => {
-  const userDocRef = doc(usersCollectionRef, partnersId);
+  const partnerDocRef = doc(partnersCollectionRef, partnersId);
   try {
-    await deleteDoc(userDocRef);
+    await deleteDoc(partnerDocRef);
   } catch (error) {
     console.error("Error deleting partner: ", error);
     throw error;
