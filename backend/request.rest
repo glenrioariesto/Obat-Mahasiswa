@@ -62,3 +62,89 @@ Content-Type: application/json
 DELETE http://localhost:3001/partners/Hk9NSHlJcesQYR6487F8
 
 
+
+
+###API Doctor
+
+GET  http://localhost:3001/api/v1/doctors
+
+
+###
+GET http://localhost:3001/api/v1/doctors/9fguz6y8ZQr5rFXFhEbU
+
+###
+GET http://localhost:3001/api/v1/partner/5nALZnNhTKdSWSx8fO8N/doctors
+
+###
+
+POST  http://localhost:3001/api/v1/partner/8ueIMjwAoBO0wORcqOBL/doctors
+Content-Type: application/json
+
+   {
+    "imgUrl": "https://example.com/image7.jpg",
+    "name": "Dr. Ethan Robinson",
+    "keahlian": "Psychiatrist",
+    "lokasi": "Mindtown",
+    "pendidikan": "Psychiatry School",
+    "kondisi_klinis": "Mental health",
+    "prestasi": "Outstanding Psychiatrist Plaque",
+    "seminar": "Global Psychiatry Summit",
+    "date": ["2023-12-19T12:00:00.000Z", "2023-12-20T12:00:00.000Z", "2023-12-21T12:00:00.000Z"]
+  }
+  
+###
+PUT http://localhost:3001/api/v1/doctors/umM3zesebbcbiuYjkA4p
+Content-Type: application/json
+
+ {
+    "imgUrl": "https://example.com/image7.jpg",
+    "name": "Dr. Ethan Robinson",
+    "keahlian": "Psychiatrist",
+    "lokasi": "Mindtown",
+    "pendidikan": "Psychiatry School",
+    "kondisi_klinis": "Mental health",
+    "prestasi": "Outstanding Psychiatrist Plaque",
+    "seminar": "Global Psychiatry Summit :)",
+    "date": ["2023-12-19T12:00:00.000Z", "2023-12-20T12:00:00.000Z", "2023-12-21T12:00:00.000Z"]
+  }
+
+###
+DELETE http://localhost:3001/api/v1/doctors/xe2CqXESqYIOlilezrix
+
+
+###API APPOINTMENT
+
+GET  http://localhost:3001/api/v1/appointment
+
+
+###
+GET http://localhost:3001/api/v1/appointment/aNVQZ0Gm8Vpq0C0z5hCM
+
+
+###
+
+POST  http://localhost:3001/api/v1/appointment
+Content-Type: application/json
+
+{
+    "partner":"Telkom Medika",
+    "spesialisasi": "jl.sukabirus",
+    "date":"melayani mahasiswa Telkom University",
+    "sesi":"siang",
+    "status":"Pengajuan"
+}   
+###
+PUT http://localhost:3001/api/v1/appointment/rmOr8tM0mYTR7IGaWmGw
+Content-Type: application/json
+
+{
+    "name":"Telkom Medika",
+    "alamat": "jl.sukabirus Telkom University",
+    "deskripsi":"melayani mahasiswa Telkom University"
+}
+
+###
+DELETE http://localhost:3001/api/v1/appointmentHk9NSHlJcesQYR6487F8
+
+
+
