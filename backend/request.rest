@@ -109,7 +109,7 @@ Content-Type: application/json
   }
 
 ###
-DELETE http://localhost:3001/api/v1/doctors/xe2CqXESqYIOlilezrix
+DELETE http://localhost:3001/api/v1/doctors/umM3zesebbcbiuYjkA4p
 
 
 ###API APPOINTMENT
@@ -118,7 +118,7 @@ GET  http://localhost:3001/api/v1/appointment
 
 
 ###
-GET http://localhost:3001/api/v1/appointment/aNVQZ0Gm8Vpq0C0z5hCM
+GET http://localhost:3001/api/v1/appointment/rQacJNp8HS0Gdmv9AAG
 
 
 ###
@@ -134,17 +134,20 @@ Content-Type: application/json
     "status":"Pengajuan"
 }   
 ###
-PUT http://localhost:3001/api/v1/appointment/rmOr8tM0mYTR7IGaWmGw
+PUT http://localhost:3001/api/v1/appointment/yXfSA1xVHXFTWiy1HmfS
 Content-Type: application/json
 
+
 {
-    "name":"Telkom Medika",
-    "alamat": "jl.sukabirus Telkom University",
-    "deskripsi":"melayani mahasiswa Telkom University"
-}
+    "partner":"Telkom Medika",
+    "spesialisasi": "jl.sukabirus",
+    "date":"melayani mahasiswa Telkom University",
+    "sesi":"malam",
+    "status":"Pengajuan"
+}  
 
 ###
-DELETE http://localhost:3001/api/v1/appointmentHk9NSHlJcesQYR6487F8
+DELETE http://localhost:3001/api/v1/appointment/Hk9NSHlJcesQYR6487F8
 
 
 

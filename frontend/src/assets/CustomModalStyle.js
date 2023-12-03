@@ -21,7 +21,7 @@ const customModalStyles = {
     },
     content: {
       width: "70%",
-      height: "67%",
+      height: "60%",
       position: "relative",
     },
   },
@@ -48,6 +48,45 @@ const customModalStyles = {
     content: {
       width: "70%",
       height: "70%",
+      position: "relative",
+    },
+  },
+  AddDokter2: {
+    overlay: {
+      backgroundColor: "rgba(0, 0, 0, 0.7)",
+      display: "flex",
+      justifyContent: "center",
+      alignItems: "center",
+    },
+    content: {
+      width: "70%",
+      height: "72%",
+      position: "relative",
+    },
+  },
+  editDokter: {
+    overlay: {
+      backgroundColor: "rgba(0, 0, 0, 0.7)",
+      display: "flex",
+      justifyContent: "center",
+      alignItems: "center",
+    },
+    content: {
+      width: "70%",
+      height: "70%",
+      position: "relative",
+    },
+  },
+  editDokter2: {
+    overlay: {
+      backgroundColor: "rgba(0, 0, 0, 0.7)",
+      display: "flex",
+      justifyContent: "center",
+      alignItems: "center",
+    },
+    content: {
+      width: "70%",
+      height: "72%",
       position: "relative",
     },
   },

@@ -2,7 +2,9 @@ import React, { useState, useContext, useEffect } from "react";
 import { storage } from "../../../firebase-config";
 import { ref, uploadBytes, getDownloadURL } from "@firebase/storage";
 import { v4 } from "uuid";
+import { DoctorContext } from "../../../contexts/DoctorContex";
 import { PartnerContext } from "../../../contexts/PartnerContex";
+
 import { ToastContainer, toast } from "react-toastify";
 import Calendar from "react-calendar";
 
@@ -23,8 +25,9 @@ Modal.setAppElement("#root");
 
 const ModalAddDokter = ({ isOpen, onRequestClose, setData }) => {
   const { fetchPartner } = useContext(PartnerContext);
-  const [selectedPartner, setSelectedPartner] = useState("null");
+  const { addDoctor, fetchDoctor } = useContext(DoctorContext);
   const [selectedDate, setSelectedDate] = useState([]);
+  const [currentStep, setCurrentStep] = useState(1);
 
   const [partnerOptions, setPartnerOptions] = useState([
     { value: "null", label: "Pilih Partner" },
@@ -40,7 +43,6 @@ const ModalAddDokter = ({ isOpen, onRequestClose, setData }) => {
     prestasi: "",
     seminar: "",
   });
-  const [currentStep, setCurrentStep] = useState(1);
 
   const highlightedDays = selectedDate.map((date) => ({
     day: date.getDate(),
@@ -48,29 +50,21 @@ const ModalAddDokter = ({ isOpen, onRequestClose, setData }) => {
     year: date.getFullYear(),
   }));
   const handleChange = (e) => {
-    setForm({
-      ...form,
-      [e.target.name]: e.target.value,
-    });
+    if (e.target.type === "file") {
+      const file = e.target.files[0];
+      setForm((prevForm) => ({
+        ...prevForm,
+        file,
+      }));
+      e.target.value = null;
+    } else {
+      setForm((prevForm) => ({
+        ...prevForm,
+        [e.target.name]: e.target.value,
+      }));
+    }
   };
-  const handlePartnerChange = (event) => {
-    const partner = event.target.value;
-    setSelectedPartner(partner);
-    setForm({
-      ...form,
-      partner,
-    });
-    event.target.value = null;
-  };
-  const handleUpload = (e) => {
-    const file = e.target.files[0];
 
-    setForm({
-      ...form,
-      file,
-    });
-    e.target.value = null;
-  };
   const handleNextStep = () => {
     setCurrentStep((prevStep) => prevStep + 1);
   };
@@ -114,6 +108,19 @@ const ModalAddDokter = ({ isOpen, onRequestClose, setData }) => {
         await uploadBytes(imageRef, file);
         imgUrl = await getDownloadURL(imageRef);
 
+        await addDoctor(
+          partner,
+          name,
+          keahlian,
+          lokasi,
+          pendidikan,
+          kondisi_klinis,
+          prestasi,
+          seminar,
+          imgUrl,
+          path,
+          selectedDate.map((date) => date.toISOString())
+        );
         setForm({
           name: "",
           keahlian: "",
@@ -125,7 +132,15 @@ const ModalAddDokter = ({ isOpen, onRequestClose, setData }) => {
           prestasi: "",
           seminar: "",
         });
-        toast.success("Berhasil menambahkan partner", {
+        setSelectedDate([]);
+        toast.success("Berhasil menambahkan Doctor", {
+          position: "top-right",
+        });
+        const dataDoctor = await fetchDoctor();
+
+        setData(dataDoctor);
+      } else {
+        toast.error("Inputkan data dengan benar", {
           position: "top-right",
         });
       }
@@ -163,14 +178,18 @@ const ModalAddDokter = ({ isOpen, onRequestClose, setData }) => {
       onRequestClose={onRequestClose}
       contentLabel="Deskripsi Modal bg-blue"
       className="bg-white p-4 rounded shadow-lg  "
-      style={customModalStyles.AddDokter}
+      style={
+        currentStep === 3
+          ? customModalStyles.AddDokter2
+          : customModalStyles.AddDokter
+      }
       appElement={document.getElementById("root")}
     >
       <div>
         <form onSubmit={handleSubmit}>
           <div className="pb-10 flex justify-between">
             <label
-              htmlFor="Add-Partner"
+              htmlFor="Add-Doctor"
               className="text-[30px] text-gray-600 font-bold"
             >
               Add Dokter
@@ -182,13 +201,13 @@ const ModalAddDokter = ({ isOpen, onRequestClose, setData }) => {
           {currentStep === 1 && (
             <>
               <div className="pb-2">
-                <label htmlFor="partnerDropdown">Pilih Partner:</label>
+                <label htmlFor="partner">Pilih Partner:</label>
                 <select
                   className="w-full px-3 py-2  bg-white border-gray-400 text-gray-800  mt-1 border rounded-md focus:ring focus:ring-blue-300 focus:outline-none"
-                  id="partnerDropdown"
-                  name="partnerDropdown"
-                  value={selectedPartner}
-                  onChange={handlePartnerChange}
+                  id="partner"
+                  name="partner"
+                  value={form.partner}
+                  onChange={handleChange}
                 >
                   {partnerOptions.map((option) => (
                     <option value={option.value}>{option.label}</option>
@@ -196,7 +215,7 @@ const ModalAddDokter = ({ isOpen, onRequestClose, setData }) => {
                 </select>
               </div>
               <div className="pb-2">
-                <label htmlFor="partnerDropdown">Nama Dokter</label>
+                <label htmlFor="namedoctor">Nama Dokter</label>
                 <Input
                   firstIcons={faUser}
                   classnameFirstIcons="text-blue-500"
@@ -211,7 +230,7 @@ const ModalAddDokter = ({ isOpen, onRequestClose, setData }) => {
                 />
               </div>
               <div className="pb-2">
-                <label htmlFor="partnerDropdown">Keahlian</label>
+                <label htmlFor="keahlian">Keahlian</label>
                 <Input
                   firstIcons={faStethoscope}
                   classnameFirstIcons="text-blue-500"
@@ -226,7 +245,7 @@ const ModalAddDokter = ({ isOpen, onRequestClose, setData }) => {
                 />
               </div>
               <div className="pb-2">
-                <label htmlFor="partnerDropdown">Lokasi</label>
+                <label htmlFor="lokasi">Lokasi</label>
                 <Input
                   firstIcons={faMapMarker}
                   classnameFirstIcons="text-blue-500"
@@ -245,7 +264,7 @@ const ModalAddDokter = ({ isOpen, onRequestClose, setData }) => {
           {currentStep === 2 && (
             <>
               <div className="pb-2">
-                <label htmlFor="partnerDropdown">Riwayat Pendidikan</label>
+                <label htmlFor="pendidikan">Riwayat Pendidikan</label>
                 <Input
                   firstIcons={faGraduationCap}
                   classnameFirstIcons="text-blue-500"
@@ -260,7 +279,7 @@ const ModalAddDokter = ({ isOpen, onRequestClose, setData }) => {
                 />
               </div>
               <div className="pb-2">
-                <label htmlFor="partnerDropdown">
+                <label htmlFor="kondisi_klinis">
                   Kondisi Klinis yang Ditangani
                 </label>
                 <Input
@@ -277,7 +296,7 @@ const ModalAddDokter = ({ isOpen, onRequestClose, setData }) => {
                 />
               </div>
               <div className="pb-2">
-                <label htmlFor="partnerDropdown">Prestasi & Penghargaan</label>
+                <label htmlFor="prestasi">Prestasi & Penghargaan</label>
                 <Input
                   firstIcons={faTrophy}
                   classnameFirstIcons="text-yellow-500"
@@ -292,16 +311,16 @@ const ModalAddDokter = ({ isOpen, onRequestClose, setData }) => {
                 />
               </div>
               <div className="pb-2">
-                <label htmlFor="partnerDropdown">Seminar/Course</label>
+                <label htmlFor="seminar">Seminar/Course</label>
                 <Input
                   firstIcons={faBook}
                   classnameFirstIcons="text-green-500"
-                  placeholder="Prestasi & Penghargaan"
+                  placeholder="Seminar / Course"
                   className="py-2 px-4 "
                   type="text"
-                  id="prestasi"
-                  name="prestasi"
-                  value={form.prestasi}
+                  id="seminar"
+                  name="seminar"
+                  value={form.seminar}
                   onChange={handleChange}
                   required={true}
                 />
@@ -327,12 +346,10 @@ const ModalAddDokter = ({ isOpen, onRequestClose, setData }) => {
                       <input
                         type="file"
                         className="hidden"
-                        onChange={(e) => {
-                          handleUpload(e);
-                        }}
+                        onChange={handleChange}
                       />
                     </label>
-                    <div className="mt-2 mx-4">
+                    <div className="mt-2 mx-2">
                       {form.file && form.file.name
                         ? form.file.name
                         : "No file chosen"}
@@ -340,11 +357,11 @@ const ModalAddDokter = ({ isOpen, onRequestClose, setData }) => {
                   </div>
 
                   <div>
-                    <p className="w-[150px] mx-5" type="text">
+                    <p className="w-[150px] mx-3" type="text">
                       Pilih Tanggal :
                     </p>
                     {selectedDate.length > 0 && (
-                      <div className="mx-5 text-justify">
+                      <div className="mx-3 text-justify">
                         {selectedDate
                           .sort((a, b) => a - b) // Urutkan tanggal
                           .map((date) => date.toLocaleDateString())
@@ -357,7 +374,7 @@ const ModalAddDokter = ({ isOpen, onRequestClose, setData }) => {
                   <Calendar
                     id="datePicker"
                     onChange={handleDateChange}
-                    className="mx-4 bg-white p-4 my-2 border rounded-md shadow-md focus:outline-none text-center "
+                    className="mx-2 bg-white p-4 my-2 border rounded-md shadow-md focus:outline-none text-center "
                     locale="id-ID"
                     minDate={new Date()}
                     tileClassName={({ date }) => {
@@ -375,7 +392,7 @@ const ModalAddDokter = ({ isOpen, onRequestClose, setData }) => {
               </div>
             </>
           )}
-          <div className="">
+          <div className="mx-2">
             <div
               className={`flex ${
                 currentStep > 1 ? "justify-between" : "justify-end"

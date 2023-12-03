@@ -1,7 +1,11 @@
 import React, { useState, useContext, useEffect } from "react";
 import { storage } from "../../../firebase-config";
-import { ref, uploadBytes, getDownloadURL } from "@firebase/storage";
-import { v4 } from "uuid";
+import {
+  ref,
+  uploadBytes,
+  getDownloadURL,
+  deleteObject,
+} from "@firebase/storage";
 import { PartnerContext } from "../../../contexts/PartnerContex";
 import { ToastContainer, toast } from "react-toastify";
 import Calendar from "react-calendar";
@@ -17,17 +21,27 @@ import {
   faHeart,
   faTrophy,
   faBook,
+  faRemove,
 } from "@fortawesome/free-solid-svg-icons";
+import { DoctorContext } from "../../../contexts/DoctorContex";
 
 Modal.setAppElement("#root");
 
-const ModalEditDokter = ({ isOpen, onRequestClose, dataEdit, setData }) => {
+const ModalEditDokter = ({
+  isOpen,
+  onRequestClose,
+  dataEdit,
+  setData,
+  setEditData,
+}) => {
   const { fetchPartner } = useContext(PartnerContext);
+  const { fetchDoctor, updateDoctor } = useContext(DoctorContext);
   const [selectedPartner, setSelectedPartner] = useState("null");
   const [selectedDate, setSelectedDate] = useState([]);
   const [partnerOptions, setPartnerOptions] = useState([
     { value: "null", label: "Pilih Partner" },
   ]);
+
   const [form, setForm] = useState({
     name: "",
     keahlian: "",
@@ -93,29 +107,63 @@ const ModalEditDokter = ({ isOpen, onRequestClose, dataEdit, setData }) => {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-    const { file } = form;
+    const {
+      file,
+      name,
+      keahlian,
+      lokasi,
+      partner,
+      pendidikan,
+      kondisi_klinis,
+      prestasi,
+      seminar,
+    } = form;
     try {
-      let imgUrl = "";
+      let imgUrl = dataEdit.imgUrl ? dataEdit.imgUrl : "";
+      let path = dataEdit.pathstorage;
       if (file) {
-        const path = v4();
         const imageRef = ref(storage, `Dokter/profile/${path}`);
+        await deleteObject(imageRef);
         await uploadBytes(imageRef, file);
         imgUrl = await getDownloadURL(imageRef);
-        setForm({
-          name: "",
-          keahlian: "",
-          lokasi: "",
-          file: null,
-          partner: "",
-          pendidikan: "",
-          kondisi_klinis: "",
-          prestasi: "",
-          seminar: "",
-        });
-        toast.success("Berhasil menambahkan partner", {
-          position: "top-right",
-        });
       }
+      await updateDoctor(
+        dataEdit.id,
+        partner.trim() ? partner : dataEdit.partner,
+        name.trim() ? name : dataEdit.name,
+        keahlian.trim() ? keahlian : dataEdit.keahlian,
+        lokasi.trim() ? lokasi : dataEdit.lokasi,
+        pendidikan.trim() ? pendidikan : dataEdit.pendidikan,
+        kondisi_klinis.trim() ? kondisi_klinis : dataEdit.kondisi_klinis,
+        prestasi.trim() ? prestasi : dataEdit.prestasi,
+        seminar.trim() ? seminar : dataEdit.seminar,
+        imgUrl,
+        path,
+        selectedDate && selectedDate.length > 0
+          ? selectedDate.map((date) => date.toISOString())
+          : dataEdit.date
+      );
+      const remove = {
+        name: "",
+        keahlian: "",
+        lokasi: "",
+        file: null,
+        partner: "",
+        pendidikan: "",
+        kondisi_klinis: "",
+        prestasi: "",
+        seminar: "",
+      };
+
+      setForm(faRemove);
+      const dataDoctor = await fetchDoctor();
+
+      setData(dataDoctor);
+      setSelectedDate([]);
+      setEditData(remove);
+      toast.success("Berhasil update data doctor", {
+        position: "top-right",
+      });
     } catch (error) {
       console.error("Error:", error);
     }
@@ -144,13 +192,25 @@ const ModalEditDokter = ({ isOpen, onRequestClose, dataEdit, setData }) => {
     partnerData();
   }, [fetchPartner]);
 
+  useEffect(() => {
+    if (dataEdit.date) {
+      const date = dataEdit.date.map((dateString) => new Date(dateString));
+
+      setSelectedDate(date);
+    }
+  }, [dataEdit]);
+
   return (
     <Modal
       isOpen={isOpen}
       onRequestClose={onRequestClose}
       contentLabel="Deskripsi Modal bg-blue"
       className="bg-white p-4 rounded shadow-lg  "
-      style={customModalStyles.AddDokter}
+      style={
+        currentStep === 3
+          ? customModalStyles.editDokter2
+          : customModalStyles.editDokter
+      }
       appElement={document.getElementById("root")}
     >
       <div>
@@ -187,7 +247,7 @@ const ModalEditDokter = ({ isOpen, onRequestClose, dataEdit, setData }) => {
                 <Input
                   firstIcons={faUser}
                   classnameFirstIcons="text-blue-500"
-                  placeholder="Name"
+                  placeholder={dataEdit.name ? dataEdit.name : "Name"}
                   className="py-2 px-4 "
                   type="text"
                   id="name"
@@ -202,7 +262,9 @@ const ModalEditDokter = ({ isOpen, onRequestClose, dataEdit, setData }) => {
                 <Input
                   firstIcons={faStethoscope}
                   classnameFirstIcons="text-blue-500"
-                  placeholder="Keahlian"
+                  placeholder={
+                    dataEdit.keahlian ? dataEdit.keahlian : "Keahlian"
+                  }
                   className="py-2 px-4 "
                   type="text"
                   id="keahlian"
@@ -217,7 +279,7 @@ const ModalEditDokter = ({ isOpen, onRequestClose, dataEdit, setData }) => {
                 <Input
                   firstIcons={faMapMarker}
                   classnameFirstIcons="text-blue-500"
-                  placeholder="Lokasi"
+                  placeholder={dataEdit.lokasi ? dataEdit.lokasi : "Lokasi"}
                   className="py-2 px-4 "
                   type="text"
                   id="lokasi"
@@ -236,7 +298,9 @@ const ModalEditDokter = ({ isOpen, onRequestClose, dataEdit, setData }) => {
                 <Input
                   firstIcons={faGraduationCap}
                   classnameFirstIcons="text-blue-500"
-                  placeholder="Pendidikan"
+                  placeholder={
+                    dataEdit.pendidikan ? dataEdit.pendidikan : "Pendidikan"
+                  }
                   className="py-2 px-4 "
                   type="text"
                   id="pendidikan"
@@ -253,7 +317,11 @@ const ModalEditDokter = ({ isOpen, onRequestClose, dataEdit, setData }) => {
                 <Input
                   firstIcons={faHeart}
                   classnameFirstIcons="text-red-500"
-                  placeholder="Kondisi Klinis"
+                  placeholder={
+                    dataEdit.kondisi_klinis
+                      ? dataEdit.kondisi_klinis
+                      : "Kondisi Klinis"
+                  }
                   className="py-2 px-4 "
                   type="text"
                   id="kondisi_klinis"
@@ -268,7 +336,11 @@ const ModalEditDokter = ({ isOpen, onRequestClose, dataEdit, setData }) => {
                 <Input
                   firstIcons={faTrophy}
                   classnameFirstIcons="text-yellow-500"
-                  placeholder="Prestasi & Penghargaan"
+                  placeholder={
+                    dataEdit.prestasi
+                      ? dataEdit.prestasi
+                      : "Prestasi & Penghargaan"
+                  }
                   className="py-2 px-4 "
                   type="text"
                   id="prestasi"
@@ -283,7 +355,9 @@ const ModalEditDokter = ({ isOpen, onRequestClose, dataEdit, setData }) => {
                 <Input
                   firstIcons={faBook}
                   classnameFirstIcons="text-green-500"
-                  placeholder="Prestasi & Penghargaan"
+                  placeholder={
+                    dataEdit.seminar ? dataEdit.seminar : "Seminar / Course"
+                  }
                   className="py-2 px-4 "
                   type="text"
                   id="prestasi"
@@ -344,7 +418,7 @@ const ModalEditDokter = ({ isOpen, onRequestClose, dataEdit, setData }) => {
                   <Calendar
                     id="datePicker"
                     onChange={handleDateChange}
-                    className="mx-4 bg-white p-4 my-2 border rounded-md shadow-md focus:outline-none text-center "
+                    className="mx-2 bg-white p-4 my-2 border rounded-md shadow-md focus:outline-none text-center "
                     locale="id-ID"
                     minDate={new Date()}
                     tileClassName={({ date }) => {
@@ -362,7 +436,7 @@ const ModalEditDokter = ({ isOpen, onRequestClose, dataEdit, setData }) => {
               </div>
             </>
           )}
-          <div className="pt-3">
+          <div className="mx-2">
             <div
               className={`flex ${
                 currentStep > 1 ? "justify-between" : "justify-end"
