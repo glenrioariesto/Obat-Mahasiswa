@@ -3,103 +3,127 @@ import Calendar from "react-calendar";
 import "react-calendar/dist/Calendar.css";
 import "../../assets/CustomCalendar.css";
 import { PartnerContext } from "../../contexts/PartnerContex";
+import { DoctorContext } from "../../contexts/DoctorContex";
 
 const JanjiTemu = () => {
   const [selectedPartner, setSelectedPartner] = useState("null");
-  const [selectedSpesialisasi, setSelectedSpesialisasi] = useState("");
+  const [selectedSpesialisasi, setSelectedSpesialisasi] = useState("null");
+  const [selectedSesi, setSelectedSesi] = useState("null");
   const [selectedDate, setSelectedDate] = useState(new Date());
+  const [ArrayDate, setArrayDate] = useState([]);
   const [partnerOptions, setPartnerOptions] = useState([
     { value: "null", label: "Pilih Partner" },
   ]);
+  const [doctorOptions, setDoctorOptions] = useState([
+    { key: "null", value: "null", label: "Pilih Doctor", date: [] },
+  ]);
+
   const { fetchPartner } = useContext(PartnerContext);
-
-  const handlePartnerChange = (event) => {
+  const { fetchDoctor } = useContext(DoctorContext);
+  const handlePartnerChange = async (event) => {
     const selectedPartnerValue = event.target.value;
-    setSelectedPartner(selectedPartnerValue);
+    const partnerLabel = partnerOptions
+      .filter((partner) => partner.value === selectedPartnerValue)
+      .map((partner) => partner.label);
 
-    // Reset selected spesialisasi when partner changes
+    setSelectedPartner(partnerLabel);
+    const data = await fetchDoctor();
+
+    const filterDoctor = data.filter(
+      (item) => item.partnerId === selectedPartnerValue
+    );
+    const newData = filterDoctor.map((item, index) => ({
+      key: index + item.id,
+      value: item.id,
+      label: item.name,
+      date: item.date,
+    }));
+
+    setDoctorOptions([{ value: "null", label: "Pilih Doctor" }]);
+    setDoctorOptions((prevOptions) => [
+      ...prevOptions.filter(
+        (option) =>
+          !newData.some((newOption) => newOption.value === option.value)
+      ),
+      ...newData,
+    ]);
     setSelectedSpesialisasi("");
+    setArrayDate([]);
   };
 
   const handleSpesialisasiChange = (event) => {
-    setSelectedSpesialisasi(event.target.value);
+    const selectedDoctorValue = event.target.value;
+    const doctorLabels = doctorOptions
+      .filter((doctor) => doctor.value === selectedDoctorValue)
+      .map((doctor) => doctor.label);
+
+    setSelectedSpesialisasi(doctorLabels);
+    const doctorData = doctorOptions.find(
+      (item) => item.value === selectedDoctorValue && item.value !== "null"
+    );
+
+    if (selectedDoctorValue === "null") {
+      setArrayDate([]);
+    }
+    if (doctorData) {
+      const date = doctorData.date
+        .filter((dateString) => new Date(dateString) > new Date())
+        .map((dateString) => {
+          return new Date(dateString);
+        });
+      setArrayDate(date);
+      setSelectedDate(date[0]);
+    }
   };
 
   const handleDateChange = (date) => {
-    setSelectedDate(date);
+    const Date = ArrayDate.find(
+      (selected) =>
+        selected.getDate() === date.getDate() &&
+        selected.getMonth() === date.getMonth() &&
+        selected.getFullYear() === date.getFullYear()
+    );
+    setSelectedDate(Date);
   };
 
   const handleJanjiTemu = () => {
-    selectedDate();
+    console.log(selectedPartner);
+    console.log(selectedSesi);
+    console.log(selectedSpesialisasi);
   };
-
-  // Define spesialisasi options based on the selected partner
-  const getSpesialisasiOptions = () => {
-    // Replace this with your actual data
-    const spesialisasiData = {
-      puskesmas: [
-        {
-          value: "alexander",
-          label: "dr. Alexander Leonard Caesar Josediputra Sp.A",
-        },
-        {
-          value: "linnie",
-          label: "Dr. Linnie Pranadjaja, Sp.A, M. Kes",
-        },
-      ],
-      telkom: [
-        {
-          value: "example1",
-          label: "Example Spesialisasi 1",
-        },
-        {
-          value: "example2",
-          label: "Example Spesialisasi 2",
-        },
-      ],
-      null: [
-        {
-          value: "",
-          label: "Pilih Spesialisasi",
-        },
-      ],
-    };
-
-    return selectedPartner ? spesialisasiData[selectedPartner] : [];
-  };
-
-  const spesialisasiOptions = getSpesialisasiOptions();
 
   const sessionOptions = [
-    { value: "morning", label: "Pagi (08:00 - 12:00)" },
-    { value: "afternoon", label: "Sore (13:00 - 17:00)" },
-    { value: "evening", label: "Malam (18:00 - 21:00)" },
+    { value: "Pagi", label: "Pagi (08:00 - 12:00)" },
+    { value: "Siang", label: "Sore (13:00 - 17:00)" },
+    { value: "Malam", label: "Malam (18:00 - 21:00)" },
   ];
-  const highlightedDays = [
-    { day: 1, month: 10, year: 2023 },
-    { day: 3, month: 10, year: 2023 },
-    { day: 6, month: 10, year: 2023 },
-    { day: 8, month: 10, year: 2023 },
-    { day: 10, month: 10, year: 2023 },
-    { day: 13, month: 10, year: 2023 },
-    { day: 15, month: 10, year: 2023 },
-    { day: 17, month: 10, year: 2023 },
-    { day: 20, month: 10, year: 2023 },
-    { day: 22, month: 10, year: 2023 },
-    { day: 24, month: 10, year: 2023 },
-    { day: 27, month: 10, year: 2023 },
-    { day: 29, month: 10, year: 2023 },
-  ];
+
+  const handleSesi = (e) => {
+    setSelectedSesi(e.target.value);
+  };
+
+  const highlightedDays = ArrayDate.map((date) => ({
+    day: date.getDate(),
+    month: date.getMonth(),
+    year: date.getFullYear(),
+  }));
 
   useEffect(() => {
     const partnerData = async () => {
       try {
         const data = await fetchPartner();
         const newData = data.map((item, index) => ({
+          key: index,
           value: item.id,
           label: item.name,
         }));
-        setPartnerOptions((prevOptions) => [...prevOptions, newData]);
+        setPartnerOptions((prevOptions) => [
+          ...prevOptions.filter(
+            (option) =>
+              !newData.some((newOption) => newOption.value === option.value)
+          ),
+          ...newData,
+        ]);
       } catch (error) {
         console.error("Error fetching partner data:", error);
       }
@@ -107,6 +131,7 @@ const JanjiTemu = () => {
 
     partnerData();
   }, [fetchPartner]);
+
   return (
     <div className="px-10 py-4">
       <div className="mb-1">
@@ -117,7 +142,6 @@ const JanjiTemu = () => {
             className="w-full px-3 py-2  bg-white border-gray-400 text-gray-800  mt-1 border rounded-md focus:ring focus:ring-blue-300 focus:outline-none"
             id="partnerDropdown"
             name="partnerDropdown"
-            value={selectedPartner}
             onChange={handlePartnerChange}
           >
             {partnerOptions.map((option) => (
@@ -126,13 +150,12 @@ const JanjiTemu = () => {
           </select>
           <label htmlFor="spesialisasiDropdown">Pilih Spesialisasi:</label>
           <select
-            className="w-full px-3 py-2 mt-1 border rounded-md focus:ring focus:ring-blue-300 focus:outline-none "
+            className="w-full px-3 py-2 bg-white border-gray-400 text-gray-800  mt-1 border rounded-md focus:ring focus:ring-blue-300 focus:outline-none "
             id="spesialisasiDropdown"
             name="spesialisasiDropdown"
-            value={selectedSpesialisasi}
             onChange={handleSpesialisasiChange}
           >
-            {spesialisasiOptions.map((option) => (
+            {doctorOptions.map((option) => (
               <option key={option.value} value={option.value}>
                 {option.label}
               </option>
@@ -144,16 +167,22 @@ const JanjiTemu = () => {
               <Calendar
                 id="datePicker"
                 onChange={handleDateChange}
-                value={selectedDate}
+                value={ArrayDate}
                 className="bg-white p-4 my-2 border rounded-md shadow-md focus:outline-none text-center "
                 locale="id-ID"
                 minDate={new Date()}
                 tileClassName={({ date }) => {
-                  return highlightedDays.some(
-                    ({ day, month }) =>
-                      date.getDate() === day && date.getMonth() === month
-                  )
-                    ? ""
+                  return date.getDate() === selectedDate.getDate() &&
+                    date.getMonth() === selectedDate.getMonth() &&
+                    date.getFullYear() === selectedDate.getFullYear()
+                    ? "react-calendar__tile--selected--now"
+                    : highlightedDays.some(
+                        ({ day, month, year }) =>
+                          date.getDate() === day &&
+                          date.getMonth() === month &&
+                          date.getFullYear() === year
+                      )
+                    ? "react-calendar__tile--active"
                     : "react-calendar__tile--weekend";
                 }}
                 tileDisabled={({ date }) =>
@@ -170,6 +199,7 @@ const JanjiTemu = () => {
                 className="w-full px-3 py-2 mt-1 border rounded-md focus:ring focus:ring-blue-300 focus:outline-none"
                 id="sessionDropdown"
                 name="sessionDropdown"
+                onChange={handleSesi}
               >
                 {sessionOptions.map((option) => (
                   <option key={option.value} value={option.value}>
@@ -181,7 +211,7 @@ const JanjiTemu = () => {
             <div className="flex m-3 items-end w-1/2">
               <button
                 className="w-full h-[50px] bg-blue-500 text-white font-bold rounded-lg px-2 py-2 cursor-pointer hover:bg-blue-600"
-                onClick={() => handleJanjiTemu}
+                onClick={handleJanjiTemu}
               >
                 Buat Janji
               </button>
