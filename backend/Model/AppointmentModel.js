@@ -28,6 +28,25 @@ export const getAppointmentById = async (appointmentsId) => {
   return null;
 };
 
+export const getAppointmentsByUserId = async (userId) => {
+  try {
+    const appointments = [];
+    const querySnapshot = await getDocs(AppointmentsCollectionRef);
+
+    querySnapshot.forEach((doc) => {
+      const data = doc.data();
+      if (data.userId === userId) {
+        appointments.push({ id: doc.id, ...data });
+      }
+    });
+
+    return appointments;
+  } catch (error) {
+    console.error("Error getting appointments by userId: ", error);
+    throw error;
+  }
+};
+
 export const addAppointment = async (appointmentData) => {
   try {
     const docRef = await addDoc(AppointmentsCollectionRef, appointmentData);
