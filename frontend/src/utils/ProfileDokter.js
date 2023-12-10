@@ -6,12 +6,27 @@ import {
   faBook,
 } from "@fortawesome/free-solid-svg-icons";
 import { NavbarContext } from "../contexts/NavbarContext";
-import { useContext } from "react";
-import { useNavigate } from "react-router-dom";
+import { useContext, useState, useEffect } from "react";
+import { useNavigate, useLocation } from "react-router-dom";
+import { DoctorContext } from "../contexts/DoctorContex";
 
 const ProfileDokter = () => {
   const { changeItems } = useContext(NavbarContext);
+  const [data, setData] = useState([]);
+
   const navigate = useNavigate();
+  const location = useLocation();
+  const { fetchDoctorById } = useContext(DoctorContext);
+  useEffect(() => {
+    const doctorData = async () => {
+      const id = new URLSearchParams(location.search).get("id");
+      const data = await fetchDoctorById(id);
+      console.log(data);
+      setData(data);
+    };
+
+    doctorData();
+  }, [fetchDoctorById, location]);
   return (
     <div className="">
       <div className="pt-28">
@@ -32,7 +47,7 @@ const ProfileDokter = () => {
                   <h1 className="font-bold text-gray-600">
                     Riwayat Pendidikan
                   </h1>
-                  <p>deskripsi</p>
+                  {data.pendidikan}
                 </div>
                 <div className="col-span-1 row-span-1">
                   <span>
@@ -44,7 +59,7 @@ const ProfileDokter = () => {
                   <h1 className="font-bold text-gray-600">
                     Kondisi Klinis yang Ditangani
                   </h1>
-                  <p>deskripsi</p>
+                  {data.kondisi_klinis}
                 </div>
                 <div className="col-span-1 row-span-1">
                   <span>
@@ -56,7 +71,7 @@ const ProfileDokter = () => {
                   <h1 className="font-bold text-gray-600">
                     Prestasi & Penghargaan
                   </h1>
-                  <p>deskripsi</p>
+                  <p>{data.prestasi}</p>
                 </div>
                 <div className="col-span-1 row-span-1">
                   <span>
@@ -66,22 +81,22 @@ const ProfileDokter = () => {
                     />
                   </span>
                   <h1 className="font-bold text-gray-600">Seminar/Course</h1>
-                  <p>deskripsi</p>
+                  <p>{data.seminar}</p>
                 </div>
               </div>
               <div className="flex flex-col w-1/2">
                 <div className="container bg-white mx-auto shadow-lg rounded-lg">
                   <div className="flex justify-center m-3">
                     <img
-                      src="https://d3uhejzrzvtlac.cloudfront.net/doctor/photo/8954b498-294d-4b8a-8ee5-4aa62f2280a0.png"
+                      src={data.imgUrl}
                       alt="Gambar"
                       className="w-full h-50 object-cover rounded-lg"
                     />
                   </div>
                   <div className="pb-4 pl-4 pr-3">
-                    <p>nama</p>
-                    <p>keahlian</p>
-                    <p>lokasi</p>
+                    <p>{data.name}</p>
+                    <p>{data.keahlian}</p>
+                    <p>{data.lokasi}</p>
                   </div>
                 </div>
                 <button

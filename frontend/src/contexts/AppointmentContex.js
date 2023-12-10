@@ -25,10 +25,10 @@ const AppointmentProvider = ({ children }) => {
     }
   };
 
-  const fetchAppointmentByuserId = async (id) => {
+  const fetchAppointmentByuserId = async (userId) => {
     try {
       const res = await axios.get(
-        "http://localhost:3001/api/v1/user/" + id + "/appointments"
+        "http://localhost:3001/api/v1/user/" + userId + "/appointment"
       );
 
       return res.data;
@@ -37,24 +37,11 @@ const AppointmentProvider = ({ children }) => {
     }
   };
 
-  const addAppointment = async (
-    userid,
-    spesialisasi,
-    partner,
-    sesi,
-    status,
-    date
-  ) => {
+  const addAppointment = async (userId, body) => {
     try {
       await axios.post(
-        "http://localhost:3001/api/v1/user/" + userid + "/appointments",
-        {
-          spesialisasi: spesialisasi,
-          partner: partner,
-          sesi: sesi,
-          status: status,
-          date: date,
-        },
+        "http://localhost:3001/api/v1/user/" + userId + "/appointment",
+        body,
         {
           headers: {
             "Content-Type": "application/json",
@@ -66,32 +53,13 @@ const AppointmentProvider = ({ children }) => {
     }
   };
 
-  const updateAppointment = async (
-    id,
-    userId,
-    spesialisasi,
-    partner,
-    sesi,
-    status,
-    date
-  ) => {
+  const updateAppointment = async (id, body) => {
     try {
-      await axios.put(
-        ApiAppointment + "/" + id,
-        {
-          userId: userId,
-          spesialisasi: spesialisasi,
-          partner: partner,
-          sesi: sesi,
-          status: status,
-          date: date,
+      await axios.put(ApiAppointment + "/" + id, body, {
+        headers: {
+          "Content-Type": "application/json",
         },
-        {
-          headers: {
-            "Content-Type": "application/json",
-          },
-        }
-      );
+      });
     } catch (error) {
       console.error("Error Add appointment:", error.code);
     }

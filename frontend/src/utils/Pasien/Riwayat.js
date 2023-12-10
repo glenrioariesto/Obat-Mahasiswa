@@ -1,101 +1,15 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import DataTable from "react-data-table-component";
 import { StyleSheetManager } from "styled-components";
 import customStyles from "../../assets/dataTableStyle";
+import { AppointmentContext } from "../../contexts/AppointmentContex";
+import { AuthContext } from "../../contexts/UserAuthentication";
 
 const Riwayat = () => {
-  const [data, setData] = useState([
-    {
-      no: 1,
-      partner: "ada",
-      spesialisasi: "asda",
-      tanggal: "asdasd",
-      sesi: "siang",
-      status: "done",
-    },
-    {
-      no: 1,
-      partner: "ada",
-      spesialisasi: "asda",
-      tanggal: "asdasd",
-      sesi: "siang",
-      status: "done",
-    },
-    {
-      no: 1,
-      partner: "ada",
-      spesialisasi: "asda",
-      tanggal: "asdasd",
-      sesi: "siang",
-      status: "done",
-    },
-    {
-      no: 1,
-      partner: "ada",
-      spesialisasi: "asda",
-      tanggal: "asdasd",
-      sesi: "siang",
-      status: "done",
-    },
-    {
-      no: 1,
-      partner: "ada",
-      spesialisasi: "asda",
-      tanggal: "asdasd",
-      sesi: "siang",
-      status: "done",
-    },
-    {
-      no: 1,
-      partner: "ada",
-      spesialisasi: "asda",
-      tanggal: "asdasd",
-      sesi: "siang",
-      status: "done",
-    },
-    {
-      no: 1,
-      partner: "ada",
-      spesialisasi: "asda",
-      tanggal: "asdasd",
-      sesi: "siang",
-      status: "done",
-    },
-    {
-      no: 1,
-      partner: "ada",
-      spesialisasi: "asda",
-      tanggal: "asdasd",
-      sesi: "siang",
-      status: "done",
-    },
-    {
-      no: 1,
-      partner: "ada",
-      spesialisasi: "asda",
-      tanggal: "asdasd",
-      sesi: "siang",
-      status: "done",
-    },
-    {
-      no: 1,
-      partner: "ada",
-      spesialisasi: "asda",
-      tanggal: "asdasd",
-      sesi: "siang",
-      status: "done",
-    },
-    {
-      no: 1,
-      partner: "ada",
-      spesialisasi: "asda",
-      tanggal: "asdasd",
-      sesi: "siang",
-      status: "done",
-    },
-  ]);
+  const { user } = useContext(AuthContext);
+  const { fetchAppointmentByuserId } = useContext(AppointmentContext);
+  const [data, setData] = useState([]);
   const [paginationCount, setPaginationCount] = useState(10);
-
   const columns = [
     {
       name: "No",
@@ -114,7 +28,14 @@ const Riwayat = () => {
     },
     {
       name: "Tanggal",
-      selector: (row) => row.tanggal,
+      selector: (row) => {
+        const formatDate = new Date(row.date).toLocaleDateString("en-ID", {
+          day: "2-digit",
+          month: "2-digit",
+          year: "numeric",
+        });
+        return formatDate;
+      },
       sortable: true,
     },
     {
@@ -124,23 +45,39 @@ const Riwayat = () => {
     },
     {
       name: "Status",
-      selector: (row) => row.status,
       sortable: true,
+      cell: (row) => (
+        <div className="flex justify-center items-center h-full">
+          <div
+            className={`p-2 m-1 w-[100px] rounded-2xl text-[12px] font-bold text-white ${
+              row.status === "disetujui"
+                ? "bg-green-500"
+                : row.status === "ditolak"
+                ? "bg-red-500"
+                : "bg-blue-500"
+            } hover:bg-blue-600 cursor-auto`}
+          >
+            {" "}
+            {row.status}
+          </div>
+        </div>
+      ),
     },
   ];
   useEffect(() => {
     const fetchData = async () => {
-      try {
-        const response = await fetch("your-api-endpoint");
-        const data = await response.json();
-        setData(data);
-      } catch (error) {
-        console.error("Error fetching appointments:", error);
+      const data = await fetchAppointmentByuserId(user.uid);
+      if (data) {
+        const dataAppointment = data.map((item, index) => ({
+          no: index + 1,
+          ...item,
+        }));
+        setData(dataAppointment);
       }
     };
 
     fetchData();
-  }, []);
+  }, [fetchAppointmentByuserId, user]);
   useEffect(() => {
     const handleResize = () => {
       if (window.innerWidth < 1024) {

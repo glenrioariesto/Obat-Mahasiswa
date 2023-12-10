@@ -1,6 +1,8 @@
-import React from "react";
+import React, { useContext, useEffect, useState } from "react";
 
 const SearchPage = () => {
+  const [items, setItems] = useState([]);
+
   return (
     <div>
       <div className="pt-28 p-5">

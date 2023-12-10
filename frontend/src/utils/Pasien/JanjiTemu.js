@@ -2,9 +2,11 @@ import React, { useState, useEffect, useContext } from "react";
 import Calendar from "react-calendar";
 import "react-calendar/dist/Calendar.css";
 import "../../assets/CustomCalendar.css";
+import { ToastContainer, toast } from "react-toastify";
 import { PartnerContext } from "../../contexts/PartnerContex";
 import { DoctorContext } from "../../contexts/DoctorContex";
 import { AuthContext } from "../../contexts/UserAuthentication";
+import { AppointmentContext } from "../../contexts/AppointmentContex";
 
 const JanjiTemu = () => {
   const [selectedPartner, setSelectedPartner] = useState("null");
@@ -27,6 +29,13 @@ const JanjiTemu = () => {
   const { user } = useContext(AuthContext);
   const { fetchPartner } = useContext(PartnerContext);
   const { fetchDoctor } = useContext(DoctorContext);
+  const { addAppointment } = useContext(AppointmentContext);
+
+  const highlightedDays = ArrayDate.map((date) => ({
+    day: date.getDate(),
+    month: date.getMonth(),
+    year: date.getFullYear(),
+  }));
 
   const handlePartnerChange = async (event) => {
     const selectedPartnerValue = event.target.value;
@@ -105,23 +114,42 @@ const JanjiTemu = () => {
     setSessionOptions((prevOptions) => [...prevOptions, ...sesi[0].labels]);
   };
 
-  const handleJanjiTemu = () => {
-    console.log(selectedPartner);
-    console.log(selectedSesi);
-    console.log(selectedSpesialisasi);
-    console.log(selectedDate.toISOString());
-    console.log(user.uid);
-  };
-
   const handleSesi = (e) => {
     setSelectedSesi(e.target.value);
   };
 
-  const highlightedDays = ArrayDate.map((date) => ({
-    day: date.getDate(),
-    month: date.getMonth(),
-    year: date.getFullYear(),
-  }));
+  const handleJanjiTemu = async () => {
+    console.log(selectedPartner.length);
+    console.log(selectedSpesialisasi.length);
+    if (
+      selectedPartner.length > 0 &&
+      selectedSpesialisasi.length > 0 &&
+      selectedSesi !== "null" &&
+      selectedDate > 0
+    ) {
+      const data = {
+        date: selectedDate.toISOString(),
+        partner: selectedPartner.join(""),
+        sesi: selectedSesi,
+        spesialisasi: selectedSpesialisasi.join(""),
+        status: "pengajuan",
+      };
+      try {
+        await addAppointment(user.uid, data);
+        toast.success("Berhasil menambahkan pengajuan", {
+          position: "top-right",
+        });
+      } catch (error) {
+        toast.error("terjadi kesalahan", error, {
+          position: "top-right",
+        });
+      }
+    } else {
+      toast.error("Inputkan data dengan benar", {
+        position: "top-right",
+      });
+    }
+  };
 
   useEffect(() => {
     const partnerData = async () => {
@@ -233,6 +261,21 @@ const JanjiTemu = () => {
             </div>
           </div>
         </div>
+      </div>
+      <div className="absolute top-0 right-0 transform -translate-y -translate-x ">
+        <ToastContainer
+          position="top-right"
+          autoClose={5000}
+          limit={1}
+          hideProgressBar={false}
+          newestOnTop={false}
+          closeOnClick
+          rtl={false}
+          pauseOnFocusLoss
+          draggable
+          pauseOnHover
+          theme="light"
+        />
       </div>
     </div>
   );

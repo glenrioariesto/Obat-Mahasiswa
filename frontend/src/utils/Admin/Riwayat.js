@@ -1,101 +1,14 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import DataTable from "react-data-table-component";
 import { StyleSheetManager } from "styled-components";
 import customStyles from "../../assets/dataTableStyle";
+import { AppointmentContext } from "../../contexts/AppointmentContex";
 
-const DaftarJanjiTemu = () => {
-  const [data, setData] = useState([
-    {
-      no: 1,
-      partner: "ada",
-      spesialisasi: "asda",
-      tanggal: "asdasd",
-      sesi: "siang",
-      status: "done",
-    },
-    {
-      no: 1,
-      partner: "ada",
-      spesialisasi: "asda",
-      tanggal: "asdasd",
-      sesi: "siang",
-      status: "done",
-    },
-    {
-      no: 1,
-      partner: "ada",
-      spesialisasi: "asda",
-      tanggal: "asdasd",
-      sesi: "siang",
-      status: "done",
-    },
-    {
-      no: 1,
-      partner: "ada",
-      spesialisasi: "asda",
-      tanggal: "asdasd",
-      sesi: "siang",
-      status: "done",
-    },
-    {
-      no: 1,
-      partner: "ada",
-      spesialisasi: "asda",
-      tanggal: "asdasd",
-      sesi: "siang",
-      status: "done",
-    },
-    {
-      no: 1,
-      partner: "ada",
-      spesialisasi: "asda",
-      tanggal: "asdasd",
-      sesi: "siang",
-      status: "done",
-    },
-    {
-      no: 1,
-      partner: "ada",
-      spesialisasi: "asda",
-      tanggal: "asdasd",
-      sesi: "siang",
-      status: "done",
-    },
-    {
-      no: 1,
-      partner: "ada",
-      spesialisasi: "asda",
-      tanggal: "asdasd",
-      sesi: "siang",
-      status: "done",
-    },
-    {
-      no: 1,
-      partner: "ada",
-      spesialisasi: "asda",
-      tanggal: "asdasd",
-      sesi: "siang",
-      status: "done",
-    },
-    {
-      no: 1,
-      partner: "ada",
-      spesialisasi: "asda",
-      tanggal: "asdasd",
-      sesi: "siang",
-      status: "done",
-    },
-    {
-      no: 1,
-      partner: "ada",
-      spesialisasi: "asda",
-      tanggal: "asdasd",
-      sesi: "siang",
-      status: "done",
-    },
-  ]);
+const Riwayat = () => {
+  const { fetchAppointment, updateAppointment } =
+    useContext(AppointmentContext);
+  const [data, setData] = useState([]);
   const [paginationCount, setPaginationCount] = useState(10);
-
   const columns = [
     {
       name: "No",
@@ -114,7 +27,14 @@ const DaftarJanjiTemu = () => {
     },
     {
       name: "Tanggal",
-      selector: (row) => row.tanggal,
+      selector: (row) => {
+        const formatDate = new Date(row.date).toLocaleDateString("en-ID", {
+          day: "2-digit",
+          month: "2-digit",
+          year: "numeric",
+        });
+        return formatDate;
+      },
       sortable: true,
     },
     {
@@ -124,39 +44,72 @@ const DaftarJanjiTemu = () => {
     },
     {
       name: "Status",
-      selector: (row) => row.status,
       sortable: true,
+      cell: (row) => (
+        <div className="flex justify-between items-center h-full">
+          <div
+            className={`p-2 m-1 w-[100px] rounded-2xl text-[12px] font-bold text-white ${
+              row.status === "disetujui"
+                ? "bg-green-500"
+                : row.status === "ditolak"
+                ? "bg-red-500"
+                : "bg-blue-500"
+            } hover:bg-blue-600 cursor-auto`}
+          >
+            {row.status}
+          </div>
+        </div>
+      ),
     },
     {
       name: "Action",
-
+      sortable: true,
       cell: (row) => (
-        <div className="justify-center items-center  w-full ">
-          <div className="flex flex-col sm:flex-col md:flex-col lg:flex-col xl:flex-row ">
-            <button
-              className="p-1  m-1 rounded text-[12px] w-full h-7 font-bold text-white bg-blue-500 hover:bg-blue-600 "
-              onClick={() => {}}
-            >
-              Edit
-            </button>
-          </div>
+        <div className="flex justify-between items-center h-full">
+          <button
+            className="p-2 m-1 rounded-2xl text-[12px] font-bold text-white bg-green-500 hover:bg-green-600 cursor-pointer"
+            onClick={async () => {
+              await updateAppointment(row.id, { status: "disetujui" });
+              const data = await fetchAppointment();
+              const dataAppointment = data.map((item, index) => ({
+                no: index + 1,
+                ...item,
+              }));
+              setData(dataAppointment);
+            }}
+          >
+            setujui
+          </button>
+          <button
+            className="p-2 m-1 rounded-2xl text-[12px] font-bold text-white bg-red-500 hover:bg-red-600 cursor-pointer"
+            onClick={async () => {
+              await updateAppointment(row.id, { status: "ditolak" });
+              const data = await fetchAppointment();
+              const dataAppointment = data.map((item, index) => ({
+                no: index + 1,
+                ...item,
+              }));
+              setData(dataAppointment);
+            }}
+          >
+            tolak{" "}
+          </button>
         </div>
       ),
     },
   ];
   useEffect(() => {
     const fetchData = async () => {
-      try {
-        const response = await fetch("your-api-endpoint");
-        const data = await response.json();
-        setData(data);
-      } catch (error) {
-        console.error("Error fetching appointments:", error);
-      }
+      const data = await fetchAppointment();
+      const dataAppointment = data.map((item, index) => ({
+        no: index + 1,
+        ...item,
+      }));
+      setData(dataAppointment);
     };
 
     fetchData();
-  }, []);
+  }, [fetchAppointment]);
   useEffect(() => {
     const handleResize = () => {
       if (window.innerWidth < 1024) {
@@ -177,7 +130,7 @@ const DaftarJanjiTemu = () => {
   return (
     <div className="px-10 relative py-5 h-[450px]  lg:h-[690px]">
       <div className="mb-1">
-        <p className="font-bold text-[25px]">DaftarJanjiTemu Janji Temu</p>
+        <p className="font-bold text-[25px]">Riwayat Janji Temu</p>
         <div className="rounded-lg ">
           <StyleSheetManager
             shouldForwardProp={(prop) => prop !== "sortActive"}
@@ -209,4 +162,4 @@ const DaftarJanjiTemu = () => {
   );
 };
 
-export default DaftarJanjiTemu;
+export default Riwayat;
