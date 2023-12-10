@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import Pagination from "../../components/Pagination";
 import CardDokter from "../../components/CardDokterAdmin";
 import DetailDokter from "./DetailDokter";
@@ -6,27 +6,17 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faArrowLeft } from "@fortawesome/free-solid-svg-icons";
 import ModalAddDokter from "../../components/modal/Dokter/ModalAddDokter";
 import ModalEditDokter from "../../components/modal/Dokter/ModalEditDokter";
+import { DoctorContext } from "../../contexts/DoctorContex";
 
 const DokterOK = () => {
-  const items = [
-    {
-      imgUrl:
-        "https://d3uhejzrzvtlac.cloudfront.net/doctor/photo/8954b498-294d-4b8a-8ee5-4aa62f2280a0.png",
-      name: "dr. Alexander Leonard Caesar Josediputra Sp.A",
-      keahlian: "Keahlian 1",
-      lokasi: "Lokasi 1",
-      pendidikan: "",
-      kondisi_klinis: "",
-      prestasi: "",
-      seminar: "",
-    },
-  ];
+  const [items, setItems] = useState([]);
   const [itemsPerPage, setItemsPerPage] = useState(0);
   const [currentPage, setCurrentPage] = useState(1);
   const [openDetailDokter, setOpenDetailDokter] = useState(false);
   const [dataProfileDokter, setDataProfileDokter] = useState({});
   const [isModalOpenAdd, setIsModalOpenAdd] = useState(false);
   const [isModalOpenEdit, setIsModalOpenEdit] = useState(false);
+  const { fetchDoctor, deleteDoctor } = useContext(DoctorContext);
 
   const startIndex = (currentPage - 1) * itemsPerPage;
   const endIndex = startIndex + itemsPerPage;
@@ -40,6 +30,12 @@ const DokterOK = () => {
   const handleUpdateDokter = (items) => {
     setDataProfileDokter(items);
     setIsModalOpenEdit(true);
+  };
+  const handleDeleteDokter = async (items) => {
+    await deleteDoctor(items);
+    const data = await fetchDoctor();
+
+    setItems(data);
   };
 
   const handlePageChange = (newPage) => {
@@ -61,6 +57,16 @@ const DokterOK = () => {
       window.removeEventListener("resize", handleResize);
     };
   }, []);
+
+  useEffect(() => {
+    const doctorData = async () => {
+      const data = await fetchDoctor();
+
+      setItems(data);
+    };
+
+    doctorData();
+  }, [fetchDoctor]);
   return (
     <div className="p-10 relative h-full w-full">
       {openDetailDokter ? (
@@ -102,11 +108,11 @@ const DokterOK = () => {
                 lokasi={item.lokasi}
                 handleClickProfile={() => handleDetailDokter(item)}
                 handleClickUpdate={() => handleUpdateDokter(item)}
-                handleClickDelete={() => {}}
+                handleClickDelete={() => handleDeleteDokter(item.id)}
               />
             ))}
           </div>
-          <div className="mt-5 flex justify-center">
+          <div className="w-[470px] sm:w-[565px] md:w-[700px] lg:w-[1150px]  absolute bottom-2 sm:bottom-6 lg:bottom-0">
             <Pagination
               currentPage={currentPage}
               totalPages={totalPages}
@@ -118,10 +124,14 @@ const DokterOK = () => {
       <ModalAddDokter
         isOpen={isModalOpenAdd}
         onRequestClose={() => setIsModalOpenAdd(false)}
+        setData={setItems}
       />
       <ModalEditDokter
         isOpen={isModalOpenEdit}
         onRequestClose={() => setIsModalOpenEdit(false)}
+        setData={setItems}
+        dataEdit={dataProfileDokter}
+        setEditData={setDataProfileDokter}
       />
     </div>
   );

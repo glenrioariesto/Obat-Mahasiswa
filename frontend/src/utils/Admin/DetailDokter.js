@@ -73,7 +73,7 @@ const DetailDokter = ({ data }) => {
                     <img
                       src={data.imgUrl}
                       alt="Gambar"
-                      className="w-full h-50 object-cover rounded-lg"
+                      className="w-full h-[330px] object-cover rounded-lg"
                     />
                   </div>
                   <div className="pb-4 pl-4 pr-3">

@@ -15,32 +15,35 @@ import logotitle from "./assets/image/logotitle.png";
 import DetailPartner from "./utils/SpesialisasiPage";
 import SearchPage from "./utils/SearchPage";
 import ProfileDokter from "./utils/ProfileDokter";
+import { DoctorProvider } from "./contexts/DoctorContex";
 
 function App() {
   return (
     <AuthProvider>
       <NavbarProvider>
         <PartnerProvider>
-          <BrowserRouter>
-            <Helmet>
-              <title>Obat Mahasiswa</title>
-              <link rel="icon" type="image/png" href={logotitle} />
-            </Helmet>
-            <Navbar />
-            <Routes>
-              <Route path="/" element={<PartnerPage />} />
-              <Route path="/tentang-kami" element={<TentangKami />} />
-              <Route path="/detailPartner" element={<DetailPartner />} />
-              <Route path="/search" element={<SearchPage />} />
-              <Route path="/profiledokter" element={<ProfileDokter />} />
-              <Route path="/login" element={<LoginPage />} />
-              <Route path="/dashboardAdmin" element={<DashboardAdmin />} />
-              <Route path="/dashboardPasien" element={<DashboardPasien />} />
-            </Routes>
-            <Section />
+          <DoctorProvider>
+            <BrowserRouter>
+              <Helmet>
+                <title>Obat Mahasiswa</title>
+                <link rel="icon" type="image/png" href={logotitle} />
+              </Helmet>
+              <Navbar />
+              <Routes>
+                <Route path="/" element={<PartnerPage />} />
+                <Route path="/tentang-kami" element={<TentangKami />} />
+                <Route path="/detailPartner" element={<DetailPartner />} />
+                <Route path="/search" element={<SearchPage />} />
+                <Route path="/profiledokter" element={<ProfileDokter />} />
+                <Route path="/login" element={<LoginPage />} />
+                <Route path="/dashboardAdmin" element={<DashboardAdmin />} />
+                <Route path="/dashboardPasien" element={<DashboardPasien />} />
+              </Routes>
+              <Section />
 
-            <Footer />
-          </BrowserRouter>
+              <Footer />
+            </BrowserRouter>
+          </DoctorProvider>
         </PartnerProvider>
       </NavbarProvider>
     </AuthProvider>

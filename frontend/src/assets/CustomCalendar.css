@@ -10,3 +10,8 @@
   color: black !important;
 }
   
+
+.react-calendar__tile--selected--now {
+  background: aqua !important;
+ color: black !important;
+}
