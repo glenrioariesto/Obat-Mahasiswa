@@ -16,6 +16,7 @@ import DetailPartner from "./utils/SpesialisasiPage";
 import SearchPage from "./utils/SearchPage";
 import ProfileDokter from "./utils/ProfileDokter";
 import { DoctorProvider } from "./contexts/DoctorContex";
+import { AppointmentProvider } from "./contexts/AppointmentContex";
 
 function App() {
   return (
@@ -24,24 +25,29 @@ function App() {
         <PartnerProvider>
           <DoctorProvider>
             <BrowserRouter>
-              <Helmet>
-                <title>Obat Mahasiswa</title>
-                <link rel="icon" type="image/png" href={logotitle} />
-              </Helmet>
-              <Navbar />
-              <Routes>
-                <Route path="/" element={<PartnerPage />} />
-                <Route path="/tentang-kami" element={<TentangKami />} />
-                <Route path="/detailPartner" element={<DetailPartner />} />
-                <Route path="/search" element={<SearchPage />} />
-                <Route path="/profiledokter" element={<ProfileDokter />} />
-                <Route path="/login" element={<LoginPage />} />
-                <Route path="/dashboardAdmin" element={<DashboardAdmin />} />
-                <Route path="/dashboardPasien" element={<DashboardPasien />} />
-              </Routes>
-              <Section />
+              <AppointmentProvider>
+                <Helmet>
+                  <title>Obat Mahasiswa</title>
+                  <link rel="icon" type="image/png" href={logotitle} />
+                </Helmet>
+                <Navbar />
+                <Routes>
+                  <Route path="/" element={<PartnerPage />} />
+                  <Route path="/tentang-kami" element={<TentangKami />} />
+                  <Route path="/detailPartner" element={<DetailPartner />} />
+                  <Route path="/search" element={<SearchPage />} />
+                  <Route path="/profiledokter" element={<ProfileDokter />} />
+                  <Route path="/login" element={<LoginPage />} />
+                  <Route path="/dashboardAdmin" element={<DashboardAdmin />} />
+                  <Route
+                    path="/dashboardPasien"
+                    element={<DashboardPasien />}
+                  />
+                </Routes>
+                <Section />
 
-              <Footer />
+                <Footer />
+              </AppointmentProvider>
             </BrowserRouter>
           </DoctorProvider>
         </PartnerProvider>

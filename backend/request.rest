@@ -148,7 +148,7 @@ Content-Type: application/json
 }  
 
 ###
-DELETE http://localhost:3001/api/v1/appointment/yXfSA1xVHXFTWiy1HmfS
+DELETE http://localhost:3001/api/v1/appointment/XNYBPyJQyNeUtsuNkBCk
 
 
 
