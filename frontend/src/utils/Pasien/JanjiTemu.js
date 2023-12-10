@@ -4,6 +4,7 @@ import "react-calendar/dist/Calendar.css";
 import "../../assets/CustomCalendar.css";
 import { PartnerContext } from "../../contexts/PartnerContex";
 import { DoctorContext } from "../../contexts/DoctorContex";
+import { AuthContext } from "../../contexts/UserAuthentication";
 
 const JanjiTemu = () => {
   const [selectedPartner, setSelectedPartner] = useState("null");
@@ -11,6 +12,11 @@ const JanjiTemu = () => {
   const [selectedSesi, setSelectedSesi] = useState("null");
   const [selectedDate, setSelectedDate] = useState(new Date());
   const [ArrayDate, setArrayDate] = useState([]);
+  const [sessionTemp, setSessionTemp] = useState([]);
+  const [sessionOptions, setSessionOptions] = useState([
+    { value: "null", label: "Pilih Sesi" },
+  ]);
+
   const [partnerOptions, setPartnerOptions] = useState([
     { value: "null", label: "Pilih Partner" },
   ]);
@@ -18,8 +24,11 @@ const JanjiTemu = () => {
     { key: "null", value: "null", label: "Pilih Doctor", date: [] },
   ]);
 
+  const { user } = useContext(AuthContext);
+
   const { fetchPartner } = useContext(PartnerContext);
   const { fetchDoctor } = useContext(DoctorContext);
+
   const handlePartnerChange = async (event) => {
     const selectedPartnerValue = event.target.value;
     const partnerLabel = partnerOptions
@@ -67,36 +76,43 @@ const JanjiTemu = () => {
     }
     if (doctorData) {
       const date = doctorData.date
-        .filter((dateString) => new Date(dateString) > new Date())
+        .filter((dateString) => new Date(dateString.item) > new Date())
         .map((dateString) => {
-          return new Date(dateString);
+          return new Date(dateString.item);
         });
       setArrayDate(date);
       setSelectedDate(date[0]);
+      setSessionTemp(doctorData.date);
+      setSessionOptions([{ value: "null", label: "Pilih Sesi" }]);
     }
   };
 
   const handleDateChange = (date) => {
-    const Date = ArrayDate.find(
+    setSessionOptions([{ value: "null", label: "Pilih Sesi" }]);
+    const DateSelected = ArrayDate.find(
       (selected) =>
         selected.getDate() === date.getDate() &&
         selected.getMonth() === date.getMonth() &&
         selected.getFullYear() === date.getFullYear()
     );
-    setSelectedDate(Date);
+    setSelectedDate(DateSelected);
+
+    const sesi = sessionTemp
+      .filter(
+        (dateString) =>
+          new Date(dateString.item).getTime() === DateSelected.getTime()
+      )
+      .map((dateString) => dateString);
+    setSessionOptions((prevOptions) => [...prevOptions, ...sesi[0].labels]);
   };
 
   const handleJanjiTemu = () => {
     console.log(selectedPartner);
     console.log(selectedSesi);
     console.log(selectedSpesialisasi);
+    console.log(selectedDate.toISOString());
+    console.log(user.uid);
   };
-
-  const sessionOptions = [
-    { value: "Pagi", label: "Pagi (08:00 - 12:00)" },
-    { value: "Siang", label: "Sore (13:00 - 17:00)" },
-    { value: "Malam", label: "Malam (18:00 - 21:00)" },
-  ];
 
   const handleSesi = (e) => {
     setSelectedSesi(e.target.value);
@@ -202,7 +218,7 @@ const JanjiTemu = () => {
                 onChange={handleSesi}
               >
                 {sessionOptions.map((option) => (
-                  <option key={option.value} value={option.value}>
+                  <option key={option.item} value={option.value}>
                     {option.label}
                   </option>
                 ))}

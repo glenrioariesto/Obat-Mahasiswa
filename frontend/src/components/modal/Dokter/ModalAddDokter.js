@@ -119,7 +119,14 @@ const ModalAddDokter = ({ isOpen, onRequestClose, setData }) => {
           seminar,
           imgUrl,
           path,
-          selectedDate.map((date) => date.toISOString())
+          selectedDate.map((item) => ({
+            item: item.toISOString(),
+            labels: [
+              { value: "pagi", label: "Pagi (08:00 - 12:00)" },
+              { value: "sore", label: "Sore (13:00 - 17:00)" },
+              { value: "malam", label: "Malam (18:00 - 21:00)" },
+            ],
+          }))
         );
         setForm({
           name: "",
