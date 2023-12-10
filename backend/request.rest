@@ -118,12 +118,16 @@ GET  http://localhost:3001/api/v1/appointment
 
 
 ###
-GET http://localhost:3001/api/v1/appointment/rQacJNp8HS0Gdmv9AAG
+GET http://localhost:3001/api/v1/appointment/rQacJNp8HS0Gdmv9AAGf
+
+
+###
+GET http://localhost:3001/api/v1/user/asdasdadsa/appointment
 
 
 ###
 
-POST  http://localhost:3001/api/v1/appointment
+POST  http://localhost:3001/api/v1/user/asdasdadsa/appointment
 Content-Type: application/json
 
 {
@@ -131,23 +135,20 @@ Content-Type: application/json
     "spesialisasi": "jl.sukabirus",
     "date":"melayani mahasiswa Telkom University",
     "sesi":"siang",
-    "status":"Pengajuan"
+    "status":"peninjauan"
 }   
 ###
-PUT http://localhost:3001/api/v1/appointment/yXfSA1xVHXFTWiy1HmfS
+PUT http://localhost:3001/api/v1/appointment/XNYBPyJQyNeUtsuNkBCk
 Content-Type: application/json
 
 
 {
-    "partner":"Telkom Medika",
-    "spesialisasi": "jl.sukabirus",
-    "date":"melayani mahasiswa Telkom University",
-    "sesi":"malam",
-    "status":"Pengajuan"
+    
+    "date":"melayani mahasiswa Telkom"
 }  
 
 ###
-DELETE http://localhost:3001/api/v1/appointment/Hk9NSHlJcesQYR6487F8
+DELETE http://localhost:3001/api/v1/appointment/yXfSA1xVHXFTWiy1HmfS
 
 
 

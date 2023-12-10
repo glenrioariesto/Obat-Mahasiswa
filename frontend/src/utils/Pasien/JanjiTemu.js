@@ -25,7 +25,6 @@ const JanjiTemu = () => {
   ]);
 
   const { user } = useContext(AuthContext);
-
   const { fetchPartner } = useContext(PartnerContext);
   const { fetchDoctor } = useContext(DoctorContext);
 
