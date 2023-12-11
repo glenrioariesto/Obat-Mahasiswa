@@ -97,6 +97,7 @@ const ModalEditDokter = ({
     );
 
     if (index !== -1) {
+      console.log(selectedDate);
       const updatedDates = [...selectedDate];
       updatedDates.splice(index, 1);
       setSelectedDate(updatedDates);
@@ -157,7 +158,6 @@ const ModalEditDokter = ({
 
       setForm(faRemove);
       const dataDoctor = await fetchDoctor();
-
       setData(dataDoctor);
       setSelectedDate([]);
       setEditData(remove);
@@ -194,8 +194,11 @@ const ModalEditDokter = ({
 
   useEffect(() => {
     if (dataEdit.date) {
-      const date = dataEdit.date.map((dateString) => new Date(dateString));
-
+      const date = dataEdit.date
+        .filter((dateString) => new Date(dateString.item) > new Date())
+        .map((dateString) => {
+          return new Date(dateString.item);
+        });
       setSelectedDate(date);
     }
   }, [dataEdit]);
