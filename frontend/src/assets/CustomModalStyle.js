@@ -90,6 +90,19 @@ const customModalStyles = {
       position: "relative",
     },
   },
+  riwayat: {
+    overlay: {
+      backgroundColor: "rgba(0, 0, 0, 0.7)",
+      display: "flex",
+      justifyContent: "center",
+      alignItems: "center",
+    },
+    content: {
+      width: "50%",
+      height: "50%",
+      position: "relative",
+    },
+  },
 };
 
 export default customModalStyles;

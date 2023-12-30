@@ -140,9 +140,14 @@ const ModalEditDokter = ({
         seminar.trim() ? seminar : dataEdit.seminar,
         imgUrl,
         path,
-        selectedDate && selectedDate.length > 0
-          ? selectedDate.map((date) => date.toISOString())
-          : dataEdit.date
+        selectedDate.map((item) => ({
+          item: item.toISOString(),
+          labels: [
+            { value: "pagi", label: "Pagi (08:00 - 12:00)" },
+            { value: "sore", label: "Sore (13:00 - 17:00)" },
+            { value: "malam", label: "Malam (18:00 - 21:00)" },
+          ],
+        }))
       );
       const remove = {
         name: "",

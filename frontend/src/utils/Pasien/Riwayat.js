@@ -4,12 +4,21 @@ import { StyleSheetManager } from "styled-components";
 import customStyles from "../../assets/dataTableStyle";
 import { AppointmentContext } from "../../contexts/AppointmentContex";
 import { AuthContext } from "../../contexts/UserAuthentication";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import {
+  faExclamationCircle,
+  faAlignLeft,
+} from "@fortawesome/free-solid-svg-icons";
+import Modal from "react-modal";
+import customModalStyles from "../../assets/CustomModalStyle";
 
 const Riwayat = () => {
   const { user } = useContext(AuthContext);
   const { fetchAppointmentByuserId } = useContext(AppointmentContext);
   const [data, setData] = useState([]);
   const [paginationCount, setPaginationCount] = useState(10);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
   const columns = [
     {
       name: "No",
@@ -51,15 +60,78 @@ const Riwayat = () => {
           <div
             className={`p-2 m-1 w-[100px] rounded-2xl text-[12px] font-bold text-white ${
               row.status === "disetujui"
-                ? "bg-green-500"
+                ? "bg-green-500  hover:bg-green-600 "
                 : row.status === "ditolak"
-                ? "bg-red-500"
-                : "bg-blue-500"
-            } hover:bg-blue-600 cursor-auto`}
+                ? "bg-red-500  hover:bg-red-600 "
+                : "bg-blue-500  hover:bg-blue-600 "
+            }cursor-auto`}
           >
-            {" "}
             {row.status}
           </div>
+          {row.status === "ditolak" && (
+            <>
+              <span className="absolute h-1/2 inset-y-0 items-center right-11 top-3 flex pl-3  text-gray-400">
+                <FontAwesomeIcon
+                  icon={faExclamationCircle}
+                  className="mr-2 text-white cursor-pointer"
+                  onClick={() => {
+                    setIsModalOpen(true);
+                  }}
+                />
+              </span>
+              <Modal
+                isOpen={isModalOpen}
+                onRequestClose={() => {
+                  setIsModalOpen(false);
+                }}
+                style={customModalStyles.riwayat}
+                contentLabel="Deskripsi Modal bg-blue"
+                className="bg-white p-4 rounded shadow-lg  "
+                appElement={document.getElementById("root")}
+              >
+                <div className="pb-4 flex justify-between">
+                  <label
+                    htmlFor="Add-Partner"
+                    className="text-[30px] text-gray-600 font-bold"
+                  >
+                    Alasan Penolakan
+                  </label>
+                  <span
+                    onClick={() => {
+                      setIsModalOpen(false);
+                    }}
+                    className="text-2xl cursor-pointer"
+                  >
+                    X
+                  </span>
+                </div>
+                <label className="px-2">Reason</label>
+
+                <textarea
+                  className="pl-10 pr-5 py-3 w-full h-1/3 bg-white border border-gray-400 text-gray-800 rounded-md  focus:outline-none "
+                  id="reason"
+                  name="reason"
+                  value={row.reason}
+                  readOnly
+                />
+                <span className="absolute h-1/2 inset-y-0 items-end left-5 flex pl-3 pb-2 text-gray-400">
+                  <FontAwesomeIcon icon={faAlignLeft} className="mr-2" />
+                </span>
+                <div className="flex justify-end mt-10">
+                  <div className="w-1/4 pl-1">
+                    <button
+                      onClick={() => {
+                        setIsModalOpen(false);
+                      }}
+                      className="w-full bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 rounded-md focus:outline-none focus:bg-blue-600"
+                    >
+                      Ok
+                    </button>
+                  </div>
+                </div>
+              </Modal>
+            </>
+          )}
         </div>
       ),
     },
